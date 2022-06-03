@@ -1,0 +1,54 @@
+[
+    {
+        "merged": "/Users/mac/StudioProjects/mhg/build/app/intermediates/merged_res/debug/mipmap-mdpi_ic_launcher.png.flat",
+        "source": "/Users/mac/StudioProjects/mhg/android/app/src/main/res/mipmap-mdpi/ic_launcher.png"
+    },
+    {
+        "merged": "/Users/mac/StudioProjects/mhg/build/app/intermediates/merged_res/debug/mipmap-xhdpi_app_logo.png.flat",
+        "source": "/Users/mac/StudioProjects/mhg/android/app/src/main/res/mipmap-xhdpi/app_logo.png"
+    },
+    {
+        "merged": "/Users/mac/StudioProjects/mhg/build/app/intermediates/merged_res/debug/mipmap-xhdpi_ic_launcher.png.flat",
+        "source": "/Users/mac/StudioProjects/mhg/android/app/src/main/res/mipmap-xhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "/Users/mac/StudioProjects/mhg/build/app/intermediates/merged_res/debug/mipmap-hdpi_ic_launcher.png.flat",
+        "source": "/Users/mac/StudioProjects/mhg/android/app/src/main/res/mipmap-hdpi/ic_launcher.png"
+    },
+    {
+        "merged": "/Users/mac/StudioProjects/mhg/build/app/intermediates/merged_res/debug/mipmap-mdpi_app_logo.png.flat",
+        "source": "/Users/mac/StudioProjects/mhg/android/app/src/main/res/mipmap-mdpi/app_logo.png"
+    },
+    {
+        "merged": "/Users/mac/StudioProjects/mhg/build/app/intermediates/merged_res/debug/drawable-v21_launch_background.xml.flat",
+        "source": "/Users/mac/StudioProjects/mhg/android/app/src/main/res/drawable-v21/launch_background.xml"
+    },
+    {
+        "merged": "/Users/mac/StudioProjects/mhg/build/app/intermediates/merged_res/debug/mipmap-xxxhdpi_app_logo.png.flat",
+        "source": "/Users/mac/StudioProjects/mhg/android/app/src/main/res/mipmap-xxxhdpi/app_logo.png"
+    },
+    {
+        "merged": "/Users/mac/StudioProjects/mhg/build/app/intermediates/merged_res/debug/drawable_app_logo.png.flat",
+        "source": "/Users/mac/StudioProjects/mhg/android/app/src/main/res/drawable/app_logo.png"
+    },
+    {
+        "merged": "/Users/mac/StudioProjects/mhg/build/app/intermediates/merged_res/debug/mipmap-hdpi_app_logo.png.flat",
+        "source": "/Users/mac/StudioProjects/mhg/android/app/src/main/res/mipmap-hdpi/app_logo.png"
+    },
+    {
+        "merged": "/Users/mac/StudioProjects/mhg/build/app/intermediates/merged_res/debug/mipmap-xxxhdpi_ic_launcher.png.flat",
+        "source": "/Users/mac/StudioProjects/mhg/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "/Users/mac/StudioProjects/mhg/build/app/intermediates/merged_res/debug/mipmap-xxhdpi_app_logo.png.flat",
+        "source": "/Users/mac/StudioProjects/mhg/android/app/src/main/res/mipmap-xxhdpi/app_logo.png"
+    },
+    {
+        "merged": "/Users/mac/StudioProjects/mhg/build/app/intermediates/merged_res/debug/mipmap-xxhdpi_ic_launcher.png.flat",
+        "source": "/Users/mac/StudioProjects/mhg/android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "/Users/mac/StudioProjects/mhg/build/app/intermediates/merged_res/debug/drawable_welc_screen_bg.png.flat",
+        "source": "/Users/mac/StudioProjects/mhg/android/app/src/main/res/drawable/welc_screen_bg.png"
+    }
+]

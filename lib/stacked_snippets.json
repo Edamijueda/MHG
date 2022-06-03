@@ -1,0 +1,9 @@
+[
+      "import 'package:flutter_test/flutter_test.dart';",
+      "",
+      "void main() {",
+      " group('${1:${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/g}} -', (){",
+      "",
+      " });",
+      "}"
+    ]

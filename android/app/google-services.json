@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "534688357489",
+    "project_id": "mhg-app-570ef",
+    "storage_bucket": "mhg-app-570ef.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:534688357489:android:e39972cbfc16c9161c4fd0",
+        "android_client_info": {
+          "package_name": "com.builderslab.mhg"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "534688357489-grilqdfatt3lp6msto48mbsbf937mmp8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBJMR8vdvQT9xddmkx4TQRjY3gz47vNw1E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "534688357489-grilqdfatt3lp6msto48mbsbf937mmp8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
