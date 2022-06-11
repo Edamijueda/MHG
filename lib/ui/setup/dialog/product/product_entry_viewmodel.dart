@@ -38,17 +38,8 @@ class ProductEntryViewModel extends MhgBaseViewModel {
     if(response?.data != null) {
       //responseData = response?.data;
       return response?.data;
-      print('response for index 0 is: ${response?.data[0]}');
-      print('response for index 1 is: ${response?.data[1]}');
-      print('response for index 2 is: ${response?.data[2]}');
-      print('response for index 3 is: ${response?.data[3]}');
     }
     return null;
-    //print('receive response is: ${response?.confirmed}');
-    /*print('response for index 0 is: ${response?.data[0]}');
-    print('response for index 1 is: ${response?.data[1]}');
-    print('response for index 2 is: ${response?.data[2]}');*/
-
   }
 
   void showSnackBar() {

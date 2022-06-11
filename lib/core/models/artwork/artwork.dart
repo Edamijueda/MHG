@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter/foundation.dart';
 import 'package:mhg/constants.dart';
@@ -21,5 +22,14 @@ class Artwork with _$Artwork {
       descTxt: description,
       priceTxt: price,
     };
+  }
+  factory Artwork.fromDocument(DocumentSnapshot data) {
+    return Artwork(
+      //id: data.id,
+      artworkUrl: data.get(artworkUrlTxt),
+      title: data.get(titleTxt),
+      description: data.get(descTxt),
+      price: data.get(priceTxt),
+    );
   }
 }

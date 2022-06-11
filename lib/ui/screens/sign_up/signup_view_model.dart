@@ -1,14 +1,15 @@
+import 'package:mhg/app/app.locator.dart';
 import 'package:mhg/app/app.router.dart';
-import 'package:mhg/ui/screens/MHG_base/mhg_base_view_model.dart';
+import 'package:stacked/stacked.dart';
+import 'package:stacked_services/stacked_services.dart';
 
-class SignUpViewModel extends MhgBaseViewModel {
-  //final _navService = locator<NavigationService>();
+class SignUpViewModel extends BaseViewModel {
+  final _navService = locator<NavigationService>();
 
   final String _title = 'UserAccess';
   String get title => _title;
-  //final navService = locator<NavigationService>();
 
   void goToNextScreen() {
-    navService.navigateTo(Routes.signUpView);
+    _navService.navigateTo(Routes.signUpView);
   }
 }

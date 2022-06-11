@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'package:flutter/foundation.dart';
+import 'package:mhg/constants.dart';
 part 'banner.freezed.dart';
 
 @freezed
@@ -11,31 +13,22 @@ class Banner with _$Banner {
     required final String bannerName,
   }) = _Banner;
 
-  Map<String, dynamic> toMap() {
+  Map<String, Object> toMap() {
     return {
-      'bannerUrl': bannerUrl,
-      'bannerName': bannerName,
+      bannerUrlTxt: bannerUrl,
+      bannerNameTxt: bannerName,
     };
   }
 
-//factory Banner.fromJson(Map<String, dynamic> json) => _$BannerFromJson(json);
-
-
+  factory Banner.fromDocument(
+      DocumentSnapshot<Map<String, dynamic>> snapshot,
+      SnapshotOptions? options,
+      ) {
+    return Banner(
+      //id: data.id,
+      bannerUrl: snapshot.get(bannerUrlTxt),
+      bannerName: snapshot.get(bannerNameTxt),
+    );
+  }
 
 }
-
-/*class Banner {
-  final String imageUrl;
-  final String imageFileName;
-
-  Banner({required this.imageUrl, required this.imageFileName});
-}*/
-
-/*{
-  final String bannerUrl = 'banner_url';
-  final String bannerName = 'banner_name';
-  return Banner(
-    bannerUrl: snapshot.get(bannerUrl),
-    bannerName: snapshot.get(bannerName),
-  );
-}*/

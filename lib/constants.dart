@@ -4,7 +4,7 @@ const String tOSText = 'By registering for an account, you agree that you are '
     'are 21+, have read and accept our ';
 //const String membersAgreeText = 'Membership Agreement';
 const String dialogDescTxt = 'If any, the banner in the database will be '
-    'overridden ';
+    'overridden.';
 const String validIdIconBtHelpText = 'Valid ID IconButton help is pressed';
 const String customerIconBtnHelpText = 'Customer HelpIconButton is pressed';
 const String retailerIconBtHelpText = 'Retailer HelpIconButton is pressed';
@@ -37,6 +37,8 @@ const String artworkTxt = 'Artworks';
 const String deviceTxt = 'Devices';
 const String artworkUrlTxt = 'artworkUrl';
 const String descTxt = 'description';
+const String bannerUrlTxt = 'bannerUrl';
+const String bannerNameTxt = 'bannerName';
 const String signIn = 'SIGN IN';
 const String upload = 'Upload...';
 const String tapToAddTxt = 'Tap to add';

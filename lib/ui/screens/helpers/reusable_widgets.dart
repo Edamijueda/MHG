@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mhg/ui/screens/MHG_base/mhg_base_view_model.dart';
-import 'package:mhg/ui/screens/user_access/user_access_view_model.dart';
 import 'package:mhg/ui/theme/colours.dart';
 import 'package:mhg/ui/theme/typography.dart';
+
 import '../../../constants.dart';
 import '../reusable_views_components.dart';
 

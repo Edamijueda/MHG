@@ -11,7 +11,7 @@ import 'package:stacked/stacked.dart';
 import 'package:stacked/stacked_annotations.dart';
 
 import '../ui/screens/account_settings/account_settings_view.dart';
-import '../ui/screens/admin/admin_home_view.dart';
+import '../ui/screens/admin/admin_home/admin_home_view.dart';
 import '../ui/screens/cart/cart_view.dart';
 import '../ui/screens/customer_home/customer_home_view.dart';
 import '../ui/screens/help/help_view.dart';

@@ -4,7 +4,7 @@ import 'package:mhg/core/services/authentication/authentication.dart';
 import 'package:mhg/core/services/cloud_storage.dart';
 import 'package:mhg/core/services/database/firestore.dart';
 import 'package:mhg/ui/screens/account_settings/account_settings_view.dart';
-import 'package:mhg/ui/screens/admin/admin_home_view.dart';
+import 'package:mhg/ui/screens/admin/admin_home/admin_home_view.dart';
 import 'package:mhg/ui/screens/cart/cart_view.dart';
 import 'package:mhg/ui/screens/customer_home/customer_home_view.dart';
 import 'package:mhg/ui/screens/help/help_view.dart';

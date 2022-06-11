@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mhg/constants.dart';
-import 'package:mhg/ui/screens/admin/admin_home_components.dart';
+import 'package:mhg/ui/screens/admin/admin_home/admin_home_components.dart';
+import 'package:mhg/ui/screens/admin/admin_home/admin_home_view_model.dart';
+import 'package:mhg/ui/screens/admin/tier1/tier1_components.dart';
+import 'package:mhg/ui/screens/admin/tier1/tier1_viewmodel.dart';
 import 'package:mhg/ui/screens/helpers/reusable_widgets.dart';
 import 'package:mhg/ui/screens/reusable_views_components.dart';
 import 'package:mhg/ui/setup/dialog/product/product_entry_viewmodel.dart';
@@ -50,8 +53,8 @@ class _ProductEntryViewState extends State<ProductEntryView> {
 
   @override
   Widget build(BuildContext context) {
-    return ViewModelBuilder<ProductEntryViewModel>.reactive(
-      viewModelBuilder: () => ProductEntryViewModel(),
+    return ViewModelBuilder<Admin1stTierViewModel>.reactive(
+      viewModelBuilder: () => Admin1stTierViewModel(),
       builder: (context, model, child) => Dialog(
         backgroundColor: greyDark,
         child: Container(
@@ -148,7 +151,7 @@ class _ProductEntryViewState extends State<ProductEntryView> {
                             child: ElevatedButton(
                               onPressed: () {
                                 if(model.selectedImage == null) {
-                                  model.showSnackBar();
+                                  //model.showSnackBar();
                                 }
                                 else {
                                   setState(() {

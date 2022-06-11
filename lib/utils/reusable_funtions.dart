@@ -5,6 +5,6 @@ class ReusableFunction {
   final SnackbarService _snackBarService = locator<SnackbarService>();
 
   void snackBar({required String message}) {
-    _snackBarService.showSnackbar(message: message);
+    _snackBarService.showSnackbar(message: message, duration: const Duration(seconds: 1));
   }
 }
