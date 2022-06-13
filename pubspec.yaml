@@ -48,6 +48,7 @@ dependencies:
   freezed_annotation: ^2.0.3
   stacked_hooks: ^0.2.2
   intl: ^0.17.0
+  logger: ^1.1.0
 
 dev_dependencies:
   flutter_test:

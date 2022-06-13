@@ -6,6 +6,7 @@ import 'package:mhg/core/models/banner/banner.dart';
 
 class FirestoreDbService {
   late CollectionReference _collectionRef;
+
   //late DocumentReference _docRef;
   Banner? _bannerDataFromFirestore;
 
@@ -13,13 +14,14 @@ class FirestoreDbService {
 
   //DocumentReference? get bannerFireStoreDocRef => _bannerFireStoreDocRef;
 
+  //final log = StackedLogger();
+
   Future<Banner?> addBanner(Banner bannerData) async {
     _collectionRef = FirebaseFirestore.instance.collection(bannerTxt);
     var docSnapshot = await checkIfDocExist(bannerData.bannerName);
     if (docSnapshot.exists) {
       try {
-        await docSnapshot.reference.update(bannerData
-            .toMap());
+        await docSnapshot.reference.update(bannerData.toMap());
         var ref = docSnapshot.reference.withConverter(
             fromFirestore: Banner.fromDocument,
             toFirestore: (Banner banner, _) => banner.toMap());
@@ -105,5 +107,13 @@ class FirestoreDbService {
     } catch (e) {
       rethrow;
     }
+  }
+
+  getBannerRealtimeUpdate(Banner bannerData) {
+    /*_collectionRef = FirebaseFirestore.instance.collection(bannerTxt);
+    var docRef = _collectionRef.doc(bannerData.bannerName).snapshots().listen(
+          (event) {},
+      onError:
+        );*/
   }
 }

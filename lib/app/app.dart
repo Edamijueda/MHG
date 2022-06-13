@@ -68,12 +68,13 @@ import 'package:stacked_services/stacked_services.dart';
       classType: CloudStorageService,
     ),
     LazySingleton(
-        classType: ImageSelector,
+      classType: ImageSelector,
     ),
     LazySingleton(
       classType: FirestoreDbService,
     ),
   ],
+  logger: StackedLogger(logHelperName: 'getStackedLogger'),
 )
 class AppSetUp {
   // Serves no purpose at the moment besides having an annotation attached
