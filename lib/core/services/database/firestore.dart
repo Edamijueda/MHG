@@ -6,7 +6,7 @@ import 'package:mhg/core/models/banner/banner.dart';
 
 class FirestoreDbService {
   late CollectionReference _collectionRef;
-  late DocumentReference _docRef;
+  //late DocumentReference _docRef;
   Banner? _bannerDataFromFirestore;
 
   Banner? get bannerDataFromFirestore => _bannerDataFromFirestore;
@@ -19,14 +19,7 @@ class FirestoreDbService {
     if (docSnapshot.exists) {
       try {
         await docSnapshot.reference.update(bannerData
-            .toMap()); //_bannerCollectionRef.doc(bannerData.bannerName).set(bannerData.toMap());
-        /*docSnapshot.reference.get().then((value) {
-          var temp = value.data() as Map<String, dynamic>;
-          //_bannerDataFromFirestore = temp.
-          //bannerUrl: data.get(bannerUrlTxt),
-          //bannerName: data.get(bannerNameTxt),
-          return Banner(bannerUrl: temp[bannerUrlTxt], bannerName: temp[bannerNameTxt]);
-        });*/
+            .toMap());
         var ref = docSnapshot.reference.withConverter(
             fromFirestore: Banner.fromDocument,
             toFirestore: (Banner banner, _) => banner.toMap());
@@ -42,21 +35,14 @@ class FirestoreDbService {
       }
     } else {
       try {
-        //await _collectionRef.doc(bannerData.bannerName).set(bannerData.toMap());
-        _docRef = await _collectionRef.add(bannerData.toMap());
-        /*_bannerDataFromFirestore = _docRef.get().then((value) {
-          return Banner.fromDocument(value);
-        }) as Banner?;*/
-        //_bannerDataFromFirestore = _docRef
-        /*_docRef.get().then((value) {
-          var temp = value.data() as Map<String, dynamic>;
-          return Banner(bannerUrl: temp[bannerUrlTxt], bannerName: temp[bannerNameTxt]);
-        });*/
-        var ref = _docRef.withConverter(
-            fromFirestore: Banner.fromDocument,
-            toFirestore: (Banner banner, _) => banner.toMap());
-        final docSnap = await ref.get();
-        final banner = docSnap.data();
+        await _collectionRef.doc(bannerData.bannerName).set(bannerData.toMap());
+
+        final docRef = _collectionRef.doc(bannerData.bannerName).withConverter(
+              fromFirestore: Banner.fromDocument,
+              toFirestore: (Banner banner, _) => banner.toMap(),
+            );
+        final docSnap = await docRef.get();
+        final Banner? banner = docSnap.data();
         return banner;
       } catch (e) {
         // TODO: Find or create a way to repeat error handling without so much repeated code

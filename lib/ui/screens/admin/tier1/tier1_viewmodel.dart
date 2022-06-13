@@ -73,20 +73,31 @@ class Admin1stTierViewModel extends MultipleFutureViewModel {
     );
     print('response confirmation is: ${response?.confirmed}');
     if (response?.confirmed == true) {
-      saveImageToStorage(
+      if(_selectedImage == null) {
+        reusableFunction.snackBar(message: 'No banner image selected');
+      }
+      else {
+        await _cloudStorageService.uploadImage(
+          imageToUpload: _selectedImage,
+          title: title,
+          folderName: bannerTxt,
+        );
+        /*saveImageToStorage(
         selectedImage: _selectedImage,
         title: title,
         bannerTxt: bannerTxt,
-      );
-      var result = _cloudStorageService.downloadResult;
-      if (result != null) {
-        print('Download urlName is: ${result[0]} with name: ${result[1]}');
-        _bannerDataFromFirestore = await _fireStoreDbService.addBanner(
-          Banner(bannerUrl: result[0], bannerName: result[1]),
-        );
-        notifyListeners();
+      );*/
+        _selectedImage = null;
+        var result = _cloudStorageService.downloadResult;
+        if (result != null) {
+          print('Download urlName is: ${result[0]} with name: ${result[1]}');
+          _bannerDataFromFirestore = await _fireStoreDbService.addBanner(
+            Banner(bannerUrl: result[0], bannerName: result[1]),
+          );
+          notifyListeners();
+        }
+        //addBannerToFireStore();
       }
-      //addBannerToFireStore();
     }
   }
 

@@ -42,7 +42,7 @@ class CloudStorageService {
     // only write and read from that folder if you are the owner of that folder.
 
     var _fbStorageRef =
-        FirebaseStorage.instance.ref().child(folderName).child(title);
+        FirebaseStorage.instance.ref(folderName).child(folderName).child(title);
     // This will store the result of calling the putFile() function on the
     // firebase storage ref. This function takes in file from the dart.io package
     var _uploadTask = _fbStorageRef.putFile(File(imageToUpload!.path));
