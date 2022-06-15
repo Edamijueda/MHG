@@ -18,7 +18,8 @@ class _Admin1stTierViewState extends State<Admin1stTierView> {
   Widget build(BuildContext context) {
     return ViewModelBuilder<Admin1stTierViewModel>.reactive(
       viewModelBuilder: () => Admin1stTierViewModel(),
-      builder: (context, model, child) => /*Center(
+      builder: (context, model,
+              child) => /*Center(
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
@@ -64,30 +65,21 @@ class _Admin1stTierViewState extends State<Admin1stTierView> {
           Column(
         children: [
           Padding(
-            padding:
-            const EdgeInsets.fromLTRB(8.0, 16.0, 8.0, 8.0),
+            padding: const EdgeInsets.fromLTRB(8.0, 16.0, 8.0, 8.0),
             child: Row(
               children: [
                 ImageSelectionContainer(model: model),
                 Column(
-                  crossAxisAlignment:
-                  CrossAxisAlignment
-                      .start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     customTextBtn(
                       onPressed: () {
-                        model.addImage(
-                            title:
-                            firstTierTxt);
+                        model.addImage(title: firstTierTxt);
                       },
-                      btnColour:
-                      pVariantColour,
+                      btnColour: pVariantColour,
                       btnTxt: saveBannerTxt,
-                      btnTextStyle:
-                      TextStyle(
-                        decoration:
-                        TextDecoration
-                            .underline,
+                      btnTextStyle: TextStyle(
+                        decoration: TextDecoration.underline,
                       ),
                     ),
                   ],
@@ -159,6 +151,26 @@ class _Admin1stTierViewState extends State<Admin1stTierView> {
           ),*/
         ],
       ),
+      onModelReady: (model) => model.callRealTimeOperations(),
     );
   }
 }
+/*Container(
+            width: 220.0,
+            height: 150.0,
+            color: greyDark,
+            alignment: Alignment.center,
+            child: (model.bannerDataFromFirestore1 != null)
+                ? CachedNetworkImage(
+                    imageUrl: model.bannerDataFromFirestore1?.bannerUrl ??
+                        'https://www-konga-com-res.cloudinary.com/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/media/catalog/product/F/I/87738_1522353069.jpg',
+                    progressIndicatorBuilder: (context, url, downloadProgress) {
+                      if (downloadProgress.progress != null) {
+                        final percent = downloadProgress.progress! * 100;
+                        return Text('$percent% done loading from database');
+                      }
+                      return Text('loading $url');
+                    },
+                  )
+                : Text('Listener fail to fetch image'),
+          ),*/ // this widget is used to test a quick idea

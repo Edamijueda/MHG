@@ -2,14 +2,11 @@
 // outside of this class on that package
 import 'dart:async';
 import 'dart:io';
-import 'package:image_picker/image_picker.dart';
-import 'package:mhg/app/app.locator.dart';
+
 //import 'package:mhg/core/models/banner.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:mhg/core/models/banner/banner.dart';
-import 'package:mhg/utils/reusable_funtions.dart';
-import 'package:mhg/utils/reusable_funtions.dart';
-import 'package:mhg/utils/reusable_funtions.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:mhg/app/app.locator.dart';
 import 'package:mhg/utils/reusable_funtions.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -27,7 +24,6 @@ class CloudStorageService {
   List<String>? _downloadResult;
   List<String>? get downloadResult => _downloadResult;
 
-
   Future uploadImage({
     required XFile? imageToUpload,
     required String title,
@@ -42,7 +38,7 @@ class CloudStorageService {
     // only write and read from that folder if you are the owner of that folder.
 
     var _fbStorageRef =
-        FirebaseStorage.instance.ref(folderName).child(folderName).child(title);
+        FirebaseStorage.instance.ref().child(folderName).child(title);
     // This will store the result of calling the putFile() function on the
     // firebase storage ref. This function takes in file from the dart.io package
     var _uploadTask = _fbStorageRef.putFile(File(imageToUpload!.path));
@@ -55,7 +51,7 @@ class CloudStorageService {
         case TaskState.success:
           reusableFunction.snackBar(message: 'file upload is successful');
           try {
-            final String downloadUrl= await taskSnapshot.ref.getDownloadURL();
+            final String downloadUrl = await taskSnapshot.ref.getDownloadURL();
             _downloadResult = [downloadUrl, title];
             //_banner = Banner(bannerUrl: downloadUrl, bannerName: title);
           } on FirebaseException catch (e) {

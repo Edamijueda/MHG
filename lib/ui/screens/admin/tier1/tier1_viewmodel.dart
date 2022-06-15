@@ -1,5 +1,6 @@
 import 'package:image_picker/image_picker.dart';
 import 'package:mhg/app/app.locator.dart';
+import 'package:mhg/app/app.logger.dart';
 import 'package:mhg/constants.dart';
 import 'package:mhg/core/models/banner/banner.dart';
 import 'package:mhg/core/services/cloud_storage.dart';
@@ -13,20 +14,24 @@ import 'package:stacked_services/stacked_services.dart';
 const String _numberDelayFuture = 'delayedNumber';
 const String _stringDelayFuture = 'delayedString';
 const String _errorDelayFuture = 'delayedError';
-const String _selectImageKey = 'selectImageKey';
+//const String _selectImageKey = 'selectImageKey';
 
 class Admin1stTierViewModel extends MultipleFutureViewModel {
+  final log = getStackedLogger('Admin1stTierViewModel');
+
   final ImageSelector _imageSelector = locator<ImageSelector>();
   final ReusableFunction reusableFunction = ReusableFunction();
   final CloudStorageService _cloudStorageService =
       locator<CloudStorageService>();
   final FirestoreDbService _fireStoreDbService = locator<FirestoreDbService>();
   final DialogService _dialogService = locator<DialogService>();
+
   XFile? _selectedImage;
 
   XFile? get selectedImage => _selectedImage;
 
   Banner? _bannerDataFromFirestore;
+
   Banner? get bannerDataFromFirestore => _bannerDataFromFirestore;
 
   int get fetchedNumber => dataMap![_numberDelayFuture];
@@ -52,6 +57,7 @@ class Admin1stTierViewModel extends MultipleFutureViewModel {
       };
 
   Future selectImage() async {
+    log.i('selectImage() | expect: $_selectedImage');
     try {
       var tempImage = await _imageSelector.selectImage();
       _selectedImage = tempImage;
@@ -73,10 +79,9 @@ class Admin1stTierViewModel extends MultipleFutureViewModel {
     );
     print('response confirmation is: ${response?.confirmed}');
     if (response?.confirmed == true) {
-      if(_selectedImage == null) {
+      if (_selectedImage == null) {
         reusableFunction.snackBar(message: 'No banner image selected');
-      }
-      else {
+      } else {
         await _cloudStorageService.uploadImage(
           imageToUpload: _selectedImage,
           title: title,
@@ -100,8 +105,6 @@ class Admin1stTierViewModel extends MultipleFutureViewModel {
       }
     }
   }
-
-
 
   Future addBannerToFireStore() async {
     var result = _cloudStorageService.downloadResult;
@@ -141,5 +144,17 @@ class Admin1stTierViewModel extends MultipleFutureViewModel {
   Future<String> getErrorMessage() async {
     await Future.delayed(const Duration(seconds: 6));
     throw Exception('This broke dude!');
+  }
+
+  callRealTimeOperations() {
+    callBannerRealtimeUpdate();
+  }
+
+  callBannerRealtimeUpdate() {
+    _fireStoreDbService.getBannerRealtimeUpdate(bannerName: firstTierTxt);
+    _bannerDataFromFirestore = _fireStoreDbService.bannerDataFromFirestore;
+    log.i(
+        '_bannerDataFromFirestore1 return: ${_bannerDataFromFirestore?.bannerName}');
+    notifyListeners();
   }
 }

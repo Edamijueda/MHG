@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
+import 'package:mhg/app/app.logger.dart';
 import 'package:mhg/constants.dart';
 import 'package:mhg/core/models/artwork/artwork.dart';
 import 'package:mhg/core/models/banner/banner.dart';
 
 class FirestoreDbService {
+  final log = getStackedLogger('FirestoreDbService');
   late CollectionReference _collectionRef;
 
   //late DocumentReference _docRef;
@@ -109,11 +111,25 @@ class FirestoreDbService {
     }
   }
 
-  getBannerRealtimeUpdate(Banner bannerData) {
-    /*_collectionRef = FirebaseFirestore.instance.collection(bannerTxt);
-    var docRef = _collectionRef.doc(bannerData.bannerName).snapshots().listen(
-          (event) {},
-      onError:
-        );*/
+  getBannerRealtimeUpdate({required String bannerName}) async {
+    log.i('parameter: $bannerName');
+    FirebaseFirestore.instance
+        .collection(bannerTxt)
+        .doc(bannerName)
+        .snapshots()
+        .listen(
+      (event) async {
+        var docRef = event.reference.withConverter(
+            fromFirestore: Banner.fromDocument,
+            toFirestore: (Banner banner, _) => banner.toMap());
+        final docSnap = await docRef.get();
+        _bannerDataFromFirestore = docSnap.data();
+        log.i(
+          'banner return: ${_bannerDataFromFirestore?.bannerName} \n '
+          'and ${_bannerDataFromFirestore?.bannerUrl}',
+        );
+      },
+      onError: (error) => log.i('BannerRealtimeUpdate Listener failed: $error'),
+    );
   }
 }

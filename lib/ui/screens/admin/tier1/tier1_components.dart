@@ -1,8 +1,8 @@
 import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:mhg/constants.dart';
-import 'package:mhg/ui/screens/MHG_base/mhg_base_view_model.dart';
 import 'package:mhg/ui/screens/admin/tier1/tier1_viewmodel.dart';
 import 'package:mhg/ui/theme/typography.dart';
 
@@ -37,7 +37,8 @@ class ImageSelectionContainer extends StatelessWidget {
                     final percent = downloadProgress.progress! * 100;
                     return Text('$percent% done loading from database');
                   }
-                  return Text('loading $url');
+                  //return Text('loading $url');
+                  return CircularProgressIndicator();
                 },
               )
             : (model.selectedImage == null)

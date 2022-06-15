@@ -1,11 +1,12 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+//import 'package:mhg/ui/views/user_access_view.dart';
+import 'package:flutter/services.dart';
+import 'package:logger/logger.dart';
 import 'package:mhg/app/app.locator.dart';
 import 'package:mhg/ui/setup/dialog/setup_dialog_ui.dart';
 import 'package:mhg/ui/theme/themes.dart';
-//import 'package:mhg/ui/views/user_access_view.dart';
-import 'package:flutter/services.dart';
 import 'package:stacked_services/stacked_services.dart';
-import 'package:firebase_core/firebase_core.dart';
 
 import 'app/app.router.dart';
 
@@ -14,6 +15,7 @@ void main() async {
   await Firebase.initializeApp();
   setupLocator(); // Dis will register d functions registered in d locator
   setupDialogUI(); // Dis will register our dialogUI
+  Logger.level = Level.info;
   SystemChrome.setSystemUIOverlayStyle(
     SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
