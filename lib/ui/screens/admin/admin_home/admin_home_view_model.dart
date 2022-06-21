@@ -37,9 +37,10 @@ class AdminHomeViewModel extends MhgBaseViewModel {
       );
       var result = _cloudStorageService.downloadResult;
       if (result != null) {
-        print('Download urlName is: ${result[0]} with name: ${result[1]}');
+        print(
+            'Download urlName is: ${result.bannerUrl} with name: ${result.bannerName}');
         await _fireStoreDbService.addBanner(
-          Banner(bannerUrl: result[0], bannerName: result[1]),
+          Banner(bannerUrl: result.bannerUrl, bannerName: result.bannerName),
         );
       }
     }
@@ -65,14 +66,18 @@ class AdminHomeViewModel extends MhgBaseViewModel {
     if (response?.data != null) {
       //responseData = response?.data;
       //saveImageToStorage(dataList[0], dataList[1], artworkTxt);
-      saveImageToStorage(selectedImage: response?.data[0], title: response?.data[1], bannerTxt: artworkTxt);
+      saveImageToStorage(
+          selectedImage: response?.data[0],
+          title: response?.data[1],
+          bannerTxt: artworkTxt);
       var result = _cloudStorageService.downloadResult;
       if (result != null) {
-        print('Download urlName is: ${result[0]} with name: ${result[1]}');
+        print(
+            'Download urlName is: ${result.bannerUrl} with name: ${result.bannerName}');
         await _fireStoreDbService.addArtwork(
           Artwork(
-            artworkUrl: result[0],
-            title: result[1],
+            artworkUrl: result.bannerUrl,
+            title: result.bannerName,
             description: response?.data[2],
             price: response?.data[3],
           ),
@@ -97,8 +102,5 @@ class AdminHomeViewModel extends MhgBaseViewModel {
     //     );
     //   }
     // }
-  }
-  void showSnackBar() {
-    _reusableFunction.snackBar(message: 'No image selected');
   }
 }

@@ -28,19 +28,43 @@ class ImageSelectionContainer extends StatelessWidget {
           color: Colors.white70,
           borderRadius: borderRadius10,
         ),
-        child: (model.bannerDataFromFirestore != null)
-            ? CachedNetworkImage(
-                imageUrl: model.bannerDataFromFirestore?.bannerUrl ??
-                    'https://www-konga-com-res.cloudinary.com/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/media/catalog/product/F/I/87738_1522353069.jpg',
-                progressIndicatorBuilder: (context, url, downloadProgress) {
-                  if (downloadProgress.progress != null) {
-                    final percent = downloadProgress.progress! * 100;
-                    return Text('$percent% done loading from database');
-                  }
-                  //return Text('loading $url');
-                  return CircularProgressIndicator();
-                },
-              )
+        //(model.bannerDataFromFirestore() != null)
+        child: (((model.tryingAnApproach != null) ||
+                    (model.bannerDataFromFirestore() != null)) &&
+                (model.selectedImage ==
+                    null)) //model.tryingAnApproach != null && model.selectedImage == null
+            ? ((model.tryingAnApproach != null) &&
+                    (model.bannerDataFromFirestore() == null))
+                ? CachedNetworkImage(
+                    //model.bannerDataFromFirestore()?.bannerUrl
+                    imageUrl: model.tryingAnApproach?.bannerUrl ??
+                        'https://previews.123rf.com/images/sebicla/sebicla1303/sebicla130300159/18458190-contact-admin.jpg',
+                    // D else image ask u to see admin
+                    progressIndicatorBuilder: (context, url, downloadProgress) {
+                      if (downloadProgress.progress != null) {
+                        final percent =
+                            (downloadProgress.progress! * 100).round();
+                        return Text('$percent% done loading from database');
+                      }
+                      //return Text('loading $url');
+                      return CircularProgressIndicator();
+                    },
+                  )
+                : CachedNetworkImage(
+                    //model.bannerDataFromFirestore()?.bannerUrl
+                    imageUrl: model.bannerDataFromFirestore()?.bannerUrl ??
+                        'https://previews.123rf.com/images/sebicla/sebicla1303/sebicla130300159/18458190-contact-admin.jpg',
+                    // D else image ask u to see admin
+                    progressIndicatorBuilder: (context, url, downloadProgress) {
+                      if (downloadProgress.progress != null) {
+                        final percent =
+                            (downloadProgress.progress! * 100).round();
+                        return Text('$percent% done loading from database');
+                      }
+                      //return Text('loading $url');
+                      return CircularProgressIndicator();
+                    },
+                  )
             : (model.selectedImage == null)
                 ? Text(
                     tapToAddTxt,

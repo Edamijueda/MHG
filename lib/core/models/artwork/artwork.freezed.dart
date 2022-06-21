@@ -16,10 +16,11 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$Artwork {
-  String get artworkUrl => throw _privateConstructorUsedError;
-  String get title => throw _privateConstructorUsedError;
-  String get description => throw _privateConstructorUsedError;
-  String get price => throw _privateConstructorUsedError;
+  String? get artworkUrl => throw _privateConstructorUsedError;
+  String? get title => throw _privateConstructorUsedError;
+  String? get description => throw _privateConstructorUsedError;
+  String? get price => throw _privateConstructorUsedError;
+  String? get id => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ArtworkCopyWith<Artwork> get copyWith => throw _privateConstructorUsedError;
@@ -30,7 +31,11 @@ abstract class $ArtworkCopyWith<$Res> {
   factory $ArtworkCopyWith(Artwork value, $Res Function(Artwork) then) =
       _$ArtworkCopyWithImpl<$Res>;
   $Res call(
-      {String artworkUrl, String title, String description, String price});
+      {String? artworkUrl,
+      String? title,
+      String? description,
+      String? price,
+      String? id});
 }
 
 /// @nodoc
@@ -47,24 +52,29 @@ class _$ArtworkCopyWithImpl<$Res> implements $ArtworkCopyWith<$Res> {
     Object? title = freezed,
     Object? description = freezed,
     Object? price = freezed,
+    Object? id = freezed,
   }) {
     return _then(_value.copyWith(
       artworkUrl: artworkUrl == freezed
           ? _value.artworkUrl
           : artworkUrl // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       title: title == freezed
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       description: description == freezed
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       price: price == freezed
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
+      id: id == freezed
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -76,7 +86,11 @@ abstract class _$$_ArtworkCopyWith<$Res> implements $ArtworkCopyWith<$Res> {
       __$$_ArtworkCopyWithImpl<$Res>;
   @override
   $Res call(
-      {String artworkUrl, String title, String description, String price});
+      {String? artworkUrl,
+      String? title,
+      String? description,
+      String? price,
+      String? id});
 }
 
 /// @nodoc
@@ -94,24 +108,29 @@ class __$$_ArtworkCopyWithImpl<$Res> extends _$ArtworkCopyWithImpl<$Res>
     Object? title = freezed,
     Object? description = freezed,
     Object? price = freezed,
+    Object? id = freezed,
   }) {
     return _then(_$_Artwork(
       artworkUrl: artworkUrl == freezed
           ? _value.artworkUrl
           : artworkUrl // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       title: title == freezed
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       description: description == freezed
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       price: price == freezed
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
+      id: id == freezed
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -123,21 +142,24 @@ class _$_Artwork extends _Artwork with DiagnosticableTreeMixin {
       {required this.artworkUrl,
       required this.title,
       required this.description,
-      required this.price})
+      required this.price,
+      this.id})
       : super._();
 
   @override
-  final String artworkUrl;
+  final String? artworkUrl;
   @override
-  final String title;
+  final String? title;
   @override
-  final String description;
+  final String? description;
   @override
-  final String price;
+  final String? price;
+  @override
+  final String? id;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Artwork(artworkUrl: $artworkUrl, title: $title, description: $description, price: $price)';
+    return 'Artwork(artworkUrl: $artworkUrl, title: $title, description: $description, price: $price, id: $id)';
   }
 
   @override
@@ -148,7 +170,8 @@ class _$_Artwork extends _Artwork with DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('artworkUrl', artworkUrl))
       ..add(DiagnosticsProperty('title', title))
       ..add(DiagnosticsProperty('description', description))
-      ..add(DiagnosticsProperty('price', price));
+      ..add(DiagnosticsProperty('price', price))
+      ..add(DiagnosticsProperty('id', id));
   }
 
   @override
@@ -161,7 +184,8 @@ class _$_Artwork extends _Artwork with DiagnosticableTreeMixin {
             const DeepCollectionEquality().equals(other.title, title) &&
             const DeepCollectionEquality()
                 .equals(other.description, description) &&
-            const DeepCollectionEquality().equals(other.price, price));
+            const DeepCollectionEquality().equals(other.price, price) &&
+            const DeepCollectionEquality().equals(other.id, id));
   }
 
   @override
@@ -170,7 +194,8 @@ class _$_Artwork extends _Artwork with DiagnosticableTreeMixin {
       const DeepCollectionEquality().hash(artworkUrl),
       const DeepCollectionEquality().hash(title),
       const DeepCollectionEquality().hash(description),
-      const DeepCollectionEquality().hash(price));
+      const DeepCollectionEquality().hash(price),
+      const DeepCollectionEquality().hash(id));
 
   @JsonKey(ignore: true)
   @override
@@ -180,20 +205,23 @@ class _$_Artwork extends _Artwork with DiagnosticableTreeMixin {
 
 abstract class _Artwork extends Artwork {
   const factory _Artwork(
-      {required final String artworkUrl,
-      required final String title,
-      required final String description,
-      required final String price}) = _$_Artwork;
+      {required final String? artworkUrl,
+      required final String? title,
+      required final String? description,
+      required final String? price,
+      final String? id}) = _$_Artwork;
   const _Artwork._() : super._();
 
   @override
-  String get artworkUrl => throw _privateConstructorUsedError;
+  String? get artworkUrl => throw _privateConstructorUsedError;
   @override
-  String get title => throw _privateConstructorUsedError;
+  String? get title => throw _privateConstructorUsedError;
   @override
-  String get description => throw _privateConstructorUsedError;
+  String? get description => throw _privateConstructorUsedError;
   @override
-  String get price => throw _privateConstructorUsedError;
+  String? get price => throw _privateConstructorUsedError;
+  @override
+  String? get id => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$$_ArtworkCopyWith<_$_Artwork> get copyWith =>

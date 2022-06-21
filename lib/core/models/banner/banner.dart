@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
-
 import 'package:flutter/foundation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:mhg/constants.dart';
+
 part 'banner.freezed.dart';
 
 @freezed
@@ -21,14 +21,12 @@ class Banner with _$Banner {
   }
 
   factory Banner.fromDocument(
-      DocumentSnapshot<Map<String, dynamic>> snapshot,
-      SnapshotOptions? options,
-      ) {
+    DocumentSnapshot<Map<String, dynamic>> snapshot,
+    SnapshotOptions? options,
+  ) {
     return Banner(
-      //id: data.id,
       bannerUrl: snapshot.get(bannerUrlTxt),
       bannerName: snapshot.get(bannerNameTxt),
     );
   }
-
 }
