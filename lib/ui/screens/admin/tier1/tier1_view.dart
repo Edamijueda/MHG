@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:mhg/app/app.logger.dart';
@@ -71,8 +69,7 @@ class _Admin1stTierViewState extends State<Admin1stTierView> {
               ),
             ],
           ),
-          /*SizedBox(
-            //height: MediaQuery.of(context).size.height,
+          SizedBox(
             height: 190.0, //original value 155.0,
             child: ListView(
               padding: EdgeInsets.symmetric(horizontal: 10.0),
@@ -83,121 +80,6 @@ class _Admin1stTierViewState extends State<Admin1stTierView> {
                         model: model,
                       ))
                   .toList(),
-
-            ),
-          ),*/
-          Padding(
-            padding: const EdgeInsets.fromLTRB(8.0, 16.0, 8.0, 8.0),
-            child: Row(
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    model.selectImage();
-                  },
-                  child: Container(
-                    width: 220.0,
-                    height: 150.0,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      color: Colors.white70,
-                      borderRadius: borderRadius10,
-                    ),
-                    child: (((model.tryingAnApproach != null) ||
-                                (model.bannerDataFromFirestore() != null)) &&
-                            (model.selectedImage ==
-                                null)) //model.tryingAnApproach != null && model.selectedImage == null
-                        ? ((model.tryingAnApproach != null) &&
-                                (model.bannerDataFromFirestore() == null))
-                            ? CachedNetworkImage(
-                                //model.bannerDataFromFirestore()?.bannerUrl
-                                imageUrl: model.tryingAnApproach?.bannerUrl ??
-                                    'https://previews.123rf.com/images/sebicla/sebicla1303/sebicla130300159/18458190-contact-admin.jpg',
-                                // D else image ask u to see admin
-                                progressIndicatorBuilder:
-                                    (context, url, downloadProgress) {
-                                  if (downloadProgress.progress != null) {
-                                    final percent =
-                                        (downloadProgress.progress! * 100)
-                                            .round();
-                                    return Text(
-                                        '$percent% done loading from database');
-                                  }
-                                  //return Text('loading $url');
-                                  return CircularProgressIndicator();
-                                },
-                              )
-                            : CachedNetworkImage(
-                                //model.bannerDataFromFirestore()?.bannerUrl
-                                imageUrl: model
-                                        .bannerDataFromFirestore()
-                                        ?.bannerUrl ??
-                                    'https://previews.123rf.com/images/sebicla/sebicla1303/sebicla130300159/18458190-contact-admin.jpg',
-                                // D else image ask u to see admin
-                                progressIndicatorBuilder:
-                                    (context, url, downloadProgress) {
-                                  if (downloadProgress.progress != null) {
-                                    final percent =
-                                        (downloadProgress.progress! * 100)
-                                            .round();
-                                    return Text(
-                                        '$percent% done loading from database');
-                                  }
-                                  //return Text('loading $url');
-                                  return CircularProgressIndicator();
-                                },
-                              )
-                        : (model.selectedImage == null)
-                            ? Text(
-                                tapToAddTxt,
-                                style: textStyle14FW400DarkGrey,
-                                //textAlign: TextAlign.center,
-                              )
-                            : Image.file(File(model.selectedImage!.path)),
-                    /*child: (model.selectedImage == null)
-            ? Text(
-                tapToAddTxt,
-                style: textStyle14FW400DarkGrey,
-                //textAlign: TextAlign.center,
-              )
-            : CachedNetworkImage(
-          imageUrl: model.bannerDataFromFirestore.bannerUrl ?? 'https://www-konga-com-res.cloudinary.com/w_auto,f_auto,fl_lossy,dpr_auto,q_auto/media/catalog/product/F/I/87738_1522353069.jpg',
-          progressIndicatorBuilder: (context, url, downloadProgress) {
-            if (downloadProgress.progress != null) {
-              final percent = downloadProgress.progress! * 100;
-              return Text('$percent% done loading from database');
-            }
-            return Text('loading $url');
-          },
-        ),*/ /*(model.bannerDataFromFirestore == null)
-                ? Image.file(File(model.selectedImage!.path))
-                : CachedNetworkImage(
-                    imageUrl: model.bannerDataFromFirestore!.bannerUrl,
-                    progressIndicatorBuilder: (context, url, downloadProgress) {
-                      if (downloadProgress.progress != null) {
-                        final percent = downloadProgress.progress! * 100;
-                        return Text('$percent% done loading from database');
-                      }
-                      return Text('loading $url');
-                    },
-                  ),*/
-                  ),
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    customTextBtn(
-                      onPressed: () {
-                        model.addImage(title: firstTierTxt);
-                      },
-                      btnColour: pVariantColour,
-                      btnTxt: saveBannerTxt,
-                      btnTextStyle: TextStyle(
-                        decoration: TextDecoration.underline,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
             ),
           ),
         ],
@@ -354,3 +236,90 @@ class _ArtworkCard extends StatelessWidget {
           ],
         ),
       ),*/ // this widget is used to test FutureViewModel functionality
+/*Padding(
+            padding: const EdgeInsets.fromLTRB(8.0, 16.0, 8.0, 8.0),
+            child: Row(
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    model.selectImage();
+                  },
+                  child: Container(
+                    width: 220.0,
+                    height: 150.0,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: Colors.white70,
+                      borderRadius: borderRadius10,
+                    ),
+                    child: (((model.tryingAnApproach != null) ||
+                                (model.bannerDataFromFirestore() != null)) &&
+                            (model.selectedImage ==
+                                null)) //model.tryingAnApproach != null && model.selectedImage == null
+                        ? ((model.tryingAnApproach != null) &&
+                                (model.bannerDataFromFirestore() == null))
+                            ? CachedNetworkImage(
+                                //model.bannerDataFromFirestore()?.bannerUrl
+                                imageUrl: model.tryingAnApproach?.bannerUrl ??
+                                    'https://previews.123rf.com/images/sebicla/sebicla1303/sebicla130300159/18458190-contact-admin.jpg',
+                                // D else image ask u to see admin
+                                progressIndicatorBuilder:
+                                    (context, url, downloadProgress) {
+                                  if (downloadProgress.progress != null) {
+                                    final percent =
+                                        (downloadProgress.progress! * 100)
+                                            .round();
+                                    return Text(
+                                        '$percent% done loading from database');
+                                  }
+                                  //return Text('loading $url');
+                                  return CircularProgressIndicator();
+                                },
+                              )
+                            : CachedNetworkImage(
+                                //model.bannerDataFromFirestore()?.bannerUrl
+                                imageUrl: model
+                                        .bannerDataFromFirestore()
+                                        ?.bannerUrl ??
+                                    'https://previews.123rf.com/images/sebicla/sebicla1303/sebicla130300159/18458190-contact-admin.jpg',
+                                // D else image ask u to see admin
+                                progressIndicatorBuilder:
+                                    (context, url, downloadProgress) {
+                                  if (downloadProgress.progress != null) {
+                                    final percent =
+                                        (downloadProgress.progress! * 100)
+                                            .round();
+                                    return Text(
+                                        '$percent% done loading from database');
+                                  }
+                                  //return Text('loading $url');
+                                  return CircularProgressIndicator();
+                                },
+                              )
+                        : (model.selectedImage == null)
+                            ? Text(
+                                tapToAddTxt,
+                                style: textStyle14FW400DarkGrey,
+                                //textAlign: TextAlign.center,
+                              )
+                            : Image.file(File(model.selectedImage!.path)),
+                  ),
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    customTextBtn(
+                      onPressed: () {
+                        model.addImage(title: firstTierTxt);
+                      },
+                      btnColour: pVariantColour,
+                      btnTxt: saveBannerTxt,
+                      btnTextStyle: TextStyle(
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),*/ // this widget was used to test banner read write from firebase

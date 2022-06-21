@@ -35,7 +35,7 @@ class AdminHomeViewModel extends MhgBaseViewModel {
         title: title,
         bannerTxt: bannerTxt,
       );
-      var result = _cloudStorageService.downloadResult;
+      var result = _cloudStorageService.bannerDataFromFirestore;
       if (result != null) {
         print(
             'Download urlName is: ${result.bannerUrl} with name: ${result.bannerName}');
@@ -70,7 +70,7 @@ class AdminHomeViewModel extends MhgBaseViewModel {
           selectedImage: response?.data[0],
           title: response?.data[1],
           bannerTxt: artworkTxt);
-      var result = _cloudStorageService.downloadResult;
+      var result = _cloudStorageService.bannerDataFromFirestore;
       if (result != null) {
         print(
             'Download urlName is: ${result.bannerUrl} with name: ${result.bannerName}');

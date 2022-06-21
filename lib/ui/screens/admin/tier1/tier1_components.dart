@@ -29,15 +29,15 @@ class ImageSelectionContainer extends StatelessWidget {
           borderRadius: borderRadius10,
         ),
         //(model.bannerDataFromFirestore() != null)
-        child: (((model.tryingAnApproach != null) ||
-                    (model.bannerDataFromFirestore() != null)) &&
+        child: (((model.reactiveBannerData != null) ||
+                    (model.bannerDataFromStorage != null)) &&
                 (model.selectedImage ==
                     null)) //model.tryingAnApproach != null && model.selectedImage == null
-            ? ((model.tryingAnApproach != null) &&
-                    (model.bannerDataFromFirestore() == null))
+            ? ((model.reactiveBannerData != null) &&
+                    (model.bannerDataFromStorage == null))
                 ? CachedNetworkImage(
                     //model.bannerDataFromFirestore()?.bannerUrl
-                    imageUrl: model.tryingAnApproach?.bannerUrl ??
+                    imageUrl: model.reactiveBannerData?.bannerUrl ??
                         'https://previews.123rf.com/images/sebicla/sebicla1303/sebicla130300159/18458190-contact-admin.jpg',
                     // D else image ask u to see admin
                     progressIndicatorBuilder: (context, url, downloadProgress) {
@@ -52,7 +52,7 @@ class ImageSelectionContainer extends StatelessWidget {
                   )
                 : CachedNetworkImage(
                     //model.bannerDataFromFirestore()?.bannerUrl
-                    imageUrl: model.bannerDataFromFirestore()?.bannerUrl ??
+                    imageUrl: model.bannerDataFromStorage?.bannerUrl ??
                         'https://previews.123rf.com/images/sebicla/sebicla1303/sebicla130300159/18458190-contact-admin.jpg',
                     // D else image ask u to see admin
                     progressIndicatorBuilder: (context, url, downloadProgress) {

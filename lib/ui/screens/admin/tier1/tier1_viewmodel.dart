@@ -30,33 +30,18 @@ class Admin1stTierViewModel extends MultipleFutureViewModel {
   XFile? _selectedImage;
 
   XFile? get selectedImage => _selectedImage;
-  Banner? _bannerDataFromFirestore;
-  /*setSelectImage(XFile? provideImage) {
-    _selectedImage = provideImage;
-    notifyListeners();
-  }*/
+  Banner? _bannerDataFromStorage;
 
-  Banner? bannerDataFromFirestore() {
-    //(_fireStoreDbService.tryingAnApproach != null) ? _fireStoreDbService.tryingAnApproach : _bannerDataFromFirestore
-    /*if (_fireStoreDbService.tryingAnApproach != null) {
-      return _fireStoreDbService.tryingAnApproach;
-    } else {
-      return _bannerDataFromFirestore;
-    }*/
-    return _bannerDataFromFirestore;
-  }
+  Banner? get bannerDataFromStorage => _bannerDataFromStorage;
 
-  Banner? get tryingAnApproach {
+  Banner? get reactiveBannerData {
     //_selectedImage = null;
-    return _cloudStorageService.tryingAnApproach;
+    return _cloudStorageService.reactiveBannerDataFromStorage;
   }
-  /*Banner? get tryingAnApproach {
-    return _fireStoreDbService.tryingAnApproach;
-  }*/
 
-  Artwork? _artworkDataFromFirestore;
-
-  Artwork? get artworkDataFromFirestore => _artworkDataFromFirestore;
+  Artwork? _artworkDataFromStorage;
+  Artwork? get artworkDataFromStorage => _artworkDataFromStorage;
+  Artwork? get reactiveArtworkData => _cloudStorageService.reactiveArtworkData;
 
   String get fetchedNumber => dataMap![_numberDelayFuture];
 
@@ -80,12 +65,6 @@ class Admin1stTierViewModel extends MultipleFutureViewModel {
   // TODO: implement reactiveServices
   List<ReactiveServiceMixin> get reactiveServices =>
       [_fireStoreDbService, _cloudStorageService];
-
-  /*@override
-  List<ReactiveServiceMixin> get reactiveServices {
-    super.reactiveServices;
-    return [_fireStoreDbService];
-  }*/
 
   @override
   Map<String, Future Function()> get futuresMap => {
@@ -122,43 +101,25 @@ class Admin1stTierViewModel extends MultipleFutureViewModel {
         reusableFunction.snackBar(message: 'No banner image selected');
       } else {
         //_fireStoreDbService.tryingAnApproach = null;
-        _bannerDataFromFirestore = await _cloudStorageService.uploadImage(
+        _bannerDataFromStorage = await _cloudStorageService.uploadImage(
           imageToUpload: _selectedImage,
           title: title,
           folderName: bannerTxt,
         );
-        if (tryingAnApproach == null) {
+        if (reactiveBannerData == null) {
           // _bannerDataFromFirestore;
           _selectedImage = null;
           //notifyListeners();
         }
-        if (tryingAnApproach != null) {
+        if (reactiveBannerData != null) {
           // _bannerDataFromFirestore;
           _selectedImage = null;
           //notifyListeners();
         }
         log.i(
-            '_bannerDataFromCloudStorage get BannerName: ${_bannerDataFromFirestore?.bannerName}');
-        /*if (_bannerDataFromFirestore != null) {
-          _selectedImage = null;
-          _bannerDataFromFirestore;
-          notifyListeners();
-          log.i(
-              '_bannerDataFromFirestore get BannerName: ${_bannerDataFromFirestore?.bannerName}');
-        }*/
+            '_bannerDataFromCloudStorage get BannerName: ${_bannerDataFromStorage?.bannerName}');
       }
     }
-  }
-
-  Future saveImageToStorage(
-      {required XFile? selectedImage,
-      required String title,
-      required String folderName}) async {
-    await _cloudStorageService.uploadImage(
-      imageToUpload: selectedImage,
-      title: title,
-      folderName: folderName,
-    );
   }
 
   Future<int> getNumberAfterDelay() async {
@@ -181,35 +142,18 @@ class Admin1stTierViewModel extends MultipleFutureViewModel {
       takesInput: true,
     );
     if (response?.data != null) {
-      saveImageToStorage(
-        selectedImage: response?.data[0],
+      _artworkDataFromStorage = await _cloudStorageService.uploadImage(
+        imageToUpload: response?.data[0],
         title: response?.data[1],
         folderName: artworkTxt,
+        artworkData: response?.data,
       );
-      setBusyForObject(_addArtworkToFirestoreKey, true);
-      var result = _cloudStorageService.downloadResult;
-      log.i('downloadResult has title: ${result?.bannerName}');
-      if (result != null) {
-        log.i(
-            'Download urlName is: ${result.bannerUrl} with name: ${result.bannerName}');
-        await _fireStoreDbService.addArtwork(
-          Artwork(
-            artworkUrl: result.bannerUrl,
-            title: result.bannerName,
-            description: response?.data[2],
-            price: response?.data[3],
-          ),
-        );
-        if (_fireStoreDbService.artworkDataFromFirestore != null) {
-          _artworkDataFromFirestore =
-              _fireStoreDbService.artworkDataFromFirestore;
-          log.i(
-              '_artworkDataFromFirestore get the return title : ${_artworkDataFromFirestore?.title}');
-          listOfArtwork.add(_artworkDataFromFirestore);
-          notifyListeners();
-        }
+      if (_artworkDataFromStorage != null) {
+        listOfArtwork.add(_artworkDataFromStorage);
       }
-      setBusyForObject(_addArtworkToFirestoreKey, false);
+      if (_artworkDataFromStorage == null) {
+        listOfArtwork.add(reactiveArtworkData);
+      }
     }
   }
 
@@ -219,19 +163,18 @@ class Admin1stTierViewModel extends MultipleFutureViewModel {
   }
 
   callRealTimeOperations() {
-    //setBusyForObject(_callBannerRealtimeUpdateKey, true);
     callBannerRealtimeUpdate();
   }
 
   callBannerRealtimeUpdate() {
     //setBusyForObject(_callBannerRealtimeUpdateKey, true);
     _cloudStorageService.getBannerRealtimeUpdate(docId: firstTierTxt);
-    if (tryingAnApproach == null) {
+    if (reactiveBannerData == null) {
       // _bannerDataFromFirestore;
       _selectedImage = null;
       //notifyListeners();
     }
-    if (tryingAnApproach != null) {
+    if (reactiveBannerData != null) {
       // _bannerDataFromFirestore;
       _selectedImage = null;
       //notifyListeners();

@@ -9,6 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:mhg/app/app.locator.dart';
 import 'package:mhg/app/app.logger.dart';
 import 'package:mhg/constants.dart';
+import 'package:mhg/core/models/artwork/artwork.dart';
 import 'package:mhg/core/models/banner/banner.dart';
 import 'package:mhg/utils/reusable_funtions.dart';
 import 'package:stacked/stacked.dart';
@@ -17,28 +18,43 @@ import 'database/firestore.dart';
 
 class CloudStorageService with ReactiveServiceMixin {
   CloudStorageService() {
-    listenToReactiveValues([_tryingAnApproach]);
+    listenToReactiveValues(
+      [_reactiveBannerDataFromStorage, _reactiveArtworkDataFromStorage],
+    );
   }
 
   final log = getStackedLogger('CloudStorageService');
   final FirestoreDbService _fireStoreDbService = locator<FirestoreDbService>();
+
   //final Admin1stTierViewModel _admin1stTierViewModel = Admin1stTierViewModel();
 
-  late final ReactiveValue<Banner?> _tryingAnApproach =
+  late final ReactiveValue<Banner?> _reactiveBannerDataFromStorage =
       ReactiveValue<Banner?>(null);
-  Banner? get tryingAnApproach => _tryingAnApproach.value;
+
+  Banner? get reactiveBannerDataFromStorage =>
+      _reactiveBannerDataFromStorage.value;
+
+  late final ReactiveValue<Artwork?> _reactiveArtworkDataFromStorage =
+      ReactiveValue<Artwork?>(null);
+
+  Artwork? get reactiveArtworkData => _reactiveArtworkDataFromStorage.value;
+
   //set tryingAnApproach(Banner? banner) => _tryingAnApproach.value = banner;
 
   final ReusableFunction reusableFunction = ReusableFunction();
 
-  Banner? _downloadResult;
+  Banner? _bannerDataFromFirestore;
 
-  Banner? get downloadResult => _downloadResult;
+  Banner? get bannerDataFromFirestore => _bannerDataFromFirestore;
+  Artwork? _artworkDataFromFirestore;
 
-  Future<Banner?> uploadImage({
+  Artwork? get artworkDataFromFirestore => _artworkDataFromFirestore;
+
+  Future<dynamic> uploadImage({
     required XFile? imageToUpload,
     required String title,
     required String folderName,
+    List<String>? artworkData,
   }) async {
     log.i('received 3 param, they are: \n imageToUpload: ${imageToUpload?.path}'
         '\n title: $title and \n folderName: $folderName');
@@ -59,7 +75,7 @@ class CloudStorageService with ReactiveServiceMixin {
     // firebase storage ref. This function takes in file from the dart.io package
     var _uploadTask = _fbStorageRef.putFile(File(imageToUpload!.path));
     // Listen for state changes, errors, and completion of the upload
-    Banner? temp;
+    dynamic temp;
     _uploadTask.snapshotEvents.listen((TaskSnapshot taskSnapshot) async {
       switch (taskSnapshot.state) {
         case TaskState.running:
@@ -70,15 +86,26 @@ class CloudStorageService with ReactiveServiceMixin {
           try {
             var downloadUrl = await taskSnapshot.ref.getDownloadURL();
             var getDownloadTitle = taskSnapshot.ref.name;
-            _downloadResult = await _fireStoreDbService.addBanner(
-                Banner(bannerUrl: downloadUrl, bannerName: getDownloadTitle));
-            //_admin1stTierViewModel.setSelectImage(null);
-            temp = _downloadResult;
-            _tryingAnApproach.value = _downloadResult;
+            if (folderName == artworkTxt && artworkData != null) {
+              _artworkDataFromFirestore = await _fireStoreDbService.addArtwork(
+                  Artwork(
+                      artworkUrl: downloadUrl,
+                      title: getDownloadTitle,
+                      description: artworkData[2],
+                      price: artworkData[3]));
+              temp = _artworkDataFromFirestore;
+              _reactiveArtworkDataFromStorage.value = _artworkDataFromFirestore;
+            } else {
+              _bannerDataFromFirestore = await _fireStoreDbService.addBanner(
+                  Banner(bannerUrl: downloadUrl, bannerName: getDownloadTitle));
+              //_admin1stTierViewModel.setSelectImage(null);
+              temp = _bannerDataFromFirestore;
+              _reactiveBannerDataFromStorage.value = _bannerDataFromFirestore;
 
-            log.i(
-                '_tryingAnApproach.value imageURL: ${tryingAnApproach?.bannerUrl} and \n'
-                'title: ${tryingAnApproach?.bannerName}');
+              log.i(
+                  '_tryingAnApproach.value imageURL: ${reactiveBannerDataFromStorage?.bannerUrl} and \n'
+                  'title: ${reactiveBannerDataFromStorage?.bannerName}');
+            }
           } on FirebaseException catch (e) {
             print("Failed download from firebase storage with error '${e.code}'"
                 " and\n message: ${e.message}");
@@ -112,18 +139,18 @@ class CloudStorageService with ReactiveServiceMixin {
             fromFirestore: Banner.fromDocument,
             toFirestore: (Banner banner, _) => banner.toMap());
         final docSnap = await docRef.get();
-        _tryingAnApproach.value = docSnap.data();
+        _reactiveBannerDataFromStorage.value = docSnap.data();
 
         log.i(
-          'banner return: ${_tryingAnApproach.value?.bannerName} \n '
-          'and image url: ${_tryingAnApproach.value?.bannerUrl}',
+          'banner return: ${_reactiveBannerDataFromStorage.value?.bannerName} \n '
+          'and image url: ${_reactiveBannerDataFromStorage.value?.bannerUrl}',
         );
       },
       onError: (error) => log.i('BannerRealtimeUpdate Listener failed: $error'),
     );
     log.i(
-      'banner return outside listen method: ${_tryingAnApproach.value?.bannerName} \n '
-      'and image url: ${_tryingAnApproach.value?.bannerUrl}',
+      'banner return outside listen method: ${_reactiveBannerDataFromStorage.value?.bannerName} \n '
+      'and image url: ${_reactiveBannerDataFromStorage.value?.bannerUrl}',
     );
   }
 }
