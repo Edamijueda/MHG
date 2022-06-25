@@ -23,7 +23,7 @@ class AdminHomeViewModel extends MhgBaseViewModel {
   Future addImage({required String title}) async {
     DialogResponse? response = await _dialogService.showConfirmationDialog(
       title: 'Alert',
-      description: dialogDescTxt,
+      description: dialogDescAddBannerTxt,
       /*confirmationTitle: 'Ok',
       cancelTitle: 'Cancel',*/
     );

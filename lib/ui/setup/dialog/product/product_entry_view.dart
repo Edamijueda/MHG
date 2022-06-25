@@ -193,15 +193,6 @@ class _ProductEntryViewState extends State<ProductEntryView> {
                                     }
                                   });
                                 }
-                                /*widget.onDialogTap(
-                                  DialogResponse(
-                                    data: [
-                                      titleController.text,
-                                      descController.text,
-                                      priceController.text,
-                                    ],
-                                  ),
-                                );*/
                               },
                               //onPressed: () => print('Submit btn pressed'),
                               child: Text('Submit'),

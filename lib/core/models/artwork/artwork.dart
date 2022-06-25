@@ -13,6 +13,7 @@ class Artwork with _$Artwork {
     required final String? title,
     required final String? description,
     required final String? price,
+    final String? customTitle,
     final String? id,
   }) = _Artwork;
 
@@ -22,6 +23,7 @@ class Artwork with _$Artwork {
       titleTxt: title,
       descTxt: description,
       priceTxt: price,
+      customTitleTxt: customTitle,
     };
   }
 
@@ -30,11 +32,11 @@ class Artwork with _$Artwork {
     SnapshotOptions? options,
   ) {
     return Artwork(
-      //id: data.id,
-      artworkUrl: snapshot.get(artworkUrlTxt),
-      title: snapshot.get(titleTxt),
-      description: snapshot.get(descTxt),
-      price: snapshot.get(priceTxt),
-    );
+        //id: data.id,
+        artworkUrl: snapshot.get(artworkUrlTxt),
+        title: snapshot.get(titleTxt),
+        description: snapshot.get(descTxt),
+        price: snapshot.get(priceTxt),
+        customTitle: snapshot.get(customTitleTxt));
   }
 }

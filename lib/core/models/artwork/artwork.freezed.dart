@@ -20,6 +20,7 @@ mixin _$Artwork {
   String? get title => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
   String? get price => throw _privateConstructorUsedError;
+  String? get customTitle => throw _privateConstructorUsedError;
   String? get id => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -35,6 +36,7 @@ abstract class $ArtworkCopyWith<$Res> {
       String? title,
       String? description,
       String? price,
+      String? customTitle,
       String? id});
 }
 
@@ -52,6 +54,7 @@ class _$ArtworkCopyWithImpl<$Res> implements $ArtworkCopyWith<$Res> {
     Object? title = freezed,
     Object? description = freezed,
     Object? price = freezed,
+    Object? customTitle = freezed,
     Object? id = freezed,
   }) {
     return _then(_value.copyWith(
@@ -70,6 +73,10 @@ class _$ArtworkCopyWithImpl<$Res> implements $ArtworkCopyWith<$Res> {
       price: price == freezed
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
+              as String?,
+      customTitle: customTitle == freezed
+          ? _value.customTitle
+          : customTitle // ignore: cast_nullable_to_non_nullable
               as String?,
       id: id == freezed
           ? _value.id
@@ -90,6 +97,7 @@ abstract class _$$_ArtworkCopyWith<$Res> implements $ArtworkCopyWith<$Res> {
       String? title,
       String? description,
       String? price,
+      String? customTitle,
       String? id});
 }
 
@@ -108,6 +116,7 @@ class __$$_ArtworkCopyWithImpl<$Res> extends _$ArtworkCopyWithImpl<$Res>
     Object? title = freezed,
     Object? description = freezed,
     Object? price = freezed,
+    Object? customTitle = freezed,
     Object? id = freezed,
   }) {
     return _then(_$_Artwork(
@@ -127,6 +136,10 @@ class __$$_ArtworkCopyWithImpl<$Res> extends _$ArtworkCopyWithImpl<$Res>
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
               as String?,
+      customTitle: customTitle == freezed
+          ? _value.customTitle
+          : customTitle // ignore: cast_nullable_to_non_nullable
+              as String?,
       id: id == freezed
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -143,6 +156,7 @@ class _$_Artwork extends _Artwork with DiagnosticableTreeMixin {
       required this.title,
       required this.description,
       required this.price,
+      this.customTitle,
       this.id})
       : super._();
 
@@ -155,11 +169,13 @@ class _$_Artwork extends _Artwork with DiagnosticableTreeMixin {
   @override
   final String? price;
   @override
+  final String? customTitle;
+  @override
   final String? id;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Artwork(artworkUrl: $artworkUrl, title: $title, description: $description, price: $price, id: $id)';
+    return 'Artwork(artworkUrl: $artworkUrl, title: $title, description: $description, price: $price, customTitle: $customTitle, id: $id)';
   }
 
   @override
@@ -171,6 +187,7 @@ class _$_Artwork extends _Artwork with DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('title', title))
       ..add(DiagnosticsProperty('description', description))
       ..add(DiagnosticsProperty('price', price))
+      ..add(DiagnosticsProperty('customTitle', customTitle))
       ..add(DiagnosticsProperty('id', id));
   }
 
@@ -185,6 +202,8 @@ class _$_Artwork extends _Artwork with DiagnosticableTreeMixin {
             const DeepCollectionEquality()
                 .equals(other.description, description) &&
             const DeepCollectionEquality().equals(other.price, price) &&
+            const DeepCollectionEquality()
+                .equals(other.customTitle, customTitle) &&
             const DeepCollectionEquality().equals(other.id, id));
   }
 
@@ -195,6 +214,7 @@ class _$_Artwork extends _Artwork with DiagnosticableTreeMixin {
       const DeepCollectionEquality().hash(title),
       const DeepCollectionEquality().hash(description),
       const DeepCollectionEquality().hash(price),
+      const DeepCollectionEquality().hash(customTitle),
       const DeepCollectionEquality().hash(id));
 
   @JsonKey(ignore: true)
@@ -209,6 +229,7 @@ abstract class _Artwork extends Artwork {
       required final String? title,
       required final String? description,
       required final String? price,
+      final String? customTitle,
       final String? id}) = _$_Artwork;
   const _Artwork._() : super._();
 
@@ -220,6 +241,8 @@ abstract class _Artwork extends Artwork {
   String? get description => throw _privateConstructorUsedError;
   @override
   String? get price => throw _privateConstructorUsedError;
+  @override
+  String? get customTitle => throw _privateConstructorUsedError;
   @override
   String? get id => throw _privateConstructorUsedError;
   @override

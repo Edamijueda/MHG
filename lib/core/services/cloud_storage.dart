@@ -21,8 +21,8 @@ class CloudStorageService with ReactiveServiceMixin {
     listenToReactiveValues(
       [
         _reactiveBannerDataFromStorage,
-        _reactiveArtworkDataFromStorage,
-        _reactiveListOfArtwork
+        //_reactiveArtworkDataFromStorage,
+        //_reactiveListOfArtwork
       ],
     );
   }
@@ -38,11 +38,10 @@ class CloudStorageService with ReactiveServiceMixin {
   Banner? get reactiveBannerDataFromStorage =>
       _reactiveBannerDataFromStorage.value;
 
-  List<Artwork?> temp1 = List<Artwork?>.empty(growable: true);
-  late final ReactiveValue<List<Artwork?>?> _reactiveListOfArtwork =
-      ReactiveValue<List<Artwork?>?>(null);
-
-  List<Artwork?>? get reactiveListOfArtwork => _reactiveListOfArtwork.value;
+  // List<Artwork?> tempReactiveList = List<Artwork?>.empty(growable: true);
+  // late final ReactiveValue<List<Artwork?>?> _reactiveListOfArtwork =
+  //     ReactiveValue<List<Artwork?>?>(null);
+  // List<Artwork?>? get reactiveListOfArtwork => _reactiveListOfArtwork.value;
 
   late final ReactiveValue<Artwork?> _reactiveArtworkDataFromStorage =
       ReactiveValue<Artwork?>(null);
@@ -56,11 +55,11 @@ class CloudStorageService with ReactiveServiceMixin {
   Banner? _bannerDataFromFirestore;
 
   Banner? get bannerDataFromFirestore => _bannerDataFromFirestore;
-  Artwork? _artworkDataFromFirestore;
 
   Banner? retrievedBanner;
 
-  Artwork? get artworkDataFromFirestore => _artworkDataFromFirestore;
+  // Artwork? _artworkDataFromFirestore;
+  // Artwork? get artworkDataFromFirestore => _artworkDataFromFirestore;
 
   Future<Banner?> uploadBanner({
     required XFile? imageToUpload,
@@ -88,10 +87,14 @@ class CloudStorageService with ReactiveServiceMixin {
     _uploadTask.snapshotEvents.listen((TaskSnapshot taskSnapshot) async {
       switch (taskSnapshot.state) {
         case TaskState.running:
-          reusableFunction.snackBar(message: 'file upload is in progress...');
+          reusableFunction.snackBar(
+              message: 'file upload is in progress...',
+              duration: const Duration(seconds: 1));
           break;
         case TaskState.success:
-          reusableFunction.snackBar(message: 'file upload is successful');
+          reusableFunction.snackBar(
+              message: 'file upload is successful',
+              duration: const Duration(seconds: 1));
           try {
             var downloadUrl = await taskSnapshot.ref.getDownloadURL();
             var getBannerName = taskSnapshot.ref.name;
@@ -105,7 +108,9 @@ class CloudStorageService with ReactiveServiceMixin {
           }
           break;
         case TaskState.error:
-          reusableFunction.snackBar(message: 'Upload failed with an error');
+          reusableFunction.snackBar(
+              message: 'Upload failed with an error',
+              duration: const Duration(seconds: 1));
           break;
         case TaskState.paused:
           // TODO: Handle this case.
@@ -124,19 +129,21 @@ class CloudStorageService with ReactiveServiceMixin {
     return retrievedBanner;
   }
 
-  Artwork? retrievedArtwork;
-  Future<Artwork?> uploadArtwork({
+  //Artwork? retrievedArtwork;
+  Future uploadArtwork({
     required XFile? imageToUpload,
     required String title,
     required String folderName,
-    dynamic artworkData,
+    required String desc,
+    required String price,
   }) async {
     log.i('received 3 param, they are: \n imageToUpload: ${imageToUpload?.path}'
-        '\n title: $title and \n folderName: $folderName \n artworkData: $artworkData');
+        '\n title: $title and \n folderName: $folderName');
     // Let's create the name the file will take up on the cloud storage. The time,
     // allows dis to give us unique value even if title is the same for multiple
     // upload to our storage
-    title = title + DateTime.now().millisecondsSinceEpoch.toString();
+    String customTitle =
+        title + DateTime.now().millisecondsSinceEpoch.toString();
 
     // To be more specific, in a real world app, you would put this inside a folder
     // that is the User's ID, that way you can set up your rules so that you can
@@ -144,7 +151,7 @@ class CloudStorageService with ReactiveServiceMixin {
 
     //Get a ref to the file we want to upload/download
     var _fbStorageRef =
-        FirebaseStorage.instance.ref().child(folderName).child(title);
+        FirebaseStorage.instance.ref().child(folderName).child(customTitle);
     // This will store the result of calling the putFile() function on the
     // firebase storage ref. This function takes in file from the dart.io package
     var _uploadTask = _fbStorageRef.putFile(File(imageToUpload!.path));
@@ -153,45 +160,52 @@ class CloudStorageService with ReactiveServiceMixin {
     _uploadTask.snapshotEvents.listen((TaskSnapshot taskSnapshot) async {
       switch (taskSnapshot.state) {
         case TaskState.running:
-          reusableFunction.snackBar(message: 'file upload is in progress...');
+          reusableFunction.snackBar(
+              message: 'file upload is in progress...',
+              duration: const Duration(seconds: 1));
           break;
         case TaskState.success:
-          reusableFunction.snackBar(message: 'file upload is successful');
+          reusableFunction.snackBar(
+              message: 'file upload is successful',
+              duration: const Duration(seconds: 1));
           try {
             var downloadUrl = await taskSnapshot.ref.getDownloadURL();
-            var getDownloadTitle = taskSnapshot.ref.name;
-            _artworkDataFromFirestore = await _fireStoreDbService.addArtwork(
-                Artwork(
-                    artworkUrl: downloadUrl,
-                    title: getDownloadTitle,
-                    description: artworkData[2],
-                    price: artworkData[3]));
-            if (_artworkDataFromFirestore != null) {
-              temp1.add(_artworkDataFromFirestore);
-              _reactiveListOfArtwork.value = temp1;
-              //_reactiveArtworkDataFromStorage.value = _artworkDataFromFirestore;
-              retrievedArtwork = _artworkDataFromFirestore;
+            var retrieveCustomTitle = taskSnapshot.ref.name;
+            log.i('retrieveCustomTitle: $retrieveCustomTitle');
+            //_artworkDataFromFirestore = await _fireStoreDbService.addArtwork(
+            await _fireStoreDbService.addArtwork(Artwork(
+                artworkUrl: downloadUrl,
+                title: title,
+                description: desc,
+                price: price,
+                customTitle: retrieveCustomTitle));
+            /*if (_artworkDataFromFirestore != null) {
+              tempReactiveList.add(_artworkDataFromFirestore);
+              _reactiveListOfArtwork.value = tempReactiveList;
+              //retrievedArtwork = _artworkDataFromFirestore;
               notifyListeners();
               log.i(
                   '_artworkDataFromFirestore imageURL: ${_artworkDataFromFirestore?.artworkUrl} and \n'
                   'title: ${_artworkDataFromFirestore?.title}');
               log.i(
-                  'temp1_artworkList has length: ${temp1.length}, \n imageURL: ${temp1.last?.artworkUrl} and \n'
-                  'title: ${temp1.last?.title}');
+                  'tempReactiveList has length: ${tempReactiveList.length}, \n imageURL: ${tempReactiveList.last?.artworkUrl} and \n'
+                  'title: ${tempReactiveList.last?.title}');
               log.i(
                   '_reactiveListOfArtwork length: ${_reactiveListOfArtwork.value?.length} imageURL: ${_reactiveListOfArtwork.value?.last?.artworkUrl} and \n'
                   'title: ${_reactiveListOfArtwork.value?.last?.title}');
-              log.i(
+              */ /*log.i(
                   'retrievedArtwork imageURL: ${retrievedArtwork?.artworkUrl} and \n'
-                  'title: ${retrievedArtwork?.title}');
-            }
+                  'title: ${retrievedArtwork?.title}');*/ /*
+            }*/
           } on FirebaseException catch (e) {
             print("Failed download from firebase storage with error '${e.code}'"
                 " and\n message: ${e.message}");
           }
           break;
         case TaskState.error:
-          reusableFunction.snackBar(message: 'Upload failed with an error');
+          reusableFunction.snackBar(
+              message: 'Upload failed with an error',
+              duration: const Duration(seconds: 1));
           break;
         case TaskState.paused:
           // TODO: Handle this case.
@@ -201,13 +215,6 @@ class CloudStorageService with ReactiveServiceMixin {
           break;
       }
     });
-    /*log.i('temp _downloadResult imageURL: ${temp?.bannerUrl} and \n'
-        'title: ${temp?.bannerName}');*/
-    log.i(
-        'return temp _downloadResult imageURL: ${retrievedArtwork?.artworkUrl} and \n'
-        'title: ${retrievedArtwork?.title}');
-
-    return retrievedArtwork;
   }
 
   getBannerRealtimeUpdate({required String docId}) {
@@ -237,100 +244,21 @@ class CloudStorageService with ReactiveServiceMixin {
     );
   }
 
-/*Future<dynamic> uploadImage({
-    required XFile? imageToUpload,
-    required String title,
-    required String folderName,
-    dynamic artworkData,
-  }) async {
-    log.i('received 3 param, they are: \n imageToUpload: ${imageToUpload?.path}'
-        '\n title: $title and \n folderName: $folderName \n artworkData: $artworkData');
-    // Let's create the name the file will take up on the cloud storage. The time,
-    // allows dis to give us unique value even if title is the same for multiple
-    // upload to our storage
-    if (folderName == artworkTxt) {
-      title = title + DateTime.now().millisecondsSinceEpoch.toString();
+  void removeArtworkFromStorage(Artwork artwork) {
+    log.i('parameter, artwork with customTitle is: ${artwork.customTitle}');
+    var _fbStorageRef = FirebaseStorage.instance
+        .ref()
+        .child(artworkTxt)
+        .child(artwork.customTitle!);
+    _fbStorageRef.delete();
+    /* var tempList = _reactiveListOfArtwork.value;
+    bool? artworkWasRemoved = tempList?.remove(artwork);
+    if (artworkWasRemoved == true) {
+      reusableFunction.snackBar(
+          message: '${artwork.title} has been deleted',
+          duration: const Duration(seconds: 2));
     }
-    // To be more specific, in a real world app, you would put this inside a folder
-    // that is the User's ID, that way you can set up your rules so that you can
-    // only write and read from that folder if you are the owner of that folder.
-
-    //Get a ref to the file we want to upload/download
-    var _fbStorageRef =
-    FirebaseStorage.instance.ref().child(folderName).child(title);
-    // This will store the result of calling the putFile() function on the
-    // firebase storage ref. This function takes in file from the dart.io package
-    var _uploadTask = _fbStorageRef.putFile(File(imageToUpload!.path));
-    // Listen for state changes, errors, and completion of the upload
-    //List<Artwork?>? temp1;
-    _uploadTask.snapshotEvents.listen((TaskSnapshot taskSnapshot) async {
-      switch (taskSnapshot.state) {
-        case TaskState.running:
-          reusableFunction.snackBar(message: 'file upload is in progress...');
-          break;
-        case TaskState.success:
-          reusableFunction.snackBar(message: 'file upload is successful');
-          try {
-            var downloadUrl = await taskSnapshot.ref.getDownloadURL();
-            var getDownloadTitle = taskSnapshot.ref.name;
-            if (folderName == artworkTxt && artworkData != null) {
-              _artworkDataFromFirestore = await _fireStoreDbService.addArtwork(
-                  Artwork(
-                      artworkUrl: downloadUrl,
-                      title: getDownloadTitle,
-                      description: artworkData[2],
-                      price: artworkData[3]));
-              if (_artworkDataFromFirestore != null) {
-                temp1.add(_artworkDataFromFirestore);
-                _reactiveListOfArtwork.value = temp1;
-                temp = _artworkDataFromFirestore;
-                log.i(
-                    '_artworkDataFromFirestore imageURL: ${_artworkDataFromFirestore?.artworkUrl} and \n'
-                        'title: ${_artworkDataFromFirestore?.title}');
-                log.i(
-                    'temp1_artworkList has length: ${temp1.length}, \n imageURL: ${temp1.last?.artworkUrl} and \n'
-                        'title: ${temp1.last?.title}');
-                log.i(
-                    '_reactiveListOfArtwork imageURL: ${_reactiveListOfArtwork.value?.last?.artworkUrl} and \n'
-                        'title: ${_reactiveListOfArtwork.value?.last?.title}');
-                log.i(
-                    'temp _downloadResult imageURL: ${temp?.artworkUrl} and \n'
-                        'title: ${temp?.title}');
-              }
-              return temp;
-            } else {
-              _bannerDataFromFirestore = await _fireStoreDbService.addBanner(
-                  Banner(bannerUrl: downloadUrl, bannerName: getDownloadTitle));
-              //_admin1stTierViewModel.setSelectImage(null);
-              temp = _bannerDataFromFirestore;
-              _reactiveBannerDataFromStorage.value = _bannerDataFromFirestore;
-
-              log.i(
-                  '_tryingAnApproach.value imageURL: ${reactiveBannerDataFromStorage?.bannerUrl} and \n'
-                      'title: ${reactiveBannerDataFromStorage?.bannerName}');
-              return temp;
-            }
-          } on FirebaseException catch (e) {
-            print("Failed download from firebase storage with error '${e.code}'"
-                " and\n message: ${e.message}");
-          }
-          return;
-        case TaskState.error:
-          reusableFunction.snackBar(message: 'Upload failed with an error');
-          break;
-        case TaskState.paused:
-        // TODO: Handle this case.
-          break;
-        case TaskState.canceled:
-        // TODO: Handle this case.
-          break;
-      }
-    });
-    */ /*log.i('temp _downloadResult imageURL: ${temp?.bannerUrl} and \n'
-        'title: ${temp?.bannerName}');*/ /*
-    log.i('return temp _downloadResult imageURL: ${temp?.artworkUrl} and \n'
-        'title: ${temp?.title}');
-
-    return temp;
-  }*/
+    _reactiveListOfArtwork.value = tempList;
+    notifyListeners();*/
+  }
 }

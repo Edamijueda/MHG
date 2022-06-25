@@ -159,22 +159,20 @@ class _ArtworkCard extends StatelessWidget {
                     bottomRight: Radius.circular(4.0),
                   )),
               child: Row(
-                //crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  buildIconButton(
-                    icon: Icon(Icons.info, color: Colors.black26),
-                    onClickPrintOnConsole: 'info icon is clicked',
-                    padding: EdgeInsets.all(8.0),
-                  ),
-                  buildIconButton(
+                  IconButton(
                     icon: Icon(Icons.more_vert, color: Colors.black26),
-                    onClickPrintOnConsole: 'more icon is clicked',
-                    padding: EdgeInsets.all(8.0),
+                    onPressed: () => model.viewProductDetails(artwork),
                   ),
-                  buildIconButton(
+                  // Edit artwork feature is pending
+                  /*IconButton(
+                    icon: Icon(Icons.edit, color: Colors.black26),
+                    onPressed: () => print(''),
+                  ),*/
+                  IconButton(
                     icon: Icon(Icons.cancel, color: Colors.black26),
-                    onClickPrintOnConsole: 'cancel icon is clicked',
-                    padding: EdgeInsets.all(8.0),
+                    onPressed: () => model.deleteArtwork(artwork),
                   ),
                 ],
               ),

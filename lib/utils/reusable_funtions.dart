@@ -4,7 +4,7 @@ import 'package:stacked_services/stacked_services.dart';
 class ReusableFunction {
   final SnackbarService _snackBarService = locator<SnackbarService>();
 
-  void snackBar({required String message}) {
-    _snackBarService.showSnackbar(message: message, duration: const Duration(seconds: 1));
+  void snackBar({required String message, required Duration duration}) {
+    _snackBarService.showSnackbar(message: message, duration: duration);
   }
 }

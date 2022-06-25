@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 const String tOSText = 'By registering for an account, you agree that you are '
     'are 21+, have read and accept our ';
 //const String membersAgreeText = 'Membership Agreement';
-const String dialogDescTxt = 'If any, the banner in the database will be '
-    'overridden.';
 const String validIdIconBtHelpText = 'Valid ID IconButton help is pressed';
 const String customerIconBtnHelpText = 'Customer HelpIconButton is pressed';
 const String retailerIconBtHelpText = 'Retailer HelpIconButton is pressed';
@@ -23,6 +21,7 @@ const String emailHintText = 'Email';
 const String passwordHintText = 'Password';
 const String priceHintTxt = '\$Price';
 const String priceTxt = 'price';
+const String customTitleTxt = 'customTitle';
 const String titleTxt = 'title';
 const String searchItemHintTxt = 'Search item';
 const String descHintTxt = 'write short description';
@@ -67,17 +66,21 @@ const String cartTxt = 'Carts';
 const String edibleTxt = 'Edibles';
 const String extractTxt = 'Extracts';
 const String gearTxt = 'Gears/Merchs';
+const String dialogDescAddBannerTxt =
+    'If any, the banner in the database will be '
+    'overridden.';
+const String dialogDescDelArtworkTxt =
+    'you are about to delete this artwork from database';
 
 // Firebase constants
 const String bannerTxt = 'Banners';
-
-
 
 const String review = '4.6 86 Reviews';
 
 const double prefixIconSize = 24.0;
 const double iconBtnSize = 18.0; // Used by TextField
-final BorderRadius borderRadius10 = BorderRadius.circular(10.0);//.all(const Radius.circular(10.0));
+final BorderRadius borderRadius10 =
+    BorderRadius.circular(10.0); //.all(const Radius.circular(10.0));
 
 const Size sizeW326H50 = Size(326.0, 50.0); // Used by UserAccess,
 const Size sizeW326H30 = Size(326.0, 30.0);

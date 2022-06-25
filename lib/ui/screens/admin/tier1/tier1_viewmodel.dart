@@ -35,20 +35,15 @@ class Admin1stTierViewModel extends MultipleFutureViewModel {
   Banner? get bannerDataFromStorage => _bannerDataFromStorage;
 
   Banner? get reactiveBannerData {
-    //_selectedImage = null;
     return _cloudStorageService.reactiveBannerDataFromStorage;
   }
 
-  Artwork? _artworkDataFromStorage;
-  Artwork? get artworkDataFromStorage => _artworkDataFromStorage;
-  Artwork? get tempArtworkDataFromStorage {
-    return _cloudStorageService.artworkDataFromFirestore;
-  }
-
   List<Artwork?>? get reactiveListOfArtwork =>
-      _cloudStorageService.reactiveListOfArtwork;
-  Artwork? get reactiveArtworkData => _cloudStorageService.reactiveArtworkData;
+      _fireStoreDbService.reactiveListOfArtwork;
 
+  //Artwork? get reactiveArtworkData => _cloudStorageService.reactiveArtworkData;
+
+  // Multiple Futures attributes/functions
   String get fetchedNumber => dataMap![_numberDelayFuture];
 
   String get fetchedString => dataMap![_stringDelayFuture];
@@ -89,14 +84,15 @@ class Admin1stTierViewModel extends MultipleFutureViewModel {
       notifyListeners();
     } catch (e) {
       reusableFunction.snackBar(
-          message: 'File selection fail: ${e.toString()}');
+          message: 'File selection fail: ${e.toString()}',
+          duration: const Duration(seconds: 1));
     }
   }
 
   Future addImage({required String title}) async {
     DialogResponse? response = await _dialogService.showDialog(
       title: 'Alert',
-      description: dialogDescTxt,
+      description: dialogDescAddBannerTxt,
       buttonTitle: 'Yes',
       buttonTitleColor: black,
       cancelTitle: 'Cancel',
@@ -104,7 +100,9 @@ class Admin1stTierViewModel extends MultipleFutureViewModel {
     log.i('response confirmation is: ${response?.confirmed}');
     if (response?.confirmed == true) {
       if (_selectedImage == null) {
-        reusableFunction.snackBar(message: 'No banner image selected');
+        reusableFunction.snackBar(
+            message: 'No banner image selected',
+            duration: const Duration(seconds: 1));
       } else {
         //_fireStoreDbService.tryingAnApproach = null;
         _bannerDataFromStorage = await _cloudStorageService.uploadBanner(
@@ -148,40 +146,14 @@ class Admin1stTierViewModel extends MultipleFutureViewModel {
       takesInput: true,
     );
     if (response?.data != null) {
-      _artworkDataFromStorage = await _cloudStorageService.uploadArtwork(
+      await _cloudStorageService.uploadArtwork(
         imageToUpload: response?.data[0],
         title: response?.data[1],
         folderName: artworkTxt,
-        artworkData: response?.data,
+        desc: response?.data[2],
+        price: response?.data[3],
       );
-      //notifySourceChanged();
-      /*if (_artworkDataFromStorage == null &&
-          _cloudStorageService.reactiveArtworkData != null) {
-        listOfArtwork.add(_cloudStorageService.reactiveArtworkData);
-        log.i(
-            '_artworkDataFromStorage has title : ${_artworkDataFromStorage?.title}');
-        //notifyListeners();
-      }
-      if (_artworkDataFromStorage != null) {
-        listOfArtwork.add(_artworkDataFromStorage);
-        log.i(
-            '_artworkDataFromStorage has title : ${_artworkDataFromStorage?.title}');
-        _cloudStorageService.reactiveListOfArtwork;
-        // _bannerDataFromFirestore;
-        //_selectedImage = null;
-        //notifyListeners();
-      }*/
     }
-  }
-
-  int length = 0;
-
-  int addReactive(Artwork? reactiveArtworkData) {
-    listOfArtwork.add(reactiveArtworkData);
-    length = listOfArtwork.length;
-    log.i('after adding reactiveData listOfArtwork.length is : $length');
-    //notifyListeners();
-    return length;
   }
 
   Future<String> getErrorMessage() async {
@@ -191,22 +163,69 @@ class Admin1stTierViewModel extends MultipleFutureViewModel {
 
   callRealTimeOperations() {
     callBannerRealtimeUpdate();
+    callArtworkRealtimeUpdate();
   }
 
   callBannerRealtimeUpdate() {
-    //setBusyForObject(_callBannerRealtimeUpdateKey, true);
     _cloudStorageService.getBannerRealtimeUpdate(docId: firstTierTxt);
     if (reactiveBannerData == null) {
       // _bannerDataFromFirestore;
       _selectedImage = null;
-      //notifyListeners();
     }
     if (reactiveBannerData != null) {
-      // _bannerDataFromFirestore;
       _selectedImage = null;
-      //notifyListeners();
     }
     log.i(
         'bannerDataFromFirestore get the return title : ${_fireStoreDbService.tryingAnApproach?.bannerName}');
+  }
+
+  void callArtworkRealtimeUpdate() {
+    // _fireStoreDbService.getArtworkRealtimeUpdate();
+  }
+
+  Future viewProductDetails(Artwork? artwork) async {
+    log.i('parameter artwork with title: ${artwork?.title}');
+    //DialogResponse? response =
+    await _dialogService.showCustomDialog(
+      variant: DialogType.productDetails,
+      hasImage: true,
+      barrierDismissible: true,
+      imageUrl: artwork?.artworkUrl,
+      title: artwork?.title,
+      description: artwork?.description,
+      data: artwork,
+    );
+  }
+
+  Future deleteArtwork(Artwork? artwork) async {
+    log.i('parameter artwork with title: ${artwork?.title}');
+    DialogResponse? response = await _dialogService.showDialog(
+      title: 'Alert',
+      description: dialogDescDelArtworkTxt,
+      buttonTitle: 'Yes',
+      buttonTitleColor: black,
+      cancelTitle: 'Cancel',
+    );
+    log.i('response confirmation is: ${response?.confirmed}');
+    if (response?.confirmed == true) {
+      // to delete the reference in fireStore
+      try {
+        _fireStoreDbService.removeArtworkFromFS(artwork!);
+      } catch (e) {
+        reusableFunction.snackBar(
+            message:
+                'unable to delete artwork from fireStore, contact developer: ${e.toString()}',
+            duration: const Duration(seconds: 1));
+      }
+      // to delete the reference in cloudStorage
+      try {
+        _cloudStorageService.removeArtworkFromStorage(artwork!);
+      } catch (e) {
+        reusableFunction.snackBar(
+            message:
+                'unable to delete artwork from cloudStorage, contact developer: ${e.toString()}',
+            duration: const Duration(seconds: 1));
+      }
+    }
   }
 }
