@@ -50,7 +50,7 @@ class AdminHomeViewModel extends MhgBaseViewModel {
       {required XFile? selectedImage,
       required String title,
       required String bannerTxt}) async {
-    await _cloudStorageService.uploadImage(
+    await _cloudStorageService.uploadBanner(
       imageToUpload: selectedImage,
       title: title,
       folderName: bannerTxt,

@@ -22,6 +22,7 @@ class FirestoreDbService with ReactiveServiceMixin {
       ReactiveValue<Banner?>(null);
 
   Banner? get tryingAnApproach => _tryingAnApproach.value;
+
   //set tryingAnApproach(Banner? banner) => _tryingAnApproach.value = banner;
 
   Artwork? _artworkDataFromFirestore;
@@ -97,25 +98,33 @@ class FirestoreDbService with ReactiveServiceMixin {
     }
   }
 
-  Future addArtwork(Artwork artworkData) async {
+  Future<Artwork?> addArtwork(Artwork artworkData) async {
     log.i('parameter, artwork title: ${artworkData.title}');
     _collectionRef = FirebaseFirestore.instance.collection(artworkTxt);
+    Artwork? artwork;
     try {
       var docRef = await _collectionRef.add(artworkData.toMap());
-      getArtworkRealtimeUpdate(id: docRef.id);
+      //getArtworkRealtimeUpdate(id: docRef.id);
       /*log.i(
         'Artwork return with title: ${_artwork?.title} \n '
         'and imageURL: ${_artwork?.artworkUrl}',
       );*/
       //return _artwork;
       //return artwork;
-      // var temp = docRef.withConverter(
-      //   fromFirestore: Artwork.fromDocument,
-      //   toFirestore: (Artwork artwork, _) => artwork.toMap(),
-      // );
-      // final docSnap = await temp.get();
-      // final Artwork? artwork = docSnap.data();
-      // return artwork;
+      var docId = docRef.id;
+      var temp = docRef.withConverter(
+        fromFirestore: Artwork.fromDocument,
+        toFirestore: (Artwork artwork, _) => artwork.toMap(),
+      );
+      var docSnap = await temp.get();
+      var temp1 = docSnap.data();
+      artwork = Artwork(
+        artworkUrl: temp1?.artworkUrl,
+        title: temp1?.title,
+        description: temp1?.description,
+        price: temp1?.price,
+        id: docId,
+      );
     } catch (e) {
       // TODO: Find or create a way to repeat error handling without so much repeated code
       if (e is PlatformException) {
@@ -124,6 +133,7 @@ class FirestoreDbService with ReactiveServiceMixin {
 
       print('Platform exception thrown is: ${e.toString()}');
     }
+    return artwork;
   }
 
   getArtworkRealtimeUpdate({required String id}) {

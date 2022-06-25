@@ -41,6 +41,12 @@ class Admin1stTierViewModel extends MultipleFutureViewModel {
 
   Artwork? _artworkDataFromStorage;
   Artwork? get artworkDataFromStorage => _artworkDataFromStorage;
+  Artwork? get tempArtworkDataFromStorage {
+    return _cloudStorageService.artworkDataFromFirestore;
+  }
+
+  List<Artwork?>? get reactiveListOfArtwork =>
+      _cloudStorageService.reactiveListOfArtwork;
   Artwork? get reactiveArtworkData => _cloudStorageService.reactiveArtworkData;
 
   String get fetchedNumber => dataMap![_numberDelayFuture];
@@ -101,7 +107,7 @@ class Admin1stTierViewModel extends MultipleFutureViewModel {
         reusableFunction.snackBar(message: 'No banner image selected');
       } else {
         //_fireStoreDbService.tryingAnApproach = null;
-        _bannerDataFromStorage = await _cloudStorageService.uploadImage(
+        _bannerDataFromStorage = await _cloudStorageService.uploadBanner(
           imageToUpload: _selectedImage,
           title: title,
           folderName: bannerTxt,
@@ -132,7 +138,7 @@ class Admin1stTierViewModel extends MultipleFutureViewModel {
     return 'String data';
   }
 
-  List<Artwork?> listOfArtwork = [];
+  List<Artwork?> listOfArtwork = List<Artwork?>.empty(growable: true);
 
   Future callAddArtwork() async {
     log.i('| no parameter');
@@ -142,19 +148,40 @@ class Admin1stTierViewModel extends MultipleFutureViewModel {
       takesInput: true,
     );
     if (response?.data != null) {
-      _artworkDataFromStorage = await _cloudStorageService.uploadImage(
+      _artworkDataFromStorage = await _cloudStorageService.uploadArtwork(
         imageToUpload: response?.data[0],
         title: response?.data[1],
         folderName: artworkTxt,
         artworkData: response?.data,
       );
+      //notifySourceChanged();
+      /*if (_artworkDataFromStorage == null &&
+          _cloudStorageService.reactiveArtworkData != null) {
+        listOfArtwork.add(_cloudStorageService.reactiveArtworkData);
+        log.i(
+            '_artworkDataFromStorage has title : ${_artworkDataFromStorage?.title}');
+        //notifyListeners();
+      }
       if (_artworkDataFromStorage != null) {
         listOfArtwork.add(_artworkDataFromStorage);
-      }
-      if (_artworkDataFromStorage == null) {
-        listOfArtwork.add(reactiveArtworkData);
-      }
+        log.i(
+            '_artworkDataFromStorage has title : ${_artworkDataFromStorage?.title}');
+        _cloudStorageService.reactiveListOfArtwork;
+        // _bannerDataFromFirestore;
+        //_selectedImage = null;
+        //notifyListeners();
+      }*/
     }
+  }
+
+  int length = 0;
+
+  int addReactive(Artwork? reactiveArtworkData) {
+    listOfArtwork.add(reactiveArtworkData);
+    length = listOfArtwork.length;
+    log.i('after adding reactiveData listOfArtwork.length is : $length');
+    //notifyListeners();
+    return length;
   }
 
   Future<String> getErrorMessage() async {

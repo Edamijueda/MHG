@@ -1,13 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:mhg/constants.dart';
-import 'package:mhg/ui/screens/admin/admin_home/admin_home_components.dart';
-import 'package:mhg/ui/screens/admin/admin_home/admin_home_view_model.dart';
-import 'package:mhg/ui/screens/admin/tier1/tier1_components.dart';
 import 'package:mhg/ui/screens/admin/tier1/tier1_viewmodel.dart';
-import 'package:mhg/ui/screens/helpers/reusable_widgets.dart';
-import 'package:mhg/ui/screens/reusable_views_components.dart';
-import 'package:mhg/ui/setup/dialog/product/product_entry_viewmodel.dart';
 import 'package:mhg/ui/theme/colours.dart';
+import 'package:mhg/ui/theme/typography.dart';
 import 'package:mhg/utils/formatter/currency.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -58,10 +55,8 @@ class _ProductEntryViewState extends State<ProductEntryView> {
       builder: (context, model, child) => Dialog(
         backgroundColor: greyDark,
         child: Container(
-          //margin: EdgeInsets.all(20.0),
-          //color: greyDark,
           width: 305.0,
-          height: 500.0,
+          height: 500.0, // prev height used 500.0
           child: Padding(
             padding:
                 const EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
@@ -69,7 +64,29 @@ class _ProductEntryViewState extends State<ProductEntryView> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  ImageSelectionContainer(model: model),
+                  // ImageSelectionContainer(model: model),
+                  GestureDetector(
+                    onTap: () {
+                      model.selectImage();
+                    },
+                    child: Container(
+                      width: 220.0,
+                      height: 150.0,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: Colors.white70,
+                        borderRadius: borderRadius10,
+                      ),
+                      //(model.bannerDataFromFirestore() != null)
+                      child: (model.selectedImage == null)
+                          ? Text(
+                              tapToAddTxt,
+                              style: textStyle14FW400DarkGrey,
+                              //textAlign: TextAlign.center,
+                            )
+                          : Image.file(File(model.selectedImage!.path)),
+                    ),
+                  ),
                   Padding(
                     padding: const EdgeInsets.only(top: 15.0, bottom: 10.0),
                     child: TextField(
@@ -150,16 +167,15 @@ class _ProductEntryViewState extends State<ProductEntryView> {
                             width: 90.0,
                             child: ElevatedButton(
                               onPressed: () {
-                                if(model.selectedImage == null) {
+                                if (model.selectedImage == null) {
                                   //model.showSnackBar();
-                                }
-                                else {
+                                } else {
                                   setState(() {
-                                    if(titleController.text.isEmpty) {
+                                    if (titleController.text.isEmpty) {
                                       titleValidator = true;
-                                    } else if(descController.text.isEmpty) {
+                                    } else if (descController.text.isEmpty) {
                                       descValidator = true;
-                                    } else if(priceController.text.isEmpty) {
+                                    } else if (priceController.text.isEmpty) {
                                       priceValidator = true;
                                     } else {
                                       widget.onDialogTap(
@@ -168,7 +184,9 @@ class _ProductEntryViewState extends State<ProductEntryView> {
                                             model.selectedImage,
                                             titleController.text,
                                             descController.text,
-                                            toCurrency.format(int.parse(priceController.text)),//priceController.text,
+                                            toCurrency.format(int.parse(
+                                                priceController.text)),
+                                            //priceController.text,
                                           ],
                                         ),
                                       );

@@ -18,71 +18,87 @@ class Admin1stTierView extends StatefulWidget {
 }
 
 class _Admin1stTierViewState extends State<Admin1stTierView> {
-  final log = getStackedLogger('_Admin1stTierViewState');
+  final log = getStackedLogger('Admin1stTierView');
+
+  Admin1stTierViewModel admin1stTierViewModel = Admin1stTierViewModel();
+
+  /* List<Artwork?>?  addReactiveArtworkDataToList() {
+    List<Artwork?> temp;
+    if ((admin1stTierViewModel.reactiveArtworkData != null)) {
+       temp = admin1stTierViewModel.listOfArtwork
+          .add(admin1stTierViewModel.reactiveArtworkData);
+    }
+    return null;
+  }*/
 
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<Admin1stTierViewModel>.reactive(
       viewModelBuilder: () => Admin1stTierViewModel(),
-      builder: (context, model, child) => Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(8.0, 16.0, 8.0, 8.0),
-            child: Row(
-              children: [
-                ImageSelectionContainer(model: model),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    customTextBtn(
-                      onPressed: () {
-                        model.addImage(title: firstTierTxt);
-                      },
-                      btnColour: pVariantColour,
-                      btnTxt: saveBannerTxt,
-                      btnTextStyle: TextStyle(
-                        decoration: TextDecoration.underline,
+      builder: (context, model, child) => SingleChildScrollView(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(8.0, 16.0, 8.0, 8.0),
+              child: Row(
+                children: [
+                  ImageSelectionContainer(model: model),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      customTextBtn(
+                        onPressed: () {
+                          model.addImage(title: firstTierTxt);
+                        },
+                        btnColour: pVariantColour,
+                        btnTxt: saveBannerTxt,
+                        btnTextStyle: TextStyle(
+                          decoration: TextDecoration.underline,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            buildDivider(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(left: 10.0),
+                  child: Text(
+                    manageArtworkTxt,
+                    style: textStyle16FW400,
+                  ),
+                ),
+                SizedBox(width: 185.0),
+                customTextBtn(
+                  onPressed: () => model.callAddArtwork(),
+                  btnColour: greyDark,
+                  btnTxt: addTxt,
+                  btnTextStyle: textStyle14FW400DarkGrey,
                 ),
               ],
             ),
-          ),
-          buildDivider(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(left: 10.0),
-                child: Text(
-                  manageArtworkTxt,
-                  style: textStyle16FW400,
-                ),
-              ),
-              SizedBox(width: 185.0),
-              customTextBtn(
-                onPressed: () => model.callAddArtwork(),
-                btnColour: greyDark,
-                btnTxt: addTxt,
-                btnTextStyle: textStyle14FW400DarkGrey,
-              ),
-            ],
-          ),
-          SizedBox(
-            height: 190.0, //original value 155.0,
-            child: ListView(
-              padding: EdgeInsets.symmetric(horizontal: 10.0),
-              scrollDirection: Axis.horizontal,
-              children: model.listOfArtwork
-                  .map((data) => _ArtworkCard(
-                        artwork: data,
-                        model: model,
-                      ))
-                  .toList(),
-            ),
-          ),
-        ],
+            (model.reactiveListOfArtwork != null)
+                ? SizedBox(
+                    height: 190.0, //original value 155.0,
+                    child: ListView(
+                      padding: EdgeInsets.symmetric(horizontal: 10.0),
+                      scrollDirection: Axis.horizontal,
+                      children: model.reactiveListOfArtwork!
+                          .map((e) => _ArtworkCard(artwork: e, model: model))
+                          .toList(),
+                    ),
+                  )
+                : Container(
+                    height: 155.0,
+                    width: 155.0,
+                    color: Colors.brown,
+                  )
+          ],
+        ),
       ),
       onModelReady: (model) => model.callRealTimeOperations(),
       //createNewModelOnInsert: true,
@@ -108,68 +124,63 @@ class _ArtworkCard extends StatelessWidget {
       child: Container(
         height: 155.0,
         width: 155.0,
-        child: (model.fetchingAddArtworkToFirestore)
-            ? Center(child: CircularProgressIndicator())
-            : Column(
+        child: Column(
+          children: [
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(5.0, 5.0, 5.0, 3.0),
+                child: (artwork !=
+                        null) //model.artworkDataFromFirestore != null
+                    ? CachedNetworkImage(
+                        //fit: BoxFit.fitHeight,
+                        //height: 115.0,
+                        imageUrl: artwork?.artworkUrl ??
+                            'https://previews.123rf.com/images/sebicla/sebicla1303/sebicla130300159/18458190-contact-admin.jpg',
+                        // D else image ask u to see admin
+                        progressIndicatorBuilder:
+                            (context, url, downloadProgress) {
+                          if (downloadProgress.progress != null) {
+                            final percent =
+                                (downloadProgress.progress! * 100).round();
+                            return Text('$percent% done loading from database');
+                          }
+                          return Center(child: CircularProgressIndicator());
+                        },
+                      )
+                    : Text('Listener fail to fetch image'),
+              ),
+            ),
+            Container(
+              height: 32.0,
+              decoration: BoxDecoration(
+                  color: grey,
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(4.0),
+                    bottomRight: Radius.circular(4.0),
+                  )),
+              child: Row(
+                //crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(5.0, 5.0, 5.0, 3.0),
-                      child: (artwork !=
-                              null) //model.artworkDataFromFirestore != null
-                          ? CachedNetworkImage(
-                              //fit: BoxFit.fitHeight,
-                              //height: 115.0,
-                              imageUrl:
-                                  artwork?.artworkUrl ?? 'shorturl.at/nprHV',
-                              // D else image ask u to see admin
-                              progressIndicatorBuilder:
-                                  (context, url, downloadProgress) {
-                                if (downloadProgress.progress != null) {
-                                  final percent =
-                                      (downloadProgress.progress! * 100)
-                                          .round();
-                                  return Text(
-                                      '$percent% done loading from database');
-                                }
-                                return Center(
-                                    child: CircularProgressIndicator());
-                              },
-                            )
-                          : Text('Listener fail to fetch image'),
-                    ),
+                  buildIconButton(
+                    icon: Icon(Icons.info, color: Colors.black26),
+                    onClickPrintOnConsole: 'info icon is clicked',
+                    padding: EdgeInsets.all(8.0),
                   ),
-                  Container(
-                    height: 32.0,
-                    decoration: BoxDecoration(
-                        color: grey,
-                        borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(4.0),
-                          bottomRight: Radius.circular(4.0),
-                        )),
-                    child: Row(
-                      //crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        buildIconButton(
-                          icon: Icon(Icons.info, color: Colors.black26),
-                          onClickPrintOnConsole: 'info icon is clicked',
-                          padding: EdgeInsets.all(8.0),
-                        ),
-                        buildIconButton(
-                          icon: Icon(Icons.more_vert, color: Colors.black26),
-                          onClickPrintOnConsole: 'more icon is clicked',
-                          padding: EdgeInsets.all(8.0),
-                        ),
-                        buildIconButton(
-                          icon: Icon(Icons.cancel, color: Colors.black26),
-                          onClickPrintOnConsole: 'cancel icon is clicked',
-                          padding: EdgeInsets.all(8.0),
-                        ),
-                      ],
-                    ),
+                  buildIconButton(
+                    icon: Icon(Icons.more_vert, color: Colors.black26),
+                    onClickPrintOnConsole: 'more icon is clicked',
+                    padding: EdgeInsets.all(8.0),
+                  ),
+                  buildIconButton(
+                    icon: Icon(Icons.cancel, color: Colors.black26),
+                    onClickPrintOnConsole: 'cancel icon is clicked',
+                    padding: EdgeInsets.all(8.0),
                   ),
                 ],
               ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -323,3 +334,51 @@ class _ArtworkCard extends StatelessWidget {
               ],
             ),
           ),*/ // this widget was used to test banner read write from firebase
+/*(() {
+                // your code here
+                if (model.reactiveArtworkData != null ||
+                    model.artworkDataFromStorage != null) {
+                  if (model.reactiveArtworkData != null &&
+                      model.artworkDataFromStorage == null) {
+                    var length = model.addReactive(model.reactiveArtworkData);
+                    log.i(
+                        'after adding reactiveData, returned length is : $length');
+                    log.i(
+                        'after adding reactiveData, length from viewModel is: ${model.length}');
+                    return ListView.builder(
+                      itemCount: length,
+                      itemBuilder: (context, index) {
+                        var artworkData = model.listOfArtwork[index];
+                        return _ArtworkCard(
+                          artwork: artworkData,
+                          model: model,
+                        );
+                      },
+                    );
+                  } else {
+                    var length =
+                        model.addReactive(model.artworkDataFromStorage);
+                    log.i(
+                        'after adding artworkDataFromStorage, returned length is: $length');
+                    log.i(
+                        'after adding artworkDataFromStorage, length from viewModel is: ${model.length}');
+                    return ListView.builder(
+                      itemCount: length,
+                      itemBuilder: (context, index) {
+                        var artworkData = model.listOfArtwork[index];
+                        return _ArtworkCard(
+                          artwork: artworkData,
+                          model: model,
+                        );
+                      },
+                    );
+                  }
+                } else {
+                  return Container(
+                    height: 155.0,
+                    width: 155.0,
+                    color: Colors.indigo,
+                    child: Text('Default container return'),
+                  );
+                }
+              }())*/ // this widget was used to test list of artwork
