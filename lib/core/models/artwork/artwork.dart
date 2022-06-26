@@ -8,6 +8,7 @@ part 'artwork.freezed.dart';
 @freezed
 class Artwork with _$Artwork {
   const Artwork._();
+
   const factory Artwork({
     required final String? artworkUrl,
     required final String? title,
@@ -32,11 +33,12 @@ class Artwork with _$Artwork {
     SnapshotOptions? options,
   ) {
     return Artwork(
-        //id: data.id,
-        artworkUrl: snapshot.get(artworkUrlTxt),
-        title: snapshot.get(titleTxt),
-        description: snapshot.get(descTxt),
-        price: snapshot.get(priceTxt),
-        customTitle: snapshot.get(customTitleTxt));
+      artworkUrl: snapshot.get(artworkUrlTxt),
+      title: snapshot.get(titleTxt),
+      description: snapshot.get(descTxt),
+      price: snapshot.get(priceTxt),
+      customTitle: snapshot.get(customTitleTxt),
+      id: snapshot.id, //reference.id, // Both return desired id
+    );
   }
 }

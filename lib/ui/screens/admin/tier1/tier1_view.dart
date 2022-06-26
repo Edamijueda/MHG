@@ -39,7 +39,8 @@ class _Admin1stTierViewState extends State<Admin1stTierView> {
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.fromLTRB(8.0, 16.0, 8.0, 8.0),
+              //prev used top:16, bottom:8, use new value to use column space
+              padding: const EdgeInsets.fromLTRB(8.0, 24.0, 8.0, 16.0),
               child: Row(
                 children: [
                   ImageSelectionContainer(model: model),
@@ -62,6 +63,7 @@ class _Admin1stTierViewState extends State<Admin1stTierView> {
               ),
             ),
             buildDivider(),
+            //SizedBox(height: 10.0), // to give height spacing
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
@@ -81,6 +83,7 @@ class _Admin1stTierViewState extends State<Admin1stTierView> {
                 ),
               ],
             ),
+            SizedBox(height: 10.0), // to give height spacing
             (model.reactiveListOfArtwork != null)
                 ? SizedBox(
                     height: 190.0, //original value 155.0,
@@ -92,11 +95,12 @@ class _Admin1stTierViewState extends State<Admin1stTierView> {
                           .toList(),
                     ),
                   )
-                : Container(
+                : SizedBox.shrink()
+            /*: Container(
                     height: 155.0,
                     width: 155.0,
                     color: Colors.brown,
-                  )
+                  )*/
           ],
         ),
       ),

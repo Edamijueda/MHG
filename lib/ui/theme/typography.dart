@@ -126,7 +126,7 @@ const textStyleWhiteBold16 = TextStyle(
   fontWeight: FontWeight.bold,
   letterSpacing: 0.2,
   height: 0.9,
-); // Used by Customer/Retailer Strings
+); // Used by Customer/Retailer Strings, AdminHomeView()
 
 const textStyleBlackBold16 = TextStyle(
   color: black,

@@ -42,6 +42,11 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                   style: TextStyle(fontSize: 18.0),
                 ),
                 SizedBox(height: 10.0),
+                Text(
+                  widget.request.data.id,
+                  style: TextStyle(fontSize: 18.0),
+                ),
+                SizedBox(height: 10.0),
                 Container(
                   width: 230.0, // previously use 220
                   height: 180.0, // previously use 150

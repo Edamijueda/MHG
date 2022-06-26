@@ -22,6 +22,7 @@ const String passwordHintText = 'Password';
 const String priceHintTxt = '\$Price';
 const String priceTxt = 'price';
 const String customTitleTxt = 'customTitle';
+const String idTxt = 'id';
 const String titleTxt = 'title';
 const String searchItemHintTxt = 'Search item';
 const String descHintTxt = 'write short description';

@@ -107,6 +107,7 @@ class FirestoreDbService with ReactiveServiceMixin {
     }
   }
 
+  List<Artwork?> tempReactiveList = List<Artwork?>.empty(growable: true);
   Future addArtwork(Artwork artworkData) async {
     log.i('parameter, artwork title: ${artworkData.title}');
     _collectionRef = FirebaseFirestore.instance.collection(artworkTxt);
@@ -128,7 +129,6 @@ class FirestoreDbService with ReactiveServiceMixin {
         customTitle: temp1?.customTitle,
         id: docId,
       );
-      List<Artwork?> tempReactiveList = List<Artwork?>.empty(growable: true);
       tempReactiveList.add(artworkDataFromFirestore);
       _reactiveListOfArtwork.value = tempReactiveList;
       notifyListeners();
@@ -150,20 +150,16 @@ class FirestoreDbService with ReactiveServiceMixin {
     }
   }
 
-  getArtworkRealtimeUpdate({required String id}) {
-    log.i('parameter: $id');
+  getArtworkRealtimeUpdate() {
+    log.i('no parameter');
     //Artwork? artworkData;
-    FirebaseFirestore.instance
-        .collection(artworkTxt)
-        .doc(id)
-        .snapshots()
-        .listen(
-      (event) async {
-        var docRef = event.reference.withConverter(
-            fromFirestore: Artwork.fromDocument,
-            toFirestore: (Artwork artwork, _) => artwork.toMap());
-        var docSnap = await docRef.get();
-        Artwork? temp = docSnap.data();
+    FirebaseFirestore.instance.collection(artworkTxt).snapshots().listen(
+      (event) {
+        _reactiveListOfArtwork.value =
+            event.docs.map((e) => Artwork.fromDocument(e, null)).toList();
+        //notifyListeners();
+        //_reactiveListOfArtwork.value = event.docs.cast();
+
         /*_artworkDataFromFirestore = Artwork(
           artworkUrl: temp?.artworkUrl,
           title: temp?.title,

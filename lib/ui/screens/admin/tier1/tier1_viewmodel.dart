@@ -180,7 +180,7 @@ class Admin1stTierViewModel extends MultipleFutureViewModel {
   }
 
   void callArtworkRealtimeUpdate() {
-    // _fireStoreDbService.getArtworkRealtimeUpdate();
+    _fireStoreDbService.getArtworkRealtimeUpdate();
   }
 
   Future viewProductDetails(Artwork? artwork) async {

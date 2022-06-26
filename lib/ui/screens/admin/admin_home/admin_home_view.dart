@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:mhg/constants.dart';
 import 'package:mhg/ui/screens/admin/admin_home/admin_home_view_model.dart';
 import 'package:mhg/ui/screens/admin/tier1/tier1_view.dart';
@@ -47,7 +48,7 @@ class _AdminHomeViewState extends State<AdminHomeView>
       initialiseSpecialViewModelsOnce: true,
       viewModelBuilder: () => AdminHomeViewModel(),
       builder: (context, model, child) => Scaffold(
-        backgroundColor: backgroundColour,
+        backgroundColor: grey, //backgroundColour,
         //Colors.tealAccent,//backgroundColour,
         body: getViewForIndex(model.currentIndex, model),
         bottomNavigationBar: BottomNavigationBar(
@@ -86,8 +87,8 @@ class _AdminHomeViewState extends State<AdminHomeView>
           child: Column(
             children: [
               Container(
-                padding: EdgeInsets.only(top: 5.0),
-                color: pVariantColour, //Colors.teal.shade800,
+                padding: EdgeInsets.only(top: 15.0), // prev top: 5.0
+                color: Colors.teal.shade800,
                 child: build2ColumnTabBar(
                   text4column1: customer,
                   text4column2: retailer,
@@ -102,7 +103,7 @@ class _AdminHomeViewState extends State<AdminHomeView>
                       child: Column(
                         children: [
                           Container(
-                            color: white,
+                            color: backgroundColour, //white,
                             child: build2ColumnTabBar(
                               text4column1: artworkTxt,
                               text4column2: deviceTxt,
