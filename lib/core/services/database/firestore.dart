@@ -9,11 +9,13 @@ import 'package:stacked/stacked.dart';
 
 class FirestoreDbService with ReactiveServiceMixin {
   FirestoreDbService() {
-    listenToReactiveValues([_tryingAnApproach, _reactiveListOfArtwork]);
+    listenToReactiveValues([
+      _tryingAnApproach,
+      _reactiveListOfArtwork,
+      _secTierReactiveListOfArtwork,
+      _thirdTierReactiveListOfArtwork
+    ]);
   }
-  // Firestore class have issue calling CloudStorageService
-  /*final CloudStorageService _cloudStorageService =
-      locator<CloudStorageService>();*/
 
   final log = getStackedLogger('FirestoreDbService');
   final ReusableFunction reusableFunction = ReusableFunction();
@@ -28,6 +30,16 @@ class FirestoreDbService with ReactiveServiceMixin {
       ReactiveValue<List<Artwork?>?>(null);
 
   List<Artwork?>? get reactiveListOfArtwork => _reactiveListOfArtwork.value;
+  late final ReactiveValue<List<Artwork?>?> _secTierReactiveListOfArtwork =
+      ReactiveValue<List<Artwork?>?>(null);
+
+  List<Artwork?>? get secTierReactiveListOfArtwork =>
+      _secTierReactiveListOfArtwork.value;
+  late final ReactiveValue<List<Artwork?>?> _thirdTierReactiveListOfArtwork =
+      ReactiveValue<List<Artwork?>?>(null);
+
+  List<Artwork?>? get thirdTierReactiveListOfArtwork =>
+      _thirdTierReactiveListOfArtwork.value;
 
   late final ReactiveValue<Banner?> _tryingAnApproach =
       ReactiveValue<Banner?>(null);
@@ -45,8 +57,6 @@ class FirestoreDbService with ReactiveServiceMixin {
     if (docSnapshot.exists) {
       try {
         await docSnapshot.reference.update(bannerData.toMap());
-        //var id = docSnapshot.reference.id;
-        //getBannerRealtimeUpdate(docId: id);
         var ref = docSnapshot.reference.withConverter(
             fromFirestore: Banner.fromDocument,
             toFirestore: (Banner banner, _) => banner.toMap());
@@ -107,10 +117,15 @@ class FirestoreDbService with ReactiveServiceMixin {
     }
   }
 
-  List<Artwork?> tempReactiveList = List<Artwork?>.empty(growable: true);
-  Future addArtwork(Artwork artworkData) async {
-    log.i('parameter, artwork title: ${artworkData.title}');
-    _collectionRef = FirebaseFirestore.instance.collection(artworkTxt);
+  List<Artwork?>? _tempFirstTierList = List<Artwork?>.empty(growable: true);
+  List<Artwork?>? _tempSecTierList = List<Artwork?>.empty(growable: true);
+  List<Artwork?>? _tempThirdTierList = List<Artwork?>.empty(growable: true);
+
+  Future addArtwork(
+      {required Artwork artworkData, required String path}) async {
+    log.i(
+        'param are artworkTitle: ${artworkData.title} \n collectionPath: $path');
+    _collectionRef = FirebaseFirestore.instance.collection(path);
     Artwork? artworkDataFromFirestore;
     try {
       var docRef = await _collectionRef.add(artworkData.toMap());
@@ -129,18 +144,31 @@ class FirestoreDbService with ReactiveServiceMixin {
         customTitle: temp1?.customTitle,
         id: docId,
       );
-      tempReactiveList.add(artworkDataFromFirestore);
-      _reactiveListOfArtwork.value = tempReactiveList;
-      notifyListeners();
-      log.i(
-          'artworkDataFromFirestore imageURL: ${artworkDataFromFirestore.artworkUrl} and \n'
-          'title: ${artworkDataFromFirestore.title}');
-      log.i(
-          'tempReactiveList has length: ${tempReactiveList.length}, \n imageURL: ${tempReactiveList.last?.artworkUrl} and \n'
-          'title: ${tempReactiveList.last?.title}');
-      log.i(
-          '_reactiveListOfArtwork length: ${_reactiveListOfArtwork.value?.length} imageURL: ${_reactiveListOfArtwork.value?.last?.artworkUrl} and \n'
-          'title: ${_reactiveListOfArtwork.value?.last?.title}');
+      if (path == firstTierArtworkTxt) {
+        _tempFirstTierList = _reactiveListOfArtwork.value;
+        _tempFirstTierList?.add(artworkDataFromFirestore);
+        _reactiveListOfArtwork.value = _tempFirstTierList;
+        //notifyListeners();
+        log.i(
+            'artworkDataFromFirestore imageURL: ${artworkDataFromFirestore.artworkUrl} and \n'
+            'title: ${artworkDataFromFirestore.title}');
+        log.i(
+            'tempReactiveList has length: ${_tempFirstTierList?.length}, \n imageURL: ${_tempFirstTierList?.last?.artworkUrl} and \n'
+            'title: ${_tempFirstTierList?.last?.title}');
+        log.i(
+            '_reactiveListOfArtwork length: ${_reactiveListOfArtwork.value?.length} imageURL: ${_reactiveListOfArtwork.value?.last?.artworkUrl} and \n'
+            'title: ${_reactiveListOfArtwork.value?.last?.title}');
+      } else if (path == secondTierArtworkTxt) {
+        _tempSecTierList = _secTierReactiveListOfArtwork.value;
+        _tempSecTierList?.add(artworkDataFromFirestore);
+        _secTierReactiveListOfArtwork.value = _tempSecTierList;
+        //notifyListeners();
+      } else {
+        _tempThirdTierList = _thirdTierReactiveListOfArtwork.value;
+        _tempThirdTierList?.add(artworkDataFromFirestore);
+        _thirdTierReactiveListOfArtwork.value = _tempThirdTierList;
+        //notifyListeners();
+      }
     } catch (e) {
       // TODO: Find or create a way to repeat error handling without so much repeated code
       if (e is PlatformException) {
@@ -150,47 +178,67 @@ class FirestoreDbService with ReactiveServiceMixin {
     }
   }
 
-  getArtworkRealtimeUpdate() {
-    log.i('no parameter');
-    //Artwork? artworkData;
-    FirebaseFirestore.instance.collection(artworkTxt).snapshots().listen(
+  getArtworkRealtimeUpdate({required String path}) {
+    log.i('parameter collectionPath is: $path');
+    FirebaseFirestore.instance.collection(path).snapshots().listen(
       (event) {
-        _reactiveListOfArtwork.value =
-            event.docs.map((e) => Artwork.fromDocument(e, null)).toList();
-        //notifyListeners();
-        //_reactiveListOfArtwork.value = event.docs.cast();
-
-        /*_artworkDataFromFirestore = Artwork(
-          artworkUrl: temp?.artworkUrl,
-          title: temp?.title,
-          description: temp?.description,
-          price: temp?.price,
-          id: id,
-        );*/
-        /*log.i(
-          'ArtworkData return title: ${_artworkDataFromFirestore?.title} \n '
-          'and imageURL: ${_artworkDataFromFirestore?.artworkUrl}',
-        );*/
+        if (path == firstTierArtworkTxt) {
+          _reactiveListOfArtwork.value =
+              event.docs.map((e) => Artwork.fromDocument(e, null)).toList();
+          _tempFirstTierList = _reactiveListOfArtwork.value;
+          //notifyListeners();
+        } else if (path == secondTierArtworkTxt) {
+          _secTierReactiveListOfArtwork.value =
+              event.docs.map((e) => Artwork.fromDocument(e, null)).toList();
+          _tempSecTierList = _secTierReactiveListOfArtwork.value;
+          //notifyListeners();
+        } else {
+          _thirdTierReactiveListOfArtwork.value =
+              event.docs.map((e) => Artwork.fromDocument(e, null)).toList();
+          _tempThirdTierList = _thirdTierReactiveListOfArtwork.value;
+          //notifyListeners();
+        }
       },
-      onError: (error) =>
-          log.i('ArtworkRealtimeUpdate() Listener failed: $error'),
+      onError: (error) => log.i('$path RealtimeUpdate Listener failed: $error'),
     );
   }
 
-  void removeArtworkFromFS(Artwork artwork) {
-    log.i('parameter, id of artwork to remove is: ${artwork.id}');
-    _collectionRef = FirebaseFirestore.instance.collection(artworkTxt);
+  void removeArtworkFromFS({required Artwork artwork, required String path}) {
+    log.i('params are, artwork id: ${artwork.id} and \n collectionPath: $path');
+    _collectionRef = FirebaseFirestore.instance.collection(path);
     _collectionRef.doc(artwork.id).delete();
 
     // remove from our listOfArtwork
-    var tempList = _reactiveListOfArtwork.value;
-    bool? artworkWasRemoved = tempList?.remove(artwork);
-    if (artworkWasRemoved == true) {
-      reusableFunction.snackBar(
-          message: '${artwork.title} has been deleted',
-          duration: const Duration(seconds: 2));
+    if (path == firstTierArtworkTxt) {
+      _tempFirstTierList = _reactiveListOfArtwork.value!;
+      bool? artworkWasRemoved = _tempFirstTierList?.remove(artwork);
+      if (artworkWasRemoved == true) {
+        reusableFunction.snackBar(
+            message: '${artwork.title} has been deleted',
+            duration: const Duration(seconds: 2));
+      }
+      _reactiveListOfArtwork.value = _tempFirstTierList;
+      //notifyListeners();
+    } else if (path == secondTierArtworkTxt) {
+      _tempSecTierList = _secTierReactiveListOfArtwork.value!;
+      bool? artworkWasRemoved = _tempSecTierList?.remove(artwork);
+      if (artworkWasRemoved == true) {
+        reusableFunction.snackBar(
+            message: '${artwork.title} has been deleted',
+            duration: const Duration(seconds: 2));
+      }
+      _secTierReactiveListOfArtwork.value = _tempSecTierList;
+      //notifyListeners();
+    } else {
+      _tempThirdTierList = _thirdTierReactiveListOfArtwork.value!;
+      bool? artworkWasRemoved = _tempThirdTierList?.remove(artwork);
+      if (artworkWasRemoved == true) {
+        reusableFunction.snackBar(
+            message: '${artwork.title} has been deleted',
+            duration: const Duration(seconds: 2));
+      }
+      _thirdTierReactiveListOfArtwork.value = _tempThirdTierList;
+      //notifyListeners();
     }
-    _reactiveListOfArtwork.value = tempList;
-    notifyListeners();
   }
 }

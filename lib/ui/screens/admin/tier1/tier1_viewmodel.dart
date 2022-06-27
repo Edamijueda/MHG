@@ -34,6 +34,7 @@ class Admin1stTierViewModel extends MultipleFutureViewModel {
 
   Banner? get bannerDataFromStorage => _bannerDataFromStorage;
 
+  // get reactive values
   Banner? get reactiveBannerData {
     return _cloudStorageService.reactiveBannerDataFromStorage;
   }
@@ -41,14 +42,16 @@ class Admin1stTierViewModel extends MultipleFutureViewModel {
   List<Artwork?>? get reactiveListOfArtwork =>
       _fireStoreDbService.reactiveListOfArtwork;
 
-  //Artwork? get reactiveArtworkData => _cloudStorageService.reactiveArtworkData;
+  List<Artwork?>? get secTierReactiveListOfArtwork =>
+      _fireStoreDbService.secTierReactiveListOfArtwork;
+
+  List<Artwork?>? get thirdTierReactiveListOfArtwork =>
+      _fireStoreDbService.thirdTierReactiveListOfArtwork;
 
   // Multiple Futures attributes/functions
   String get fetchedNumber => dataMap![_numberDelayFuture];
 
   String get fetchedString => dataMap![_stringDelayFuture];
-
-  //String get fetchedStringAddArtworkToFS => dataMap![_addArtworkToFirestoreKey];
 
   dynamic get fetchedErrorAddArtworkToFS =>
       error(_addArtworkToFirestoreKey); //dataMap![_errorDelayFuture];
@@ -80,7 +83,6 @@ class Admin1stTierViewModel extends MultipleFutureViewModel {
       var tempImage = await _imageSelector.selectImage();
       _selectedImage = tempImage;
       log.i('_selectedImage is: ${_selectedImage?.path}');
-      //_bannerDataFromFirestore = null;
       notifyListeners();
     } catch (e) {
       reusableFunction.snackBar(
@@ -104,16 +106,13 @@ class Admin1stTierViewModel extends MultipleFutureViewModel {
             message: 'No banner image selected',
             duration: const Duration(seconds: 1));
       } else {
-        //_fireStoreDbService.tryingAnApproach = null;
         _bannerDataFromStorage = await _cloudStorageService.uploadBanner(
           imageToUpload: _selectedImage,
           title: title,
           folderName: bannerTxt,
         );
         if (reactiveBannerData == null) {
-          // _bannerDataFromFirestore;
           _selectedImage = null;
-          //notifyListeners();
         }
         if (reactiveBannerData != null) {
           // _bannerDataFromFirestore;
@@ -138,7 +137,7 @@ class Admin1stTierViewModel extends MultipleFutureViewModel {
 
   List<Artwork?> listOfArtwork = List<Artwork?>.empty(growable: true);
 
-  Future callAddArtwork() async {
+  Future callAddArtwork({required String artworkType}) async {
     log.i('| no parameter');
     DialogResponse? response = await _dialogService.showCustomDialog(
       variant: DialogType.productEntry,
@@ -147,6 +146,7 @@ class Admin1stTierViewModel extends MultipleFutureViewModel {
     );
     if (response?.data != null) {
       await _cloudStorageService.uploadArtwork(
+        collectionPath: artworkType,
         imageToUpload: response?.data[0],
         title: response?.data[1],
         folderName: artworkTxt,
@@ -161,13 +161,13 @@ class Admin1stTierViewModel extends MultipleFutureViewModel {
     throw Exception('This broke dude!');
   }
 
-  callRealTimeOperations() {
-    callBannerRealtimeUpdate();
-    callArtworkRealtimeUpdate();
+  callRealTimeOperations({required String docId, required String path}) {
+    callBannerRealtimeUpdate(id: docId);
+    callArtworkRealtimeUpdate(collectionPath: path);
   }
 
-  callBannerRealtimeUpdate() {
-    _cloudStorageService.getBannerRealtimeUpdate(docId: firstTierTxt);
+  callBannerRealtimeUpdate({required String id}) {
+    _cloudStorageService.getBannerRealtimeUpdate(docId: id);
     if (reactiveBannerData == null) {
       // _bannerDataFromFirestore;
       _selectedImage = null;
@@ -179,8 +179,8 @@ class Admin1stTierViewModel extends MultipleFutureViewModel {
         'bannerDataFromFirestore get the return title : ${_fireStoreDbService.tryingAnApproach?.bannerName}');
   }
 
-  void callArtworkRealtimeUpdate() {
-    _fireStoreDbService.getArtworkRealtimeUpdate();
+  void callArtworkRealtimeUpdate({required String collectionPath}) {
+    _fireStoreDbService.getArtworkRealtimeUpdate(path: collectionPath);
   }
 
   Future viewProductDetails(Artwork? artwork) async {
@@ -197,8 +197,12 @@ class Admin1stTierViewModel extends MultipleFutureViewModel {
     );
   }
 
-  Future deleteArtwork(Artwork? artwork) async {
-    log.i('parameter artwork with title: ${artwork?.title}');
+  Future deleteArtwork({
+    required Artwork? artwork,
+    required String collectionPath,
+  }) async {
+    log.i(
+        'parameters are; artworkData title: ${artwork?.title} and \n collectionPath: $collectionPath');
     DialogResponse? response = await _dialogService.showDialog(
       title: 'Alert',
       description: dialogDescDelArtworkTxt,
@@ -210,7 +214,10 @@ class Admin1stTierViewModel extends MultipleFutureViewModel {
     if (response?.confirmed == true) {
       // to delete the reference in fireStore
       try {
-        _fireStoreDbService.removeArtworkFromFS(artwork!);
+        _fireStoreDbService.removeArtworkFromFS(
+          artwork: artwork!,
+          path: collectionPath,
+        );
       } catch (e) {
         reusableFunction.snackBar(
             message:

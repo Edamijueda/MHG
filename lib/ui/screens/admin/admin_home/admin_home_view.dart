@@ -127,110 +127,17 @@ class _AdminHomeViewState extends State<AdminHomeView>
                                       child: TabBarView(
                                         controller: _tiersTabController,
                                         children: [
-                                          Admin1stTierView(),
-                                          // Column(
-                                          //   children: [
-                                          //     Padding(
-                                          //       padding:
-                                          //           const EdgeInsets.fromLTRB(8.0, 16.0, 8.0, 8.0),
-                                          //       child: Row(
-                                          //         children: [
-                                          //           ImageSelectionContainer(
-                                          //               model: model),
-                                          //           Column(
-                                          //             crossAxisAlignment:
-                                          //                 CrossAxisAlignment
-                                          //                     .start,
-                                          //             children: [
-                                          //               customTextBtn(
-                                          //                 onPressed: () {
-                                          //                   model.addImage(
-                                          //                       title:
-                                          //                           firstTierTxt);
-                                          //                 },
-                                          //                 btnColour:
-                                          //                     pVariantColour,
-                                          //                 btnTxt: saveBannerTxt,
-                                          //                 btnTextStyle:
-                                          //                     TextStyle(
-                                          //                   decoration:
-                                          //                       TextDecoration
-                                          //                           .underline,
-                                          //                 ),
-                                          //               ),
-                                          //             ],
-                                          //           ),
-                                          //         ],
-                                          //       ),
-                                          //     ),
-                                          //     buildDivider(),
-                                          //     Row(
-                                          //       mainAxisAlignment:
-                                          //           MainAxisAlignment.center,
-                                          //       children: <Widget>[
-                                          //         Padding(
-                                          //           padding:
-                                          //               const EdgeInsets.only(
-                                          //                   left: 10.0),
-                                          //           child: Text(
-                                          //             manageArtworkTxt,
-                                          //             style: textStyle16FW400,
-                                          //           ),
-                                          //         ),
-                                          //         SizedBox(width: 185.0),
-                                          //         customTextBtn(
-                                          //           onPressed: () =>
-                                          //               model.callAddArtwork(),
-                                          //           btnColour: greyDark,
-                                          //           btnTxt: addTxt,
-                                          //           btnTextStyle:
-                                          //               textStyle14FW400DarkGrey,
-                                          //         ),
-                                          //       ],
-                                          //     ),
-                                          //     /*SizedBox(
-                                          //       //height: MediaQuery.of(context).size.height,
-                                          //       height: 155.0,
-                                          //       child: ListView(
-                                          //         padding: EdgeInsets.symmetric(
-                                          //             horizontal: 10.0),
-                                          //         scrollDirection:
-                                          //             Axis.horizontal,
-                                          //         children: <Widget>[
-                                          //           ChooseArtwork(
-                                          //               imageURL:
-                                          //                   'lib/assets/guitar_artwork.png'),
-                                          //           ChooseArtwork(
-                                          //               imageURL:
-                                          //                   'lib/assets/mhg_bag_black.png'),
-                                          //           ChooseArtwork(
-                                          //               imageURL:
-                                          //                   'lib/assets/pet_image.png'),
-                                          //           ChooseArtwork(
-                                          //               imageURL:
-                                          //                   'lib/assets/jar_artwork.png'),
-                                          //           ChooseArtwork(
-                                          //               imageURL:
-                                          //                   'lib/assets/mhg_bag_milk_colour.png'),
-                                          //           ChooseArtwork(
-                                          //               imageURL:
-                                          //                   'lib/assets/mug_artwork.png'),
-                                          //         ],
-                                          //       ),
-                                          //     ),*/
-                                          //     Expanded(
-                                          //       child: Container(
-                                          //         //color: Colors.red,
-                                          //         height: 80.0,
-                                          //       ),
-                                          //     ),
-                                          //   ],
-                                          // ),
-                                          Container(
-                                            color: Colors.tealAccent,
+                                          Admin1stTierView(
+                                            tierType: firstTierTxt,
+                                            artworkType: firstTierArtworkTxt,
                                           ),
-                                          Container(
-                                            color: Colors.teal.shade900,
+                                          Admin1stTierView(
+                                            tierType: secondTierTxt,
+                                            artworkType: secondTierArtworkTxt,
+                                          ),
+                                          Admin1stTierView(
+                                            tierType: thirdTierTxt,
+                                            artworkType: thirdTierArtworkTxt,
                                           ),
                                         ],
                                       ),

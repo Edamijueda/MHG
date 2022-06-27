@@ -11,7 +11,14 @@ import 'package:mhg/ui/theme/typography.dart';
 import 'package:stacked/stacked.dart';
 
 class Admin1stTierView extends StatefulWidget {
-  const Admin1stTierView({Key? key}) : super(key: key);
+  final String tierType;
+  final String artworkType;
+
+  const Admin1stTierView({
+    Key? key,
+    required this.tierType,
+    required this.artworkType,
+  }) : super(key: key);
 
   @override
   State<Admin1stTierView> createState() => _Admin1stTierViewState();
@@ -21,15 +28,6 @@ class _Admin1stTierViewState extends State<Admin1stTierView> {
   final log = getStackedLogger('Admin1stTierView');
 
   Admin1stTierViewModel admin1stTierViewModel = Admin1stTierViewModel();
-
-  /* List<Artwork?>?  addReactiveArtworkDataToList() {
-    List<Artwork?> temp;
-    if ((admin1stTierViewModel.reactiveArtworkData != null)) {
-       temp = admin1stTierViewModel.listOfArtwork
-          .add(admin1stTierViewModel.reactiveArtworkData);
-    }
-    return null;
-  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +47,7 @@ class _Admin1stTierViewState extends State<Admin1stTierView> {
                     children: [
                       customTextBtn(
                         onPressed: () {
-                          model.addImage(title: firstTierTxt);
+                          model.addImage(title: widget.tierType);
                         },
                         btnColour: pVariantColour,
                         btnTxt: saveBannerTxt,
@@ -63,7 +61,6 @@ class _Admin1stTierViewState extends State<Admin1stTierView> {
               ),
             ),
             buildDivider(),
-            //SizedBox(height: 10.0), // to give height spacing
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
@@ -76,7 +73,8 @@ class _Admin1stTierViewState extends State<Admin1stTierView> {
                 ),
                 SizedBox(width: 185.0),
                 customTextBtn(
-                  onPressed: () => model.callAddArtwork(),
+                  onPressed: () =>
+                      model.callAddArtwork(artworkType: widget.artworkType),
                   btnColour: greyDark,
                   btnTxt: addTxt,
                   btnTextStyle: textStyle14FW400DarkGrey,
@@ -84,28 +82,74 @@ class _Admin1stTierViewState extends State<Admin1stTierView> {
               ],
             ),
             SizedBox(height: 10.0), // to give height spacing
-            (model.reactiveListOfArtwork != null)
-                ? SizedBox(
+            (() {
+              // your code here
+              if (widget.artworkType == firstTierArtworkTxt) {
+                if (model.reactiveListOfArtwork != null) {
+                  return SizedBox(
                     height: 190.0, //original value 155.0,
                     child: ListView(
                       padding: EdgeInsets.symmetric(horizontal: 10.0),
                       scrollDirection: Axis.horizontal,
                       children: model.reactiveListOfArtwork!
-                          .map((e) => _ArtworkCard(artwork: e, model: model))
+                          .map((e) => _ArtworkCard(
+                                artwork: e,
+                                model: model,
+                                artworkType: widget.artworkType,
+                              ))
                           .toList(),
                     ),
-                  )
-                : SizedBox.shrink()
-            /*: Container(
-                    height: 155.0,
-                    width: 155.0,
-                    color: Colors.brown,
-                  )*/
+                  );
+                } else {
+                  return SizedBox.shrink();
+                }
+              } else if (widget.artworkType == secondTierArtworkTxt) {
+                if (model.secTierReactiveListOfArtwork != null) {
+                  return SizedBox(
+                    height: 190.0, //original value 155.0,
+                    child: ListView(
+                      padding: EdgeInsets.symmetric(horizontal: 10.0),
+                      scrollDirection: Axis.horizontal,
+                      children: model.secTierReactiveListOfArtwork!
+                          .map((e) => _ArtworkCard(
+                                artwork: e,
+                                model: model,
+                                artworkType: widget.artworkType,
+                              ))
+                          .toList(),
+                    ),
+                  );
+                } else {
+                  return SizedBox.shrink();
+                }
+              } else {
+                if (model.thirdTierReactiveListOfArtwork != null) {
+                  return SizedBox(
+                    height: 190.0, //original value 155.0,
+                    child: ListView(
+                      padding: EdgeInsets.symmetric(horizontal: 10.0),
+                      scrollDirection: Axis.horizontal,
+                      children: model.thirdTierReactiveListOfArtwork!
+                          .map((e) => _ArtworkCard(
+                                artwork: e,
+                                model: model,
+                                artworkType: widget.artworkType,
+                              ))
+                          .toList(),
+                    ),
+                  );
+                } else {
+                  return SizedBox.shrink();
+                }
+              }
+            }())
           ],
         ),
       ),
-      onModelReady: (model) => model.callRealTimeOperations(),
-      //createNewModelOnInsert: true,
+      onModelReady: (model) => model.callRealTimeOperations(
+        docId: widget.tierType,
+        path: widget.artworkType,
+      ),
     );
   }
 }
@@ -113,11 +157,13 @@ class _Admin1stTierViewState extends State<Admin1stTierView> {
 class _ArtworkCard extends StatelessWidget {
   final Artwork? artwork;
   final Admin1stTierViewModel model;
+  final String artworkType;
 
   const _ArtworkCard({
     Key? key,
     required this.artwork,
     required this.model,
+    required this.artworkType,
   }) : super(key: key);
 
   @override
@@ -176,7 +222,8 @@ class _ArtworkCard extends StatelessWidget {
                   ),*/
                   IconButton(
                     icon: Icon(Icons.cancel, color: Colors.black26),
-                    onPressed: () => model.deleteArtwork(artwork),
+                    onPressed: () => model.deleteArtwork(
+                        artwork: artwork, collectionPath: artworkType),
                   ),
                 ],
               ),

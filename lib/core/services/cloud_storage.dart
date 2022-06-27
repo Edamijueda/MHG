@@ -131,6 +131,7 @@ class CloudStorageService with ReactiveServiceMixin {
 
   //Artwork? retrievedArtwork;
   Future uploadArtwork({
+    required String collectionPath,
     required XFile? imageToUpload,
     required String title,
     required String folderName,
@@ -172,31 +173,15 @@ class CloudStorageService with ReactiveServiceMixin {
             var downloadUrl = await taskSnapshot.ref.getDownloadURL();
             var retrieveCustomTitle = taskSnapshot.ref.name;
             log.i('retrieveCustomTitle: $retrieveCustomTitle');
-            //_artworkDataFromFirestore = await _fireStoreDbService.addArtwork(
-            await _fireStoreDbService.addArtwork(Artwork(
-                artworkUrl: downloadUrl,
-                title: title,
-                description: desc,
-                price: price,
-                customTitle: retrieveCustomTitle));
-            /*if (_artworkDataFromFirestore != null) {
-              tempReactiveList.add(_artworkDataFromFirestore);
-              _reactiveListOfArtwork.value = tempReactiveList;
-              //retrievedArtwork = _artworkDataFromFirestore;
-              notifyListeners();
-              log.i(
-                  '_artworkDataFromFirestore imageURL: ${_artworkDataFromFirestore?.artworkUrl} and \n'
-                  'title: ${_artworkDataFromFirestore?.title}');
-              log.i(
-                  'tempReactiveList has length: ${tempReactiveList.length}, \n imageURL: ${tempReactiveList.last?.artworkUrl} and \n'
-                  'title: ${tempReactiveList.last?.title}');
-              log.i(
-                  '_reactiveListOfArtwork length: ${_reactiveListOfArtwork.value?.length} imageURL: ${_reactiveListOfArtwork.value?.last?.artworkUrl} and \n'
-                  'title: ${_reactiveListOfArtwork.value?.last?.title}');
-              */ /*log.i(
-                  'retrievedArtwork imageURL: ${retrievedArtwork?.artworkUrl} and \n'
-                  'title: ${retrievedArtwork?.title}');*/ /*
-            }*/
+            await _fireStoreDbService.addArtwork(
+              artworkData: Artwork(
+                  artworkUrl: downloadUrl,
+                  title: title,
+                  description: desc,
+                  price: price,
+                  customTitle: retrieveCustomTitle),
+              path: collectionPath,
+            );
           } on FirebaseException catch (e) {
             print("Failed download from firebase storage with error '${e.code}'"
                 " and\n message: ${e.message}");
@@ -251,14 +236,5 @@ class CloudStorageService with ReactiveServiceMixin {
         .child(artworkTxt)
         .child(artwork.customTitle!);
     _fbStorageRef.delete();
-    /* var tempList = _reactiveListOfArtwork.value;
-    bool? artworkWasRemoved = tempList?.remove(artwork);
-    if (artworkWasRemoved == true) {
-      reusableFunction.snackBar(
-          message: '${artwork.title} has been deleted',
-          duration: const Duration(seconds: 2));
-    }
-    _reactiveListOfArtwork.value = tempList;
-    notifyListeners();*/
   }
 }
