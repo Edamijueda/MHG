@@ -40,6 +40,7 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                 Text(
                   widget.request.data.title,
                   style: TextStyle(fontSize: 18.0),
+                  overflow: TextOverflow.ellipsis,
                 ),
                 SizedBox(height: 10.0),
                 Text(
@@ -56,7 +57,7 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                     borderRadius: borderRadius10,
                   ),
                   child: CachedNetworkImage(
-                    imageUrl: widget.request.data.artworkUrl,
+                    imageUrl: widget.request.data.url,
                     /*imageUrl: widget.request.imageUrl ??
                         'https://previews.123rf.com/images/sebicla/sebicla1303/sebicla130300159/18458190-contact-admin.jpg',*/
                     // D else image ask u to see admin

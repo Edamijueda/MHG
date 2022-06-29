@@ -40,7 +40,7 @@ class Admin1stTierViewModel extends MultipleFutureViewModel {
   }
 
   List<Artwork?>? get reactiveListOfArtwork =>
-      _fireStoreDbService.reactiveListOfArtwork;
+      _fireStoreDbService.firstTierReactiveListOfArtwork;
 
   List<Artwork?>? get secTierReactiveListOfArtwork =>
       _fireStoreDbService.secTierReactiveListOfArtwork;
@@ -138,7 +138,7 @@ class Admin1stTierViewModel extends MultipleFutureViewModel {
   List<Artwork?> listOfArtwork = List<Artwork?>.empty(growable: true);
 
   Future callAddArtwork({required String artworkType}) async {
-    log.i('| no parameter');
+    log.i('param artworkType: $artworkType');
     DialogResponse? response = await _dialogService.showCustomDialog(
       variant: DialogType.productEntry,
       hasImage: true,
@@ -190,7 +190,7 @@ class Admin1stTierViewModel extends MultipleFutureViewModel {
       variant: DialogType.productDetails,
       hasImage: true,
       barrierDismissible: true,
-      imageUrl: artwork?.artworkUrl,
+      imageUrl: artwork?.url,
       title: artwork?.title,
       description: artwork?.description,
       data: artwork,
@@ -205,7 +205,7 @@ class Admin1stTierViewModel extends MultipleFutureViewModel {
         'parameters are; artworkData title: ${artwork?.title} and \n collectionPath: $collectionPath');
     DialogResponse? response = await _dialogService.showDialog(
       title: 'Alert',
-      description: dialogDescDelArtworkTxt,
+      description: dialogDescDelProductTxt,
       buttonTitle: 'Yes',
       buttonTitleColor: black,
       cancelTitle: 'Cancel',

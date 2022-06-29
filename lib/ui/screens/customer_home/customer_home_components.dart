@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:mhg/ui/theme/colours.dart';
-import 'package:mhg/ui/theme/typography.dart';
 import 'package:mhg/ui/screens/helpers/reusable_widgets.dart';
 import 'package:mhg/ui/screens/reusable_views_components.dart';
+import 'package:mhg/ui/theme/colours.dart';
+import 'package:mhg/ui/theme/typography.dart';
 
 import '../../../constants.dart';
 
@@ -86,7 +86,8 @@ class TiersTabBar extends StatelessWidget {
   const TiersTabBar({
     Key? key,
     TabController? controller,
-  } ) : _controller = controller, super(key: key);
+  })  : _controller = controller,
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -287,7 +288,7 @@ class DeviceTabBarView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<Tab> tabs = [
+    /*List<Tab> tabs = [
       Tab(text: 'Pipes'),
       Tab(text: 'Grinders'),
       Tab(text: 'Rollers'),
@@ -295,7 +296,7 @@ class DeviceTabBarView extends StatelessWidget {
       Tab(text: 'Bongs'),
       Tab(text: 'Dab Rings'),
       Tab(text: 'Bubblers'),
-    ];
+    ];*/
     return DefaultTabController(
       length: tabs.length,
       child: Column(

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
 import 'package:mhg/constants.dart';
 import 'package:mhg/ui/screens/admin/admin_home/admin_home_view_model.dart';
+import 'package:mhg/ui/screens/admin/devices/view.dart';
 import 'package:mhg/ui/screens/admin/tier1/tier1_view.dart';
 import 'package:mhg/ui/screens/customer_home/customer_home_components.dart';
 import 'package:mhg/ui/screens/helpers/reusable_widgets.dart';
@@ -144,13 +144,12 @@ class _AdminHomeViewState extends State<AdminHomeView>
                                     ),
                                   ],
                                 ),
-                                Container(
+                                AdminDeviceView(),
+                                /*Container(
                                   // width: 250.0,
                                   // height: 250.0,
                                   color: Colors.tealAccent,
-                                ),
-                                // ArtworkTabBarView(),
-                                // DeviceTabBarView(),
+                                ),*/
                               ],
                             ),
                           ),
@@ -195,48 +194,3 @@ class _AdminHomeViewState extends State<AdminHomeView>
     }
   }
 }
-
-/*class ImageSelectionContainer extends StatelessWidget {
-  final AdminHomeViewModel model;
-  const ImageSelectionContainer({
-    Key? key, required this.model,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        model.selectImage();
-      },
-      child: Container(
-        width: 220.0,
-        height: 150.0,
-        color: Colors.white70,
-        alignment: Alignment.center,
-        */ /*child: Builder(
-            builder: (context) {
-              if(model.selectedImage != null){
-                return Image.file(File(model.selectedImage!.path));
-              }
-              */ /**/ /*else if((model.selectedImage != null) && (model.downloaded != null)){
-                return Image.network(model.downloaded!.imageUrl);//Text('Image from DB');
-              }*/ /**/ /*
-              else {
-                return Text(
-                  tapToAddBannerTxt,
-                  style: textStyle14FW400DarkGrey,
-                  //textAlign: TextAlign.center,
-                );
-              }
-            }
-        ),*/ /*
-        child: (model.selectedImage == null) ? Text(
-          tapToAddTxt,
-          style:
-              textStyle14FW400DarkGrey,
-          //textAlign: TextAlign.center,
-        ) : Image.file(File(model.selectedImage!.path)),
-      ),
-    );
-  }
-}*/

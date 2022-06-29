@@ -37,8 +37,8 @@ const String customer = 'Customer';
 const String retailer = '   Retailer';
 const String artworkTxt = 'Artworks';
 //const String bannerTxt = 'Banners';
-const String deviceTxt = 'Devices';
 const String artworkUrlTxt = 'artworkUrl';
+const String deviceUrlTxt = 'artworkUrl';
 const String descTxt = 'description';
 const String bannerUrlTxt = 'bannerUrl';
 const String bannerNameTxt = 'bannerName';
@@ -73,11 +73,21 @@ const String gearTxt = 'Gears/Merchs';
 const String dialogDescAddBannerTxt =
     'If any, the banner in the database will be '
     'overridden.';
-const String dialogDescDelArtworkTxt =
-    'you are about to delete this artwork from database';
+const String dialogDescDelProductTxt =
+    'you are about to delete this product from database';
+
+// Devices fireStore folder name
+const String pipeDbPathTxt = 'PipeDevices';
+const String grinderDbPathTxt = 'GrinderDevices';
+const String rollerDbPathTxt = 'RollerDevices';
+const String tasterDbPathTxt = 'TasterDevices';
+const String bongDbPathTxt = 'BongDevices';
+const String dabRingDbPathTxt = 'DabRingDevices';
+const String bubbleDbPathTxt = 'BubbleDevices';
 
 // Firebase constants
 const String bannerTxt = 'Banners';
+const String deviceTxt = 'Devices';
 
 const String review = '4.6 86 Reviews';
 
@@ -92,3 +102,14 @@ const Size sizeW165H30 = Size(165.0, 30.0);
 const Size sizeW250H100 = Size(250.0, 100.0);
 const Size overrideMinSize = Size(64.0, 25.0); //Default was 64.0, 36.0
 const Size uploadBtSize = Size(100.0, 25.0);
+
+// List constants
+const List<Tab> tabs = [
+  Tab(text: 'Pipes'),
+  Tab(text: 'Grinders'),
+  Tab(text: 'Rollers'),
+  Tab(text: 'Tasters'),
+  Tab(text: 'Bongs'),
+  Tab(text: 'Dab Rings'),
+  Tab(text: 'Bubblers'),
+];

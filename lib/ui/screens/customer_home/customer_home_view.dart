@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:mhg/constants.dart';
-import 'package:mhg/ui/screens/customer_home/customer_home_view_model.dart';
 import 'package:mhg/ui/screens/MHG_base/mhg_base_view_model.dart';
+import 'package:mhg/ui/screens/customer_home/customer_home_view_model.dart';
 import 'package:mhg/ui/theme/colours.dart';
 import 'package:mhg/ui/theme/typography.dart';
 import 'package:stacked/stacked.dart';
+
 import '../helpers/reusable_widgets.dart';
 import '../reusable_views_components.dart';
 import 'customer_home_components.dart';
@@ -94,13 +95,3 @@ class _CustomerHomeViewState extends State<CustomerHomeView> {
     );
   }
 }
-
-/*Container(
-                  color: white,
-                  child: build2ColumnTabBar(
-                    text4column1: artworkTxt,
-                    text4column2: deviceTxt,
-                    textStyle: textStyleBlackBold16,
-                  ),
-                ),
-                Build3ColumnTierTabBar(),*/

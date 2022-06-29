@@ -10,7 +10,7 @@ class Artwork with _$Artwork {
   const Artwork._();
 
   const factory Artwork({
-    required final String? artworkUrl,
+    required final String? url,
     required final String? title,
     required final String? description,
     required final String? price,
@@ -20,7 +20,7 @@ class Artwork with _$Artwork {
 
   Map<String, dynamic> toMap() {
     return {
-      artworkUrlTxt: artworkUrl,
+      artworkUrlTxt: url,
       titleTxt: title,
       descTxt: description,
       priceTxt: price,
@@ -33,7 +33,7 @@ class Artwork with _$Artwork {
     SnapshotOptions? options,
   ) {
     return Artwork(
-      artworkUrl: snapshot.get(artworkUrlTxt),
+      url: snapshot.get(artworkUrlTxt),
       title: snapshot.get(titleTxt),
       description: snapshot.get(descTxt),
       price: snapshot.get(priceTxt),
