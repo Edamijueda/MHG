@@ -2,7 +2,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:mhg/app/app.locator.dart';
 import 'package:mhg/app/app.logger.dart';
 import 'package:mhg/constants.dart';
-import 'package:mhg/core/enums/dialog_type.dart';
+import 'package:mhg/core/enums/enums.dart';
 import 'package:mhg/core/models/device/device.dart';
 import 'package:mhg/core/services/cloud_storage.dart';
 import 'package:mhg/core/services/database/firestore.dart';

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mhg/constants.dart';
 import 'package:mhg/ui/screens/admin/admin_home/admin_home_view_model.dart';
 import 'package:mhg/ui/screens/admin/devices/view.dart';
+import 'package:mhg/ui/screens/admin/retail/view.dart';
 import 'package:mhg/ui/screens/admin/tier1/tier1_view.dart';
 import 'package:mhg/ui/screens/customer_home/customer_home_components.dart';
 import 'package:mhg/ui/screens/helpers/reusable_widgets.dart';
@@ -156,11 +157,12 @@ class _AdminHomeViewState extends State<AdminHomeView>
                         ],
                       ),
                     ),
-                    Container(
+                    RetailView(),
+                    /*Container(
                       // width: 250.0,
                       // height: 250.0,
                       color: Colors.deepOrange,
-                    ),
+                    ),*/
                   ],
                 ),
               ),

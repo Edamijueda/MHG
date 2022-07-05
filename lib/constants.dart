@@ -25,6 +25,7 @@ const String passwordHintText = 'Password';
 const String priceHintTxt = '\$Price';
 const String priceTxt = 'price';
 const String customTitleTxt = 'customTitle';
+const String deviceTypeTxt = 'deviceType';
 const String idTxt = 'id';
 const String titleTxt = 'title';
 const String searchItemHintTxt = 'Search item';
@@ -76,7 +77,7 @@ const String dialogDescAddBannerTxt =
 const String dialogDescDelProductTxt =
     'you are about to delete this product from database';
 
-// Devices fireStore folder name
+// Customer Devices fireStore folder name
 const String pipeDbPathTxt = 'PipeDevices';
 const String grinderDbPathTxt = 'GrinderDevices';
 const String rollerDbPathTxt = 'RollerDevices';
@@ -84,10 +85,17 @@ const String tasterDbPathTxt = 'TasterDevices';
 const String bongDbPathTxt = 'BongDevices';
 const String dabRingDbPathTxt = 'DabRingDevices';
 const String bubbleDbPathTxt = 'BubbleDevices';
+// Customer Devices fireStore folder name
+const String flowerDbPathTxt = 'FlowerDevices';
+const String cartDbPathTxt = 'CartridgeDevices';
+const String edibleDbPathTxt = 'EdibleDevices';
+const String extractDbPathTxt = 'ExtractDevices';
+const String gearMerchDbPathTxt = 'gearMerchDevices';
 
-// Firebase constants
+// Firebase/cloud storage constants
 const String bannerTxt = 'Banners';
 const String deviceTxt = 'Devices';
+const String retailDevicePathTxt = 'Retail Devices';
 
 const String review = '4.6 86 Reviews';
 

@@ -1,5 +1,5 @@
 import 'package:mhg/app/app.locator.dart';
-import 'package:mhg/core/enums/dialog_type.dart';
+import 'package:mhg/core/enums/enums.dart';
 import 'package:mhg/ui/screens/MHG_base/mhg_base_view_model.dart';
 import 'package:mhg/utils/reusable_funtions.dart';
 import 'package:stacked_services/stacked_services.dart';

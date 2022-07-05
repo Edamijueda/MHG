@@ -64,7 +64,7 @@ class _ProductEntryViewState extends State<ProductEntryView> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // ImageSelectionContainer(model: model),
+                  //ImageSelectionContainer(model: model),
                   GestureDetector(
                     onTap: () {
                       model.selectImage();

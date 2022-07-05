@@ -300,7 +300,7 @@ class CloudStorageService with ReactiveServiceMixin {
     log.i('parameter, device with customTitle: ${device.customTitle}');
     var _fbStorageRef = FirebaseStorage.instance
         .ref()
-        .child(pipeDbPathTxt)
+        .child(deviceTxt)
         .child(device.customTitle!);
     _fbStorageRef.delete();
   }
@@ -383,7 +383,7 @@ class CloudStorageService with ReactiveServiceMixin {
     log.i('parameter, device with customTitle: ${device.customTitle}');
     var _fbStorageRef = FirebaseStorage.instance
         .ref()
-        .child(grinderDbPathTxt)
+        .child(deviceTxt)
         .child(device.customTitle!);
     _fbStorageRef.delete();
   }
@@ -466,7 +466,7 @@ class CloudStorageService with ReactiveServiceMixin {
     log.i('parameter, device with customTitle: ${device.customTitle}');
     var _fbStorageRef = FirebaseStorage.instance
         .ref()
-        .child(rollerDbPathTxt)
+        .child(deviceTxt)
         .child(device.customTitle!);
     _fbStorageRef.delete();
   }
@@ -549,7 +549,7 @@ class CloudStorageService with ReactiveServiceMixin {
     log.i('parameter, device with customTitle: ${device.customTitle}');
     var _fbStorageRef = FirebaseStorage.instance
         .ref()
-        .child(tasterDbPathTxt)
+        .child(deviceTxt)
         .child(device.customTitle!);
     _fbStorageRef.delete();
   }
@@ -632,7 +632,7 @@ class CloudStorageService with ReactiveServiceMixin {
     log.i('parameter, device with customTitle: ${device.customTitle}');
     var _fbStorageRef = FirebaseStorage.instance
         .ref()
-        .child(bongDbPathTxt)
+        .child(deviceTxt)
         .child(device.customTitle!);
     _fbStorageRef.delete();
   }
@@ -715,7 +715,7 @@ class CloudStorageService with ReactiveServiceMixin {
     log.i('parameter, device with customTitle: ${device.customTitle}');
     var _fbStorageRef = FirebaseStorage.instance
         .ref()
-        .child(dabRingDbPathTxt)
+        .child(deviceTxt)
         .child(device.customTitle!);
     _fbStorageRef.delete();
   }
@@ -798,12 +798,437 @@ class CloudStorageService with ReactiveServiceMixin {
     log.i('parameter, device with customTitle: ${device.customTitle}');
     var _fbStorageRef = FirebaseStorage.instance
         .ref()
-        .child(bubbleDbPathTxt)
+        .child(deviceTxt)
+        .child(device.customTitle!);
+    _fbStorageRef.delete();
+  }
+
+////////////////////////////////////////////////////////////////////////////////
+// RETAIL DEVICE cloud storage functions
+////////////////////////////////////////////////////////////////////////////////
+
+  Future uploadFlower({
+    required String collectionPath,
+    required XFile imageToUpload,
+    required String title,
+    required String folderName,
+    required String desc,
+    required String price,
+    required String selected,
+  }) async {
+    log.i('received 3 param, they are: \n imageToUpload: ${imageToUpload.path}'
+        '\n title: $title and \n folderName: $folderName');
+    // Let's create the name the file will take up on the cloud storage. The time,
+    // allows dis to give us unique value even if title is the same for multiple
+    // upload to our storage
+    String customTitle =
+        title + DateTime.now().millisecondsSinceEpoch.toString();
+
+    // To be more specific, in a real world app, you would put this inside a folder
+    // that is the User's ID, that way you can set up your rules so that you can
+    // only write and read from that folder if you are the owner of that folder.
+
+    //Get a ref to the file we want to upload/download
+    var _fbStorageRef =
+        FirebaseStorage.instance.ref().child(folderName).child(customTitle);
+    // This will store the result of calling the putFile() function on the
+    // firebase storage ref. This function takes in file from the dart.io package
+    var _uploadTask = _fbStorageRef.putFile(File(imageToUpload.path));
+    // Listen for state changes, errors, and completion of the upload
+    //List<Artwork?>? temp1;
+    _uploadTask.snapshotEvents.listen((TaskSnapshot taskSnapshot) async {
+      switch (taskSnapshot.state) {
+        case TaskState.running:
+          reusableFunction.snackBar(
+              message: 'file upload is in progress...',
+              duration: const Duration(seconds: 1));
+          break;
+        case TaskState.success:
+          reusableFunction.snackBar(
+              message: 'file upload is successful',
+              duration: const Duration(seconds: 1));
+          try {
+            var downloadUrl = await taskSnapshot.ref.getDownloadURL();
+            var retrieveCustomTitle = taskSnapshot.ref.name;
+            await _fireStoreDbService.addFlower(
+              deviceData: Device(
+                url: downloadUrl,
+                title: title,
+                description: desc,
+                price: price,
+                customTitle: retrieveCustomTitle,
+                deviceType: selected,
+              ),
+              path: collectionPath,
+            );
+          } on FirebaseException catch (e) {
+            log.i("Failed download from firebase storage with error '${e.code}'"
+                " and\n message: ${e.message}");
+          }
+          break;
+        case TaskState.error:
+          reusableFunction.snackBar(
+              message: 'Upload failed with an error',
+              duration: const Duration(seconds: 1));
+          break;
+        case TaskState.paused:
+          // TODO: Handle this case.
+          break;
+        case TaskState.canceled:
+          // TODO: Handle this case.
+          break;
+      }
+    });
+  }
+
+  void removeFlowerFromStorage(Device device) {
+    log.i('parameter, device with customTitle: ${device.customTitle}');
+    var _fbStorageRef = FirebaseStorage.instance
+        .ref()
+        .child(retailDevicePathTxt)
         .child(device.customTitle!);
     _fbStorageRef.delete();
   }
 
 //////////////////////////////////////////////////////////////////////////////
-// DEVICE cloud storage functions
-////////////////////////////////////////////////////////////////////////////////
+
+  Future uploadCartridge({
+    required String collectionPath,
+    required XFile imageToUpload,
+    required String title,
+    required String folderName,
+    required String desc,
+    required String price,
+    required String selected,
+  }) async {
+    log.i('received 3 param, they are: \n imageToUpload: ${imageToUpload.path}'
+        '\n title: $title and \n folderName: $folderName');
+    // Let's create the name the file will take up on the cloud storage. The time,
+    // allows dis to give us unique value even if title is the same for multiple
+    // upload to our storage
+    String customTitle =
+        title + DateTime.now().millisecondsSinceEpoch.toString();
+
+    // To be more specific, in a real world app, you would put this inside a folder
+    // that is the User's ID, that way you can set up your rules so that you can
+    // only write and read from that folder if you are the owner of that folder.
+
+    //Get a ref to the file we want to upload/download
+    var _fbStorageRef =
+        FirebaseStorage.instance.ref().child(folderName).child(customTitle);
+    // This will store the result of calling the putFile() function on the
+    // firebase storage ref. This function takes in file from the dart.io package
+    var _uploadTask = _fbStorageRef.putFile(File(imageToUpload.path));
+    // Listen for state changes, errors, and completion of the upload
+    //List<Artwork?>? temp1;
+    _uploadTask.snapshotEvents.listen((TaskSnapshot taskSnapshot) async {
+      switch (taskSnapshot.state) {
+        case TaskState.running:
+          reusableFunction.snackBar(
+              message: 'file upload is in progress...',
+              duration: const Duration(seconds: 1));
+          break;
+        case TaskState.success:
+          reusableFunction.snackBar(
+              message: 'file upload is successful',
+              duration: const Duration(seconds: 1));
+          try {
+            var downloadUrl = await taskSnapshot.ref.getDownloadURL();
+            var retrieveCustomTitle = taskSnapshot.ref.name;
+            await _fireStoreDbService.addCartridge(
+              deviceData: Device(
+                url: downloadUrl,
+                title: title,
+                description: desc,
+                price: price,
+                customTitle: retrieveCustomTitle,
+                deviceType: selected,
+              ),
+              path: collectionPath,
+            );
+          } on FirebaseException catch (e) {
+            log.i("Failed download from firebase storage with error '${e.code}'"
+                " and\n message: ${e.message}");
+          }
+          break;
+        case TaskState.error:
+          reusableFunction.snackBar(
+              message: 'Upload failed with an error',
+              duration: const Duration(seconds: 1));
+          break;
+        case TaskState.paused:
+          // TODO: Handle this case.
+          break;
+        case TaskState.canceled:
+          // TODO: Handle this case.
+          break;
+      }
+    });
+  }
+
+  void removeCartridgeFromStorage(Device device) {
+    log.i('parameter, device with customTitle: ${device.customTitle}');
+    var _fbStorageRef = FirebaseStorage.instance
+        .ref()
+        .child(retailDevicePathTxt)
+        .child(device.customTitle!);
+    _fbStorageRef.delete();
+  }
+
+//////////////////////////////////////////////////////////////////////////////
+
+  Future uploadEdible({
+    required String collectionPath,
+    required XFile imageToUpload,
+    required String title,
+    required String folderName,
+    required String desc,
+    required String price,
+    required String selected,
+  }) async {
+    log.i('received 3 param, they are: \n imageToUpload: ${imageToUpload.path}'
+        '\n title: $title and \n folderName: $folderName');
+    // Let's create the name the file will take up on the cloud storage. The time,
+    // allows dis to give us unique value even if title is the same for multiple
+    // upload to our storage
+    String customTitle =
+        title + DateTime.now().millisecondsSinceEpoch.toString();
+
+    // To be more specific, in a real world app, you would put this inside a folder
+    // that is the User's ID, that way you can set up your rules so that you can
+    // only write and read from that folder if you are the owner of that folder.
+
+    //Get a ref to the file we want to upload/download
+    var _fbStorageRef =
+        FirebaseStorage.instance.ref().child(folderName).child(customTitle);
+    // This will store the result of calling the putFile() function on the
+    // firebase storage ref. This function takes in file from the dart.io package
+    var _uploadTask = _fbStorageRef.putFile(File(imageToUpload.path));
+    // Listen for state changes, errors, and completion of the upload
+    //List<Artwork?>? temp1;
+    _uploadTask.snapshotEvents.listen((TaskSnapshot taskSnapshot) async {
+      switch (taskSnapshot.state) {
+        case TaskState.running:
+          reusableFunction.snackBar(
+              message: 'file upload is in progress...',
+              duration: const Duration(seconds: 1));
+          break;
+        case TaskState.success:
+          reusableFunction.snackBar(
+              message: 'file upload is successful',
+              duration: const Duration(seconds: 1));
+          try {
+            var downloadUrl = await taskSnapshot.ref.getDownloadURL();
+            var retrieveCustomTitle = taskSnapshot.ref.name;
+            await _fireStoreDbService.addEdible(
+              deviceData: Device(
+                url: downloadUrl,
+                title: title,
+                description: desc,
+                price: price,
+                customTitle: retrieveCustomTitle,
+                deviceType: selected,
+              ),
+              path: collectionPath,
+            );
+          } on FirebaseException catch (e) {
+            log.i("Failed download from firebase storage with error '${e.code}'"
+                " and\n message: ${e.message}");
+          }
+          break;
+        case TaskState.error:
+          reusableFunction.snackBar(
+              message: 'Upload failed with an error',
+              duration: const Duration(seconds: 1));
+          break;
+        case TaskState.paused:
+          // TODO: Handle this case.
+          break;
+        case TaskState.canceled:
+          // TODO: Handle this case.
+          break;
+      }
+    });
+  }
+
+  void removeEdibleFromStorage(Device device) {
+    log.i('parameter, device with customTitle: ${device.customTitle}');
+    var _fbStorageRef = FirebaseStorage.instance
+        .ref()
+        .child(retailDevicePathTxt)
+        .child(device.customTitle!);
+    _fbStorageRef.delete();
+  }
+
+//////////////////////////////////////////////////////////////////////////////
+
+  Future uploadExtract({
+    required String collectionPath,
+    required XFile imageToUpload,
+    required String title,
+    required String folderName,
+    required String desc,
+    required String price,
+    required String selected,
+  }) async {
+    log.i('received 3 param, they are: \n imageToUpload: ${imageToUpload.path}'
+        '\n title: $title and \n folderName: $folderName');
+    // Let's create the name the file will take up on the cloud storage. The time,
+    // allows dis to give us unique value even if title is the same for multiple
+    // upload to our storage
+    String customTitle =
+        title + DateTime.now().millisecondsSinceEpoch.toString();
+
+    // To be more specific, in a real world app, you would put this inside a folder
+    // that is the User's ID, that way you can set up your rules so that you can
+    // only write and read from that folder if you are the owner of that folder.
+
+    //Get a ref to the file we want to upload/download
+    var _fbStorageRef =
+        FirebaseStorage.instance.ref().child(folderName).child(customTitle);
+    // This will store the result of calling the putFile() function on the
+    // firebase storage ref. This function takes in file from the dart.io package
+    var _uploadTask = _fbStorageRef.putFile(File(imageToUpload.path));
+    // Listen for state changes, errors, and completion of the upload
+    //List<Artwork?>? temp1;
+    _uploadTask.snapshotEvents.listen((TaskSnapshot taskSnapshot) async {
+      switch (taskSnapshot.state) {
+        case TaskState.running:
+          reusableFunction.snackBar(
+              message: 'file upload is in progress...',
+              duration: const Duration(seconds: 1));
+          break;
+        case TaskState.success:
+          reusableFunction.snackBar(
+              message: 'file upload is successful',
+              duration: const Duration(seconds: 1));
+          try {
+            var downloadUrl = await taskSnapshot.ref.getDownloadURL();
+            var retrieveCustomTitle = taskSnapshot.ref.name;
+            await _fireStoreDbService.addExtract(
+              deviceData: Device(
+                url: downloadUrl,
+                title: title,
+                description: desc,
+                price: price,
+                customTitle: retrieveCustomTitle,
+                deviceType: selected,
+              ),
+              path: collectionPath,
+            );
+          } on FirebaseException catch (e) {
+            log.i("Failed download from firebase storage with error '${e.code}'"
+                " and\n message: ${e.message}");
+          }
+          break;
+        case TaskState.error:
+          reusableFunction.snackBar(
+              message: 'Upload failed with an error',
+              duration: const Duration(seconds: 1));
+          break;
+        case TaskState.paused:
+          // TODO: Handle this case.
+          break;
+        case TaskState.canceled:
+          // TODO: Handle this case.
+          break;
+      }
+    });
+  }
+
+  void removeExtractFromStorage(Device device) {
+    log.i('parameter, device with customTitle: ${device.customTitle}');
+    var _fbStorageRef = FirebaseStorage.instance
+        .ref()
+        .child(retailDevicePathTxt)
+        .child(device.customTitle!);
+    _fbStorageRef.delete();
+  }
+
+//////////////////////////////////////////////////////////////////////////////
+
+  Future uploadGearMerch({
+    required String collectionPath,
+    required XFile imageToUpload,
+    required String title,
+    required String folderName,
+    required String desc,
+    required String price,
+    required String selected,
+  }) async {
+    log.i('received 3 param, they are: \n imageToUpload: ${imageToUpload.path}'
+        '\n title: $title and \n folderName: $folderName');
+    // Let's create the name the file will take up on the cloud storage. The time,
+    // allows dis to give us unique value even if title is the same for multiple
+    // upload to our storage
+    String customTitle =
+        title + DateTime.now().millisecondsSinceEpoch.toString();
+
+    // To be more specific, in a real world app, you would put this inside a folder
+    // that is the User's ID, that way you can set up your rules so that you can
+    // only write and read from that folder if you are the owner of that folder.
+
+    //Get a ref to the file we want to upload/download
+    var _fbStorageRef =
+        FirebaseStorage.instance.ref().child(folderName).child(customTitle);
+    // This will store the result of calling the putFile() function on the
+    // firebase storage ref. This function takes in file from the dart.io package
+    var _uploadTask = _fbStorageRef.putFile(File(imageToUpload.path));
+    // Listen for state changes, errors, and completion of the upload
+    //List<Artwork?>? temp1;
+    _uploadTask.snapshotEvents.listen((TaskSnapshot taskSnapshot) async {
+      switch (taskSnapshot.state) {
+        case TaskState.running:
+          reusableFunction.snackBar(
+              message: 'file upload is in progress...',
+              duration: const Duration(seconds: 1));
+          break;
+        case TaskState.success:
+          reusableFunction.snackBar(
+              message: 'file upload is successful',
+              duration: const Duration(seconds: 1));
+          try {
+            var downloadUrl = await taskSnapshot.ref.getDownloadURL();
+            var retrieveCustomTitle = taskSnapshot.ref.name;
+            await _fireStoreDbService.addGearMerch(
+              deviceData: Device(
+                url: downloadUrl,
+                title: title,
+                description: desc,
+                price: price,
+                customTitle: retrieveCustomTitle,
+                deviceType: selected,
+              ),
+              path: collectionPath,
+            );
+          } on FirebaseException catch (e) {
+            log.i("Failed download from firebase storage with error '${e.code}'"
+                " and\n message: ${e.message}");
+          }
+          break;
+        case TaskState.error:
+          reusableFunction.snackBar(
+              message: 'Upload failed with an error',
+              duration: const Duration(seconds: 1));
+          break;
+        case TaskState.paused:
+          // TODO: Handle this case.
+          break;
+        case TaskState.canceled:
+          // TODO: Handle this case.
+          break;
+      }
+    });
+  }
+
+  void removeGearMerchFromStorage(Device device) {
+    log.i('parameter, device with customTitle: ${device.customTitle}');
+    var _fbStorageRef = FirebaseStorage.instance
+        .ref()
+        .child(retailDevicePathTxt)
+        .child(device.customTitle!);
+    _fbStorageRef.delete();
+  }
+
+//////////////////////////////////////////////////////////////////////////////
 }

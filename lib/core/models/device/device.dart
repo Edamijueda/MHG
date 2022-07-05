@@ -13,6 +13,7 @@ class Device with _$Device {
     required final String description,
     required final String price,
     final String? customTitle,
+    final String? deviceType,
     final String? id,
   }) = _Device;
 
@@ -23,6 +24,7 @@ class Device with _$Device {
       descTxt: description,
       priceTxt: price,
       customTitleTxt: customTitle,
+      deviceTypeTxt: deviceType,
     };
   }
 
@@ -36,6 +38,7 @@ class Device with _$Device {
       description: snapshot.get(descTxt),
       price: snapshot.get(priceTxt),
       customTitle: snapshot.get(customTitleTxt),
+      deviceType: snapshot.get(deviceTypeTxt),
       id: snapshot.id, //reference.id, // Both return desired id
     );
   }

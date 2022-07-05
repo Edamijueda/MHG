@@ -22,6 +22,11 @@ class FirestoreDbService with ReactiveServiceMixin {
       _reactiveBong,
       _reactiveDabRing,
       _reactiveBubble,
+      _reactiveFlower,
+      _reactiveCartridge,
+      _reactiveEdible,
+      _reactiveExtract,
+      _reactiveGearMech,
     ]);
   }
 
@@ -827,6 +832,424 @@ class FirestoreDbService with ReactiveServiceMixin {
   }
 
   //////////////////////////////////////////////////////////////////////////////
-  //                          DEVICE fireStore functions
+  //                     RETAIL DEVICES fireStore functions
   //////////////////////////////////////////////////////////////////////////////
+  final ReactiveValue<List<Device>?> _reactiveFlower =
+      ReactiveValue<List<Device>?>(null);
+
+  List<Device>? get reactiveFlower => _reactiveFlower.value;
+  List<Device>? _tempFlowerList = List<Device>.empty(growable: true);
+
+  Future addFlower({required Device deviceData, required String path}) async {
+    log.i(
+        'param are deviceTitle: ${deviceData.title} \n collectionPath: $path');
+    _collectionRef = FirebaseFirestore.instance.collection(path);
+    Device dataFromFS;
+    try {
+      var docRef = await _collectionRef.add(deviceData.toMap());
+      var docId = docRef.id;
+      var temp = docRef.withConverter(
+        fromFirestore: Device.fromDocument,
+        toFirestore: (Device device, _) => device.toMap(),
+      );
+      var docSnap = await temp.get();
+      var temp1 = docSnap.data();
+      if (temp1 != null) {
+        dataFromFS = Device(
+          url: temp1.url,
+          title: temp1.title,
+          description: temp1.description,
+          price: temp1.price,
+          customTitle: temp1.customTitle,
+          deviceType: temp1.deviceType,
+          id: docId,
+        );
+        _tempFlowerList = _reactiveFlower.value;
+        _tempFlowerList?.add(dataFromFS);
+        _reactiveFlower.value = _tempFlowerList;
+        //notifyListeners();
+        log.i('DeviceDataFromFirestore has deviceUrl: ${dataFromFS.url} and \n'
+            'title: ${dataFromFS.title}');
+        log.i(
+            '_tempFlowerList has length: ${_tempFlowerList?.length}, \n deviceUrl: ${_tempFlowerList?.last.url} and \n'
+            'title: ${_tempFlowerList?.last.title}');
+        log.i(
+            '_reactiveFlower length: ${_reactiveFlower.value?.length} deviceUrl: ${_reactiveFlower.value?.last.url} and \n'
+            'title: ${_reactiveFlower.value?.last.title}');
+      }
+    } catch (e) {
+      // TODO: Find or create a way to repeat error handling without so much repeated code
+      if (e is PlatformException) {
+        log.i('Platform exception thrown is: ${e.message}');
+      }
+      log.i('error  thrown is: ${e.toString()}');
+    }
+  }
+
+  getFlowerRealtimeUpdate() {
+    log.i('no parameter');
+    FirebaseFirestore.instance.collection(flowerDbPathTxt).snapshots().listen(
+      (event) {
+        _reactiveFlower.value =
+            event.docs.map((e) => Device.fromDocument(e, null)).toList();
+        _tempFlowerList = _reactiveFlower.value;
+        //notifyListeners();
+      },
+      onError: (error) => log.i(
+          '$flowerDbPathTxt FireStore RealtimeUpdate Listener failed: $error'),
+    );
+  }
+
+  void removeFlowerFromFS({required Device device}) {
+    log.i('params device with id: ${device.id}');
+    _collectionRef = FirebaseFirestore.instance.collection(flowerDbPathTxt);
+    _collectionRef.doc(device.id).delete();
+
+    // remove from our listOfArtwork
+    _tempFlowerList = _reactiveFlower.value;
+    bool? deviceWasRemoved = _tempFlowerList?.remove(device);
+    _reactiveFlower.value = _tempFlowerList;
+    if (deviceWasRemoved == true) {
+      reusableFunction.snackBar(
+          message: '${device.title} has been deleted',
+          duration: const Duration(seconds: 2));
+    }
+  }
+
+  //////////////////////////////////////////////////////////////////////////////
+
+  final ReactiveValue<List<Device>?> _reactiveCartridge =
+      ReactiveValue<List<Device>?>(null);
+
+  List<Device>? get reactiveCartridge => _reactiveCartridge.value;
+  List<Device>? _tempCartridgeList = List<Device>.empty(growable: true);
+
+  Future addCartridge(
+      {required Device deviceData, required String path}) async {
+    log.i(
+        'param are deviceTitle: ${deviceData.title} \n collectionPath: $path');
+    _collectionRef = FirebaseFirestore.instance.collection(path);
+    Device dataFromFS;
+    try {
+      var docRef = await _collectionRef.add(deviceData.toMap());
+      var docId = docRef.id;
+      var temp = docRef.withConverter(
+        fromFirestore: Device.fromDocument,
+        toFirestore: (Device device, _) => device.toMap(),
+      );
+      var docSnap = await temp.get();
+      var temp1 = docSnap.data();
+      if (temp1 != null) {
+        dataFromFS = Device(
+          url: temp1.url,
+          title: temp1.title,
+          description: temp1.description,
+          price: temp1.price,
+          customTitle: temp1.customTitle,
+          deviceType: temp1.deviceType,
+          id: docId,
+        );
+        _tempCartridgeList = _reactiveCartridge.value;
+        _tempCartridgeList?.add(dataFromFS);
+        _reactiveCartridge.value = _tempCartridgeList;
+        //notifyListeners();
+        log.i('DeviceDataFromFirestore has deviceUrl: ${dataFromFS.url} and \n'
+            'title: ${dataFromFS.title}');
+        log.i(
+            '_tempCartridgeList has length: ${_tempCartridgeList?.length}, \n deviceUrl: ${_tempCartridgeList?.last.url} and \n'
+            'title: ${_tempCartridgeList?.last.title}');
+        log.i(
+            '_reactiveCartridge length: ${_reactiveCartridge.value?.length} deviceUrl: ${_reactiveCartridge.value?.last.url} and \n'
+            'title: ${_reactiveCartridge.value?.last.title}');
+      }
+    } catch (e) {
+      // TODO: Find or create a way to repeat error handling without so much repeated code
+      if (e is PlatformException) {
+        log.i('Platform exception thrown is: ${e.message}');
+      }
+      log.i('error  thrown is: ${e.toString()}');
+    }
+  }
+
+  getCartridgeRealtimeUpdate() {
+    log.i('no parameter');
+    FirebaseFirestore.instance.collection(cartDbPathTxt).snapshots().listen(
+      (event) {
+        _reactiveCartridge.value =
+            event.docs.map((e) => Device.fromDocument(e, null)).toList();
+        _tempCartridgeList = _reactiveCartridge.value;
+      },
+      onError: (error) => log
+          .i('$cartDbPathTxt FireStore RealtimeUpdate Listener failed: $error'),
+    );
+  }
+
+  void removeCartridgeFromFS({required Device device}) {
+    log.i('params device with id: ${device.id}');
+    _collectionRef = FirebaseFirestore.instance.collection(cartDbPathTxt);
+    _collectionRef.doc(device.id).delete();
+
+    // remove from our listOfArtwork
+    _tempCartridgeList = _reactiveCartridge.value;
+    bool? deviceWasRemoved = _tempCartridgeList?.remove(device);
+    _reactiveCartridge.value = _tempCartridgeList;
+    if (deviceWasRemoved == true) {
+      reusableFunction.snackBar(
+          message: '${device.title} has been deleted',
+          duration: const Duration(seconds: 2));
+    }
+  }
+
+  //////////////////////////////////////////////////////////////////////////////
+
+  final ReactiveValue<List<Device>?> _reactiveEdible =
+      ReactiveValue<List<Device>?>(null);
+
+  List<Device>? get reactiveEdible => _reactiveEdible.value;
+  List<Device>? _tempEdibleList = List<Device>.empty(growable: true);
+
+  Future addEdible({required Device deviceData, required String path}) async {
+    log.i(
+        'param are deviceTitle: ${deviceData.title} \n collectionPath: $path');
+    _collectionRef = FirebaseFirestore.instance.collection(path);
+    Device dataFromFS;
+    try {
+      var docRef = await _collectionRef.add(deviceData.toMap());
+      var docId = docRef.id;
+      var temp = docRef.withConverter(
+        fromFirestore: Device.fromDocument,
+        toFirestore: (Device device, _) => device.toMap(),
+      );
+      var docSnap = await temp.get();
+      var temp1 = docSnap.data();
+      if (temp1 != null) {
+        dataFromFS = Device(
+          url: temp1.url,
+          title: temp1.title,
+          description: temp1.description,
+          price: temp1.price,
+          customTitle: temp1.customTitle,
+          deviceType: temp1.deviceType,
+          id: docId,
+        );
+        _tempEdibleList = _reactiveEdible.value;
+        _tempEdibleList?.add(dataFromFS);
+        _reactiveEdible.value = _tempEdibleList;
+        //notifyListeners();
+        log.i('DeviceDataFromFirestore has deviceUrl: ${dataFromFS.url} and \n'
+            'title: ${dataFromFS.title}');
+        log.i(
+            '_tempEdibleList has length: ${_tempEdibleList?.length}, \n deviceUrl: ${_tempEdibleList?.last.url} and \n'
+            'title: ${_tempEdibleList?.last.title}');
+        log.i(
+            '_reactiveEdible length: ${_reactiveEdible.value?.length} deviceUrl: ${_reactiveEdible.value?.last.url} and \n'
+            'title: ${_reactiveEdible.value?.last.title}');
+      }
+    } catch (e) {
+      // TODO: Find or create a way to repeat error handling without so much repeated code
+      if (e is PlatformException) {
+        log.i('Platform exception thrown is: ${e.message}');
+      }
+      log.i('error  thrown is: ${e.toString()}');
+    }
+  }
+
+  getEdibleRealtimeUpdate() {
+    log.i('no parameter');
+    FirebaseFirestore.instance.collection(edibleDbPathTxt).snapshots().listen(
+      (event) {
+        _reactiveEdible.value =
+            event.docs.map((e) => Device.fromDocument(e, null)).toList();
+        _tempEdibleList = _reactiveEdible.value;
+      },
+      onError: (error) => log.i(
+          '$edibleDbPathTxt FireStore RealtimeUpdate Listener failed: $error'),
+    );
+  }
+
+  void removeEdibleFromFS({required Device device}) {
+    log.i('params device with id: ${device.id}');
+    _collectionRef = FirebaseFirestore.instance.collection(edibleDbPathTxt);
+    _collectionRef.doc(device.id).delete();
+
+    // remove from our listOfArtwork
+    _tempEdibleList = _reactiveEdible.value;
+    bool? deviceWasRemoved = _tempEdibleList?.remove(device);
+    _reactiveEdible.value = _tempEdibleList;
+    if (deviceWasRemoved == true) {
+      reusableFunction.snackBar(
+          message: '${device.title} has been deleted',
+          duration: const Duration(seconds: 2));
+    }
+  }
+
+  //////////////////////////////////////////////////////////////////////////////
+
+  final ReactiveValue<List<Device>?> _reactiveExtract =
+      ReactiveValue<List<Device>?>(null);
+
+  List<Device>? get reactiveExtract => _reactiveExtract.value;
+  List<Device>? _tempExtractList = List<Device>.empty(growable: true);
+
+  Future addExtract({required Device deviceData, required String path}) async {
+    log.i(
+        'param are deviceTitle: ${deviceData.title} \n collectionPath: $path');
+    _collectionRef = FirebaseFirestore.instance.collection(path);
+    Device dataFromFS;
+    try {
+      var docRef = await _collectionRef.add(deviceData.toMap());
+      var docId = docRef.id;
+      var temp = docRef.withConverter(
+        fromFirestore: Device.fromDocument,
+        toFirestore: (Device device, _) => device.toMap(),
+      );
+      var docSnap = await temp.get();
+      var temp1 = docSnap.data();
+      if (temp1 != null) {
+        dataFromFS = Device(
+          url: temp1.url,
+          title: temp1.title,
+          description: temp1.description,
+          price: temp1.price,
+          customTitle: temp1.customTitle,
+          deviceType: temp1.deviceType,
+          id: docId,
+        );
+        _tempExtractList = _reactiveExtract.value;
+        _tempExtractList?.add(dataFromFS);
+        _reactiveExtract.value = _tempExtractList;
+        //notifyListeners();
+        log.i('DeviceDataFromFirestore has deviceUrl: ${dataFromFS.url} and \n'
+            'title: ${dataFromFS.title}');
+        log.i(
+            '_tempExtractList has length: ${_tempExtractList?.length}, \n deviceUrl: ${_tempExtractList?.last.url} and \n'
+            'title: ${_tempExtractList?.last.title}');
+        log.i(
+            '_reactiveExtract length: ${_reactiveExtract.value?.length} deviceUrl: ${_reactiveExtract.value?.last.url} and \n'
+            'title: ${_reactiveExtract.value?.last.title}');
+      }
+    } catch (e) {
+      // TODO: Find or create a way to repeat error handling without so much repeated code
+      if (e is PlatformException) {
+        log.i('Platform exception thrown is: ${e.message}');
+      }
+      log.i('error  thrown is: ${e.toString()}');
+    }
+  }
+
+  getExtractRealtimeUpdate() {
+    log.i('no parameter');
+    FirebaseFirestore.instance.collection(extractDbPathTxt).snapshots().listen(
+      (event) {
+        _reactiveExtract.value =
+            event.docs.map((e) => Device.fromDocument(e, null)).toList();
+        _tempExtractList = _reactiveExtract.value;
+      },
+      onError: (error) => log.i(
+          '$extractDbPathTxt FireStore RealtimeUpdate Listener failed: $error'),
+    );
+  }
+
+  void removeExtractFromFS({required Device device}) {
+    log.i('params device with id: ${device.id}');
+    _collectionRef = FirebaseFirestore.instance.collection(extractDbPathTxt);
+    _collectionRef.doc(device.id).delete();
+
+    // remove from our listOfArtwork
+    _tempExtractList = _reactiveExtract.value;
+    bool? deviceWasRemoved = _tempExtractList?.remove(device);
+    _reactiveExtract.value = _tempExtractList;
+    if (deviceWasRemoved == true) {
+      reusableFunction.snackBar(
+          message: '${device.title} has been deleted',
+          duration: const Duration(seconds: 2));
+    }
+  }
+
+  //////////////////////////////////////////////////////////////////////////////
+
+  final ReactiveValue<List<Device>?> _reactiveGearMech =
+      ReactiveValue<List<Device>?>(null);
+
+  List<Device>? get reactiveGearMerch => _reactiveGearMech.value;
+  List<Device>? _tempGearMerchList = List<Device>.empty(growable: true);
+
+  Future addGearMerch(
+      {required Device deviceData, required String path}) async {
+    log.i(
+        'param are deviceTitle: ${deviceData.title} \n collectionPath: $path');
+    _collectionRef = FirebaseFirestore.instance.collection(path);
+    Device dataFromFS;
+    try {
+      var docRef = await _collectionRef.add(deviceData.toMap());
+      var docId = docRef.id;
+      var temp = docRef.withConverter(
+        fromFirestore: Device.fromDocument,
+        toFirestore: (Device device, _) => device.toMap(),
+      );
+      var docSnap = await temp.get();
+      var temp1 = docSnap.data();
+      if (temp1 != null) {
+        dataFromFS = Device(
+          url: temp1.url,
+          title: temp1.title,
+          description: temp1.description,
+          price: temp1.price,
+          customTitle: temp1.customTitle,
+          deviceType: temp1.deviceType,
+          id: docId,
+        );
+        _tempGearMerchList = _reactiveGearMech.value;
+        _tempGearMerchList?.add(dataFromFS);
+        _reactiveGearMech.value = _tempGearMerchList;
+        //notifyListeners();
+        log.i('DeviceDataFromFirestore has deviceUrl: ${dataFromFS.url} and \n'
+            'title: ${dataFromFS.title}');
+        log.i(
+            '_tempGearMerchList has length: ${_tempGearMerchList?.length}, \n deviceUrl: ${_tempGearMerchList?.last.url} and \n'
+            'title: ${_tempGearMerchList?.last.title}');
+        log.i(
+            '_reactiveGearMech length: ${_reactiveGearMech.value?.length} deviceUrl: ${_reactiveGearMech.value?.last.url} and \n'
+            'title: ${_reactiveGearMech.value?.last.title}');
+      }
+    } catch (e) {
+      // TODO: Find or create a way to repeat error handling without so much repeated code
+      if (e is PlatformException) {
+        log.i('Platform exception thrown is: ${e.message}');
+      }
+      log.i('error  thrown is: ${e.toString()}');
+    }
+  }
+
+  getGearMerchRealtimeUpdate() {
+    log.i('no parameter');
+    FirebaseFirestore.instance
+        .collection(gearMerchDbPathTxt)
+        .snapshots()
+        .listen(
+      (event) {
+        _reactiveGearMech.value =
+            event.docs.map((e) => Device.fromDocument(e, null)).toList();
+        _tempGearMerchList = _reactiveGearMech.value;
+      },
+      onError: (error) => log.i(
+          '$gearMerchDbPathTxt FireStore RealtimeUpdate Listener failed: $error'),
+    );
+  }
+
+  void removeGearMerchFromFS({required Device device}) {
+    log.i('params device with id: ${device.id}');
+    _collectionRef = FirebaseFirestore.instance.collection(gearMerchDbPathTxt);
+    _collectionRef.doc(device.id).delete();
+
+    // remove from our listOfArtwork
+    _tempGearMerchList = _reactiveGearMech.value;
+    bool? deviceWasRemoved = _tempGearMerchList?.remove(device);
+    _reactiveGearMech.value = _tempGearMerchList;
+    if (deviceWasRemoved == true) {
+      reusableFunction.snackBar(
+          message: '${device.title} has been deleted',
+          duration: const Duration(seconds: 2));
+    }
+  }
 }

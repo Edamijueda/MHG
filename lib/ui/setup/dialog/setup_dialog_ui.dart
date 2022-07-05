@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mhg/app/app.locator.dart';
-import 'package:mhg/core/enums/dialog_type.dart';
+import 'package:mhg/core/enums/enums.dart';
 import 'package:mhg/ui/setup/dialog/device/bong.dart';
 import 'package:mhg/ui/setup/dialog/device/bubble.dart';
 import 'package:mhg/ui/setup/dialog/device/dab_ring.dart';
@@ -10,6 +10,11 @@ import 'package:mhg/ui/setup/dialog/device/roller.dart';
 import 'package:mhg/ui/setup/dialog/device/taster.dart';
 import 'package:mhg/ui/setup/dialog/product/product_details_view.dart';
 import 'package:mhg/ui/setup/dialog/product/product_entry_view.dart';
+import 'package:mhg/ui/setup/dialog/retail/cartridge.dart';
+import 'package:mhg/ui/setup/dialog/retail/edible.dart';
+import 'package:mhg/ui/setup/dialog/retail/extract.dart';
+import 'package:mhg/ui/setup/dialog/retail/flower.dart';
+import 'package:mhg/ui/setup/dialog/retail/gear_merch.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 void setupDialogUI() {
@@ -66,6 +71,36 @@ void setupDialogUI() {
     DialogType.bubbleEntry: (BuildContext context, DialogRequest dialogRequest,
             Function(DialogResponse) completer) =>
         BubbleEntryView(
+          request: dialogRequest,
+          onDialogTap: completer,
+        ),
+    DialogType.chooseFlowerType: (BuildContext context,
+            DialogRequest dialogRequest, Function(DialogResponse) completer) =>
+        ChooseFlowerView(
+          request: dialogRequest,
+          onDialogTap: completer,
+        ),
+    DialogType.chooseCartType: (BuildContext context,
+            DialogRequest dialogRequest, Function(DialogResponse) completer) =>
+        ChooseCartridgeView(
+          request: dialogRequest,
+          onDialogTap: completer,
+        ),
+    DialogType.chooseEdibleType: (BuildContext context,
+            DialogRequest dialogRequest, Function(DialogResponse) completer) =>
+        ChooseEdibleView(
+          request: dialogRequest,
+          onDialogTap: completer,
+        ),
+    DialogType.chooseExtractType: (BuildContext context,
+            DialogRequest dialogRequest, Function(DialogResponse) completer) =>
+        ChooseExtractView(
+          request: dialogRequest,
+          onDialogTap: completer,
+        ),
+    DialogType.chooseGearAndMerchType: (BuildContext context,
+            DialogRequest dialogRequest, Function(DialogResponse) completer) =>
+        ChooseGearAndMerchView(
           request: dialogRequest,
           onDialogTap: completer,
         ),

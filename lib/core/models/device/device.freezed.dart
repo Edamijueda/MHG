@@ -21,6 +21,7 @@ mixin _$Device {
   String get description => throw _privateConstructorUsedError;
   String get price => throw _privateConstructorUsedError;
   String? get customTitle => throw _privateConstructorUsedError;
+  String? get deviceType => throw _privateConstructorUsedError;
   String? get id => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -37,6 +38,7 @@ abstract class $DeviceCopyWith<$Res> {
       String description,
       String price,
       String? customTitle,
+      String? deviceType,
       String? id});
 }
 
@@ -55,6 +57,7 @@ class _$DeviceCopyWithImpl<$Res> implements $DeviceCopyWith<$Res> {
     Object? description = freezed,
     Object? price = freezed,
     Object? customTitle = freezed,
+    Object? deviceType = freezed,
     Object? id = freezed,
   }) {
     return _then(_value.copyWith(
@@ -78,6 +81,10 @@ class _$DeviceCopyWithImpl<$Res> implements $DeviceCopyWith<$Res> {
           ? _value.customTitle
           : customTitle // ignore: cast_nullable_to_non_nullable
               as String?,
+      deviceType: deviceType == freezed
+          ? _value.deviceType
+          : deviceType // ignore: cast_nullable_to_non_nullable
+              as String?,
       id: id == freezed
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -97,6 +104,7 @@ abstract class _$$_DeviceCopyWith<$Res> implements $DeviceCopyWith<$Res> {
       String description,
       String price,
       String? customTitle,
+      String? deviceType,
       String? id});
 }
 
@@ -116,6 +124,7 @@ class __$$_DeviceCopyWithImpl<$Res> extends _$DeviceCopyWithImpl<$Res>
     Object? description = freezed,
     Object? price = freezed,
     Object? customTitle = freezed,
+    Object? deviceType = freezed,
     Object? id = freezed,
   }) {
     return _then(_$_Device(
@@ -139,6 +148,10 @@ class __$$_DeviceCopyWithImpl<$Res> extends _$DeviceCopyWithImpl<$Res>
           ? _value.customTitle
           : customTitle // ignore: cast_nullable_to_non_nullable
               as String?,
+      deviceType: deviceType == freezed
+          ? _value.deviceType
+          : deviceType // ignore: cast_nullable_to_non_nullable
+              as String?,
       id: id == freezed
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -156,6 +169,7 @@ class _$_Device extends _Device {
       required this.description,
       required this.price,
       this.customTitle,
+      this.deviceType,
       this.id})
       : super._();
 
@@ -170,11 +184,13 @@ class _$_Device extends _Device {
   @override
   final String? customTitle;
   @override
+  final String? deviceType;
+  @override
   final String? id;
 
   @override
   String toString() {
-    return 'Device(url: $url, title: $title, description: $description, price: $price, customTitle: $customTitle, id: $id)';
+    return 'Device(url: $url, title: $title, description: $description, price: $price, customTitle: $customTitle, deviceType: $deviceType, id: $id)';
   }
 
   @override
@@ -189,6 +205,8 @@ class _$_Device extends _Device {
             const DeepCollectionEquality().equals(other.price, price) &&
             const DeepCollectionEquality()
                 .equals(other.customTitle, customTitle) &&
+            const DeepCollectionEquality()
+                .equals(other.deviceType, deviceType) &&
             const DeepCollectionEquality().equals(other.id, id));
   }
 
@@ -200,6 +218,7 @@ class _$_Device extends _Device {
       const DeepCollectionEquality().hash(description),
       const DeepCollectionEquality().hash(price),
       const DeepCollectionEquality().hash(customTitle),
+      const DeepCollectionEquality().hash(deviceType),
       const DeepCollectionEquality().hash(id));
 
   @JsonKey(ignore: true)
@@ -215,6 +234,7 @@ abstract class _Device extends Device {
       required final String description,
       required final String price,
       final String? customTitle,
+      final String? deviceType,
       final String? id}) = _$_Device;
   const _Device._() : super._();
 
@@ -228,6 +248,8 @@ abstract class _Device extends Device {
   String get price => throw _privateConstructorUsedError;
   @override
   String? get customTitle => throw _privateConstructorUsedError;
+  @override
+  String? get deviceType => throw _privateConstructorUsedError;
   @override
   String? get id => throw _privateConstructorUsedError;
   @override
