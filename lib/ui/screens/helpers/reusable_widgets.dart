@@ -137,35 +137,35 @@ Widget buildTabRowLabel({
 //////////////////////////////////////////////////////////////////////
 
 const List<String> customerTVHintTexts = [
-  nameHintText,
-  usernameHintText,
+  firstNameHintTxt,
+  lastNameHintText,
   emailHintText,
-  dobHintText,
   passwordHintText,
+  dobHintText,
 ];
 
 const List<String> retailerTVHintTexts = [
   bizOwnerHintText,
   businessNameHintText,
   emailHintText,
-  businessLNHintText,
   passwordHintText,
+  businessLNHintText,
 ];
 
 const List<IconData> customerTVIcons = [
   nameIcon,
   userAccountIcon,
   emailIcon,
-  dobIcon,
   passwordIcon,
+  dobIcon,
 ];
 
 const List<IconData> retailerTVIcons = [
   nameIcon,
   businessNameIcon,
   emailIcon,
-  businessLNIcon,
   passwordIcon,
+  businessLNIcon,
 ];
 
 const List<TextInputType>? tabViewTextInputTypes = [
@@ -348,7 +348,8 @@ Row buildRowWithTextAndTB({
     children: [
       customTextPlusStyle(text: textLabel, textStyle: textStyle14FW400White),
       customTextBtn(
-        onPressed: () => _mhgBaseViewModel.validateScreenToNavTo(eBText: textOnTB),
+        onPressed: () =>
+            _mhgBaseViewModel.validateScreenToNavTo(eBText: textOnTB),
         btnColour: primaryColour,
         btnTxt: textOnTB,
         btnTextStyle: TextStyle(

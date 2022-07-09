@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:mhg/constants.dart';
+import 'package:mhg/ui/screens/reusable_views_components.dart';
 import 'package:mhg/ui/screens/user_access/user_access_components.dart';
 import 'package:mhg/ui/screens/user_access/user_access_view_model.dart';
 import 'package:mhg/ui/theme/colours.dart';
 import 'package:mhg/ui/theme/typography.dart';
-import 'package:mhg/ui/screens/reusable_views_components.dart';
 import 'package:stacked/stacked.dart';
+
 import '../helpers/reusable_widgets.dart';
 
 class UserAccessView extends StatefulWidget {
@@ -16,9 +17,22 @@ class UserAccessView extends StatefulWidget {
 }
 
 class _UserAccessViewState extends State<UserAccessView> {
+  late final TextEditingController _emailTextController;
+  late final TextEditingController _passwordTextController;
 
-  final TextEditingController _emailTextController = TextEditingController();
-  final TextEditingController _passwordTextController = TextEditingController();
+  @override
+  void initState() {
+    super.initState();
+    _emailTextController = TextEditingController();
+    _passwordTextController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _emailTextController.dispose();
+    _passwordTextController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

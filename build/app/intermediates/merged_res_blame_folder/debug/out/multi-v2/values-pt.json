@@ -4,13 +4,30 @@
             "outputFile": "/Users/mac/StudioProjects/mhg/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-pt/values-pt.xml",
             "map": [
                 {
-                    "source": "/Users/mac/.gradle/caches/transforms-3/37a445a91d4dc0f8d2c49be181d7b78e/transformed/core-1.6.0/res/values-pt/values-pt.xml",
+                    "source": "/Users/mac/.gradle/caches/transforms-3/b5cf6bfe6cf690996e87ee3d018d9bde/transformed/browser-1.4.0/res/values-pt/values-pt.xml",
+                    "from": {
+                        "startLines": "2,3,4,5",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "55,170,269,381",
+                        "endColumns": "114,98,111,105",
+                        "endOffsets": "165,264,376,482"
+                    }
+                },
+                {
+                    "source": "/Users/mac/.gradle/caches/transforms-3/78cee7f3b42c0c01040124963bf8a0c0/transformed/core-1.8.0/res/values-pt/values-pt.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
                         "startOffsets": "55",
                         "endColumns": "100",
                         "endOffsets": "151"
+                    },
+                    "to": {
+                        "startLines": "6",
+                        "startColumns": "4",
+                        "startOffsets": "487",
+                        "endColumns": "100",
+                        "endOffsets": "583"
                     }
                 }
             ]

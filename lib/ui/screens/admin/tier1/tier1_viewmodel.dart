@@ -78,7 +78,7 @@ class Admin1stTierViewModel extends MultipleFutureViewModel {
       };
 
   Future selectImage() async {
-    log.i('assign user selected image to selectedImage');
+    log.i('no param');
     try {
       var tempImage = await _imageSelector.selectImage();
       _selectedImage = tempImage;
@@ -234,5 +234,11 @@ class Admin1stTierViewModel extends MultipleFutureViewModel {
             duration: const Duration(seconds: 1));
       }
     }
+  }
+
+  void showSnackBar() {
+    reusableFunction.snackBar(
+        message: 'no image selected: click \'tap to add\'',
+        duration: const Duration(seconds: 2));
   }
 }

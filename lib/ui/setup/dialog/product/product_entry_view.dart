@@ -102,6 +102,10 @@ class _ProductEntryViewState extends State<ProductEntryView> {
                           borderSide: BorderSide(color: Colors.red.shade700),
                           borderRadius: borderRadius10,
                         ),
+                        focusedErrorBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.red.shade700),
+                          borderRadius: borderRadius10,
+                        ),
                       ),
                     ),
                   ),
@@ -112,9 +116,9 @@ class _ProductEntryViewState extends State<ProductEntryView> {
                         width: 120.0,
                         child: TextField(
                           controller: titleController,
-                          onSubmitted: (value) {
+                          /*onSubmitted: (value) {
                             print('Name is: $value');
-                          },
+                          },*/
                           decoration: InputDecoration(
                             filled: false,
                             hintText: titleTxt,
@@ -168,7 +172,7 @@ class _ProductEntryViewState extends State<ProductEntryView> {
                             child: ElevatedButton(
                               onPressed: () {
                                 if (model.selectedImage == null) {
-                                  //model.showSnackBar();
+                                  model.showSnackBar();
                                 } else {
                                   setState(() {
                                     if (titleController.text.isEmpty) {

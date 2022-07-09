@@ -5,13 +5,17 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:mhg/app/app.locator.dart';
+import 'package:mhg/app/app.logger.dart';
 import 'package:mhg/app/app.router.dart';
+import 'package:mhg/utils/reusable_funtions.dart';
 import 'package:stacked_services/stacked_services.dart';
 //import 'package:google_sign_in/google_sign_in.dart';
 //import 'package:flutter/foundation.dart';
 
 class AuthenticationService {
+  final log = getStackedLogger('AuthenticationService');
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  final ReusableFunction reusableFunction = ReusableFunction();
   final navService = locator<NavigationService>();
 
   final String developerUid = 'mVSQ2U2FHZNYqpCudSP412Qsm163';
@@ -25,7 +29,7 @@ class AuthenticationService {
         email: email,
         password: password,
       );
-      if(loginAuthResult.user!.uid == developerUid){
+      if (loginAuthResult.user!.uid == developerUid) {
         navService.navigateTo(Routes.adminHomeView);
       }
       //loginAuthResult.user!= null; // loginAuthResult; //
@@ -33,12 +37,43 @@ class AuthenticationService {
 
     } on FirebaseAuthException catch (e) {
       // print('Failed with error code: ${e.code}');
-       //print(e.message);
+      //print(e.message);
       if (e.code == 'user-not-found') {
-        print('No user found for that email. Fail with code: ${e.code}');
+        reusableFunction.snackBar(
+            message: 'No user found for this email. Fail with code: ${e.code}',
+            duration: const Duration(seconds: 2));
       } else if (e.code == 'wrong-password') {
-        print('Wrong password provided for that user. Fail with code: ${e.code}');
+        reusableFunction.snackBar(
+            message: 'Wrong user password. Fail with code: ${e.code}',
+            duration: const Duration(seconds: 2));
       }
+    }
+  }
+
+  Future<bool> checkIfEmailExist(String emailAddress) async {
+    try {
+      // Fetch sign-in methods for the email address
+      final list =
+          await FirebaseAuth.instance.fetchSignInMethodsForEmail(emailAddress);
+
+      // In case list is not empty
+      if (list.isNotEmpty) {
+        // Return true because there is an existing
+        // user using the email address
+        return true;
+      } else {
+        // Return false because email adress is not in use
+        return false;
+      }
+    } on FirebaseAuthException catch (error) {
+      log.i(
+          'Failed with error code: ${error.code}, and \n Message: ${error.message}');
+      reusableFunction.snackBar(
+          message:
+              'Fail with code: ${error.code}, \n message: ${error.message}',
+          duration: const Duration(seconds: 3));
+      // a stackoverflow answer return true;
+      return false;
     }
   }
 

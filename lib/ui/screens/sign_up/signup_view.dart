@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mhg/constants.dart';
+import 'package:mhg/ui/screens/sign_up/components.dart';
 import 'package:mhg/ui/screens/sign_up/signup_view_model.dart';
 import 'package:mhg/ui/theme/colours.dart';
 import 'package:mhg/ui/theme/typography.dart';
@@ -72,19 +73,17 @@ class _SignUpViewState extends State<SignUpView> {
                           height: 520.0, //540
                           child: TabBarView(
                             children: <Widget>[
-                              buildTabBarView(
+                              SignupTabBarView(
                                 hintTextList: customerTVHintTexts,
                                 prefixIconList: customerTVIcons,
                                 textInputTypeList: tabViewTextInputTypes,
                                 textOnEB: signUpAsCustomer,
-                                //signUpViewModel: model,
                               ),
-                              buildTabBarView(
+                              SignupTabBarView(
                                 hintTextList: retailerTVHintTexts,
                                 prefixIconList: retailerTVIcons,
                                 textInputTypeList: tabViewTextInputTypes,
                                 textOnEB: signUpAsRetailer,
-                                //signUpViewModel: model,
                               ),
                             ],
                           ),
