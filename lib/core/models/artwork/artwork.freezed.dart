@@ -233,17 +233,17 @@ abstract class _Artwork extends Artwork {
   const _Artwork._() : super._();
 
   @override
-  String? get url => throw _privateConstructorUsedError;
+  String? get url;
   @override
-  String? get title => throw _privateConstructorUsedError;
+  String? get title;
   @override
-  String? get description => throw _privateConstructorUsedError;
+  String? get description;
   @override
-  String? get price => throw _privateConstructorUsedError;
+  String? get price;
   @override
-  String? get customTitle => throw _privateConstructorUsedError;
+  String? get customTitle;
   @override
-  String? get id => throw _privateConstructorUsedError;
+  String? get id;
   @override
   @JsonKey(ignore: true)
   _$$_ArtworkCopyWith<_$_Artwork> get copyWith =>

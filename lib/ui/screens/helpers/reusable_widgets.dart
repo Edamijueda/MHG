@@ -139,7 +139,7 @@ Widget buildTabRowLabel({
 const List<String> customerTVHintTexts = [
   firstNameHintTxt,
   lastNameHintText,
-  emailHintText,
+  emailHintTxt,
   passwordHintText,
   dobHintText,
 ];
@@ -147,7 +147,7 @@ const List<String> customerTVHintTexts = [
 const List<String> retailerTVHintTexts = [
   bizOwnerHintText,
   businessNameHintText,
-  emailHintText,
+  emailHintTxt,
   passwordHintText,
   businessLNHintText,
 ];
@@ -327,7 +327,7 @@ Padding buildElevatedButton({
 // Used by customer_home_component, AdminHomeView
 Divider buildDivider() {
   return Divider(
-    color: greyLike,
+    color: backgroundColour, //greyDark,
     indent: 20.0,
     endIndent: 20.0,
     thickness: 1.0,
@@ -446,6 +446,7 @@ TabBar build2ColumnTabBar({
   required String text4column2,
   required TextStyle textStyle,
   IconButton? iconButton,
+  IconButton? iconButton1,
   final Decoration? indicatorDeco,
   final TabBarIndicatorSize? provideIndicatorSize,
   //required Color labelColour,
@@ -470,7 +471,7 @@ TabBar build2ColumnTabBar({
           child: buildTabRowLabel(
             textLabel: text4column2,
             style: textStyle,
-            includeIconBtn: iconButton,
+            includeIconBtn: iconButton1,
           ),
         ),
       ),

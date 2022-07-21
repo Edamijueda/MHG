@@ -145,9 +145,9 @@ abstract class _Banner extends Banner {
   const _Banner._() : super._();
 
   @override
-  String get bannerUrl => throw _privateConstructorUsedError;
+  String get bannerUrl;
   @override
-  String get bannerName => throw _privateConstructorUsedError;
+  String get bannerName;
   @override
   @JsonKey(ignore: true)
   _$$_BannerCopyWith<_$_Banner> get copyWith =>

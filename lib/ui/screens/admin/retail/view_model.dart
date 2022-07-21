@@ -52,16 +52,6 @@ class RetailViewModel extends BaseViewModel {
       hasImage: true,
       takesInput: true,
     );
-    /*if (response?.data != null) {
-      await _cloudStorageService.uploadPipe(
-        collectionPath: pipeDbPathTxt,
-        imageToUpload: response?.data[0],
-        title: response?.data[1],
-        folderName: deviceTxt,
-        desc: response?.data[2],
-        price: response?.data[3],
-      );
-    }*/
   }
 
   void realtimeOperations({required int index}) {

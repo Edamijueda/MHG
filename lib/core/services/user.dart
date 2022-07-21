@@ -12,7 +12,7 @@ import 'package:mhg/core/services/authentication/authentication.dart';*/
   User? _currentUser;
   User? get currentUser => _currentUser;
 
-  // We have to sync our user account
+  // We have to sync our profile account
   Future<void> syncUserAccount() async {
     //final firebaseUserId = _authService.
   }

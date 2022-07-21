@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mhg/constants.dart';
+import 'package:mhg/ui/screens/helpers/reusable_widgets.dart';
 import 'package:mhg/ui/theme/colours.dart';
 import 'package:mhg/ui/theme/typography.dart';
-import 'package:mhg/ui/screens/helpers/reusable_widgets.dart';
 
 ThemeData getThemes() {
   return ThemeData(
@@ -80,3 +80,6 @@ ThemeData getThemes() {
     ),
   );
 }
+
+//use default TextTheme
+TextStyle? bodyText2 = ThemeData.light().textTheme.bodyText2;

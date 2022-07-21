@@ -26,7 +26,7 @@ const textStyle14FW400White = TextStyle(
 );
 
 const textStyle14FW400WithPColour = TextStyle(
-  color: primaryColour,
+  color: Colors.teal, //primaryColour,
   fontSize: 14.0,
   fontStyle: FontStyle.normal,
   fontWeight: FontWeight.normal,
@@ -94,6 +94,13 @@ const textStyle10Normal = TextStyle(
   letterSpacing: 0.2,
 );
 
+const textStyle11Normal = TextStyle(
+  fontStyle: FontStyle.normal,
+  fontSize: 11.0,
+  fontWeight: FontWeight.normal,
+  letterSpacing: 0.2,
+);
+
 const uploadEBTextStyle = TextStyle(
   fontStyle: FontStyle.normal,
   fontSize: 11.0,
@@ -109,6 +116,12 @@ const textStyle12Medium = TextStyle(
   letterSpacing: 0.2,
 );
 
+const textStyle13Medium = TextStyle(
+  fontStyle: FontStyle.normal,
+  fontSize: 13.0,
+  fontWeight: FontWeight.w500,
+  letterSpacing: 0.2,
+);
 //His not being used yet
 /*const textStyle14FW400 = TextStyle(
   //color: white,

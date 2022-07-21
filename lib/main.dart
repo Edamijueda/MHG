@@ -1,6 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-//import 'package:mhg/ui/views/user_access_view.dart';
 import 'package:flutter/services.dart';
 import 'package:logger/logger.dart';
 import 'package:mhg/app/app.locator.dart';
@@ -13,6 +12,9 @@ import 'app/app.router.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  /*await FirebaseAppCheck.instance.activate(
+    webRecaptchaSiteKey: 'recaptcha-v3-site-key',
+  );*/
   setupLocator(); // Dis will register d functions registered in d locator
   setupDialogUI(); // Dis will register our dialogUI
   Logger.level = Level.info;
@@ -23,7 +25,6 @@ void main() async {
     ),
   );
   runApp(MyApp());
-  //WidgetsFlutterBinding.ensureInitialized();
 }
 
 class MyApp extends StatelessWidget {

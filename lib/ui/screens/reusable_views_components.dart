@@ -49,7 +49,7 @@ class NavDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Drawer(
       backgroundColor: backgroundColour,
-      // Add a ListView to the drawer. This ensures the user can scroll
+      // Add a ListView to the drawer. This ensures the profile can scroll
       // through the options in the drawer if there isn't enough vertical
       // space to fit everything.
       child: ListView(
@@ -176,6 +176,30 @@ class NavDrawer extends StatelessWidget {
             style: textStyle14FW400DarkGrey,
           )),
         ],
+      ),
+    );
+  }
+}
+
+class EmptyDevice extends StatelessWidget {
+  final String deviceType;
+  const EmptyDevice({
+    Key? key,
+    required this.deviceType,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 10.0, right: 10.0, bottom: 10.0),
+      child: Material(
+        color: backgroundColour,
+        elevation: 1.0,
+        borderRadius: BorderRadius.circular(15.0),
+        child: Container(
+          alignment: Alignment.center,
+          child: Text('$deviceType are currently not available. Check back'),
+        ),
       ),
     );
   }

@@ -1,6 +1,6 @@
-// Here we need to create two functions relating to the user. The first create
-// a new user doc in the db using the id passed in. The second one is to get the
-// user, which return the user from the userCollection, if a doc with the id
+// Here we need to create two functions relating to the profile. The first create
+// a new profile doc in the db using the id passed in. The second one is to get the
+// profile, which return the profile from the userCollection, if a doc with the id
 // exist
 //import 'package:cloud_firestore/cloud_firestore.dart';
 //import 'package:firebase_auth/firebase_auth.dart';
@@ -12,11 +12,11 @@
   final CollectionReference userCollection =
       FirebaseFirestore.instance.collection('users');
 
-  Future<void> createUser({required User user}) async {
-    log.i('param user is: $user');
+  Future<void> createUser({required User profile}) async {
+    log.i('param profile is: $profile');
     try {
-      final userDocRef = userCollection.doc(user.uid);
-      //await userDocRef.set(user.toJson());
+      final userDocRef = userCollection.doc(profile.uid);
+      //await userDocRef.set(profile.toJson());
       log.v('userCreated at ${userDocRef.path}');
     } catch (error) {
       throw FirestoreApiException(
@@ -29,10 +29,10 @@
     if (uid.isNotEmpty) {
       final userDocSnap = await userCollection.doc(uid).get();
       if (!userDocSnap.exists) {
-        log.v('we have no user with id $uid in our db');
+        log.v('we have no profile with id $uid in our db');
         return null;
       }
-      // Handle existence of a user with the id
+      // Handle existence of a profile with the id
       final userData = userDocSnap.data();
       log.v('User found. data: $userData');
       //return User.fromJson(userData!);
@@ -40,7 +40,7 @@
     } else {
       throw FirestoreApiException(
           message:
-              'userId passed in is empty. Pls pass in valid userID if from your firebase user');
+              'userId passed in is empty. Pls pass in valid userID if from your firebase profile');
     }
   }
 }*/

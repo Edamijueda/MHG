@@ -27,13 +27,13 @@ class MhgBaseViewModel extends IndexTrackingViewModel {
 
   void validateScreenToNavTo({required String? eBText}) {
     if (eBText == signIn) {
-      navService.navigateTo(Routes.customerHomeView);
+      navService.navigateTo(Routes.customerView);
     } else if (eBText == signUpHere) {
       navService.navigateTo(Routes.signUpView);
     } else if (eBText == signUpAsCustomer) {
-      navService.navigateTo(Routes.customerHomeView);
+      navService.navigateTo(Routes.customerView);
     } else if (eBText == signUpAsRetailer) {
-      navService.navigateTo(Routes.retailerHomeView);
+      navService.navigateTo(Routes.retailUserView);
     } else if (eBText == signInHere) {
       navService.navigateTo(Routes.userAccessView);
     } else {

@@ -239,19 +239,19 @@ abstract class _Device extends Device {
   const _Device._() : super._();
 
   @override
-  String get url => throw _privateConstructorUsedError;
+  String get url;
   @override
-  String get title => throw _privateConstructorUsedError;
+  String get title;
   @override
-  String get description => throw _privateConstructorUsedError;
+  String get description;
   @override
-  String get price => throw _privateConstructorUsedError;
+  String get price;
   @override
-  String? get customTitle => throw _privateConstructorUsedError;
+  String? get customTitle;
   @override
-  String? get deviceType => throw _privateConstructorUsedError;
+  String? get deviceType;
   @override
-  String? get id => throw _privateConstructorUsedError;
+  String? get id;
   @override
   @JsonKey(ignore: true)
   _$$_DeviceCopyWith<_$_Device> get copyWith =>

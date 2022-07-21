@@ -5,6 +5,8 @@ import 'package:mhg/constants.dart';
 import 'package:mhg/core/models/artwork/artwork.dart';
 import 'package:mhg/core/models/banner/banner.dart';
 import 'package:mhg/core/models/device/device.dart';
+import 'package:mhg/core/models/profile/profile.dart';
+import 'package:mhg/core/models/request/request.dart';
 import 'package:mhg/utils/reusable_funtions.dart';
 import 'package:stacked/stacked.dart';
 
@@ -27,6 +29,7 @@ class FirestoreDbService with ReactiveServiceMixin {
       _reactiveEdible,
       _reactiveExtract,
       _reactiveGearMech,
+      _rSignupReq,
     ]);
   }
 
@@ -67,7 +70,7 @@ class FirestoreDbService with ReactiveServiceMixin {
   Future<Banner?> addBanner(Banner bannerData) async {
     log.i('bannerData as parameter, with name: ${bannerData.bannerName}');
     _collectionRef = FirebaseFirestore.instance.collection(bannerTxt);
-    var docSnapshot = await checkIfDocExist(bannerData.bannerName);
+    var docSnapshot = await checkIfDocExist(bannerData.bannerName, bannerTxt);
     if (docSnapshot.exists) {
       try {
         await docSnapshot.reference.update(bannerData.toMap());
@@ -120,12 +123,13 @@ class FirestoreDbService with ReactiveServiceMixin {
     return null;
   }
 
-  Future<DocumentSnapshot<Object?>> checkIfDocExist(String bannerName) async {
-    log.i(
-        'with parameter: $bannerName, where _collectionRef id is: ${_collectionRef.id}');
+  Future<DocumentSnapshot<Object?>> checkIfDocExist(
+      String docPath, String collPath) async {
+    _collectionRef = FirebaseFirestore.instance.collection(collPath);
+    log.i('with parameter collPath: $collPath, \n docPath: $docPath');
     try {
-      var doc = await _collectionRef.doc(bannerName).get();
-      return doc;
+      var docSnapshot = await _collectionRef.doc(docPath).get();
+      return docSnapshot;
     } catch (e) {
       rethrow;
     }
@@ -258,7 +262,7 @@ class FirestoreDbService with ReactiveServiceMixin {
 
   //////////////////////////////////////////////////////////////////////////////
   //                        DEVICE fireStore functions
-  ////////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
   final ReactiveValue<List<Device>?> _reactivePipe =
       ReactiveValue<List<Device>?>(null);
 
@@ -1251,5 +1255,123 @@ class FirestoreDbService with ReactiveServiceMixin {
           message: '${device.title} has been deleted',
           duration: const Duration(seconds: 2));
     }
+  }
+
+  //////////////////////////////////////////////////////////////////////////////
+  //                  SIGNUP REQUEST DEVICES- REALTIME UPDATE
+  //////////////////////////////////////////////////////////////////////////////
+
+  final ReactiveValue<List<SignupRequest>?> _rSignupReq =
+      ReactiveValue<List<SignupRequest>?>(null);
+
+  List<SignupRequest>? get rSignupReq => _rSignupReq.value;
+
+  Future signupReqRtUpdate() async {
+    //Rt means Realtime
+    log.i('no parameter');
+    var collRef = FirebaseFirestore.instance
+        .collection(signupReqPathTxt); // signupReqPathTxt as Path
+    late int length;
+    await collRef.get().then((QuerySnapshot querySnapshot) {
+      length = querySnapshot.size; //querySnapshot.docs.length; //will do d same
+      log.i('after length is: $length');
+    });
+    if (length != 0) {
+      log.i('doc exist');
+      collRef.snapshots().listen(
+        (event) {
+          _rSignupReq.value = event.docs
+              .map((e) => SignupRequest.fromDocument(e, null))
+              .toList();
+          log.i('_rSignupReq ${_rSignupReq.value?.first.email}');
+        },
+        onError: (error) => log.i('Listener failed with error: $error'),
+      );
+    } else {
+      log.i('no signupRequests coll in fireStore. All docs must have been del');
+    }
+  }
+
+  //////////////////////////////////////////////////////////////////////////////
+  //                  SIGNUP REQUEST - REALTIME UPDATE
+  //////////////////////////////////////////////////////////////////////////////
+
+  Future updateRequest({required SignupRequest approvedReq}) async {
+    log.i(
+        'has param approvedReq, which has lastNorBizN: ${approvedReq.lastNorBizN}, \n '
+        'vIdStoragePath: ${approvedReq.vIdStoragePath}, \n storageDownloadUrl: '
+        '${approvedReq.validIdCard}, \n uid: ${approvedReq.uid}');
+    UserProfile userProfile = UserProfile(
+        userType: approvedReq.userType,
+        uid: approvedReq.uid,
+        firstNorBizOwnerN: approvedReq.firstNorBizOwnerN,
+        lastNorBizN: approvedReq.lastNorBizN,
+        email: approvedReq.email,
+        password: approvedReq.password);
+    // 1. add approvedRequest to collection 'approvedUsersPathTxt'
+    _collectionRef =
+        FirebaseFirestore.instance.collection(approvedUsersPathTxt);
+    try {
+      await _collectionRef
+          .doc(approvedReq.uid)
+          .set(approvedReq.toMap())
+          .then((value) {
+        reusableFunction.snackBar(
+            message:
+                'Account created. Wait to see if a profile was created for this user',
+            duration: const Duration(seconds: 2));
+        // 2. create a profile in collection 'usersProfilePathTxt'
+        pushProfile(userProfile);
+        // 3. remove approvedReq in collection 'signupReqPathTxt'
+        removeFromSignupReq(approvedReq);
+      });
+    } catch (e) {
+      if (e is PlatformException) {
+        log.i('Platform exception thrown is: ${e.message}');
+      }
+      log.i('error  thrown is: ${e.toString()}');
+    }
+  }
+
+  //////////////////////////////////////////////////////////////////////////////
+
+  pushProfile(UserProfile userProfile) {
+    log.i('param userProfile, which has uid: ${userProfile.uid} \n userType: '
+        '${userProfile.userType}');
+    _collectionRef = FirebaseFirestore.instance.collection(usersProfilePathTxt);
+    try {
+      _collectionRef
+          .doc(userProfile.uid)
+          .set(userProfile.toMap())
+          .then((value) {
+        reusableFunction.snackBar(
+            message:
+                'profile created. Wait few secs to get a SUCCESSFUL message',
+            duration: const Duration(seconds: 2));
+      });
+    } catch (e) {
+      if (e is PlatformException) {
+        log.i('Platform exception thrown is: ${e.message}');
+      }
+      log.i('error  thrown is: ${e.toString()}');
+    }
+  }
+
+  //////////////////////////////////////////////////////////////////////////////
+
+  removeFromSignupReq(SignupRequest approvedReq) {
+    log.i('params approvedReq with uid: ${approvedReq.uid}');
+    log.i('before removal _rSignupReq length is: ${_rSignupReq.value?.length}');
+    _collectionRef = FirebaseFirestore.instance.collection(signupReqPathTxt);
+    _collectionRef.doc(approvedReq.uid).delete().then((value) {
+      reusableFunction.snackBar(
+          message: 'Successful!', duration: const Duration(seconds: 2));
+    });
+    /*bool? deviceWasRemoved = _rSignupReq.value?.remove(approvedReq);
+    //_rSignupReq.value = _tempGearMerchList;
+    if (deviceWasRemoved == true) {
+      log.i(
+          'after removal _rSignupReq length is: ${_rSignupReq.value?.length}');
+    }*/
   }
 }

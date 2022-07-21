@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:mhg/app/app.logger.dart';
 import 'package:mhg/constants.dart';
 import 'package:mhg/ui/screens/admin/admin_home/admin_home_view_model.dart';
+import 'package:mhg/ui/screens/admin/alert/view.dart';
 import 'package:mhg/ui/screens/admin/devices/view.dart';
 import 'package:mhg/ui/screens/admin/retail/view.dart';
 import 'package:mhg/ui/screens/admin/tier1/tier1_view.dart';
-import 'package:mhg/ui/screens/customer_home/customer_home_components.dart';
+import 'package:mhg/ui/screens/customer/components.dart';
 import 'package:mhg/ui/screens/helpers/reusable_widgets.dart';
 import 'package:mhg/ui/theme/colours.dart';
 import 'package:mhg/ui/theme/typography.dart';
@@ -20,6 +22,7 @@ class AdminHomeView extends StatefulWidget {
 class _AdminHomeViewState extends State<AdminHomeView>
     with SingleTickerProviderStateMixin {
   //final MhgBaseViewModel _mhgBaseViewModel = MhgBaseViewModel();
+  final log = getStackedLogger('_AdminHomeViewState');
 
   static int _selectedTierIndex = 0;
 
@@ -37,7 +40,7 @@ class _AdminHomeViewState extends State<AdminHomeView>
       setState(() {
         _selectedTierIndex = _tiersTabController.index;
       });
-      print("Selected Index: " + _tiersTabController.index.toString());
+      log.i("Selected Index: " + _tiersTabController.index.toString());
     });
   }
 
@@ -66,14 +69,14 @@ class _AdminHomeViewState extends State<AdminHomeView>
               label: 'Alert',
               icon: Icon(Icons.info_outline),
             ),
-            BottomNavigationBarItem(
+            /*BottomNavigationBarItem(
               label: 'Sold',
               icon: Icon(Icons.add_task_outlined),
-            ),
-            BottomNavigationBarItem(
+            ),*/
+            /*BottomNavigationBarItem(
               label: 'Stat',
               icon: Icon(Icons.insert_chart_outlined),
-            ),
+            ),*/
           ],
         ),
       ),
@@ -90,10 +93,25 @@ class _AdminHomeViewState extends State<AdminHomeView>
               Container(
                 padding: EdgeInsets.only(top: 15.0), // prev top: 5.0
                 color: Colors.teal.shade800,
-                child: build2ColumnTabBar(
-                  text4column1: customer,
-                  text4column2: retailer,
-                  textStyle: textStyleWhiteBold16,
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: build2ColumnTabBar(
+                        text4column1: customerTxt,
+                        text4column2: tempRetailer,
+                        textStyle: textStyleWhiteBold16,
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () => model.logout(),
+                      icon: Icon(
+                        logoutIcon,
+                        color: Colors.red,
+                        size: 20.0,
+                      ),
+                      tooltip: logoutTxt,
+                    ),
+                  ],
                 ),
               ),
               Expanded(
@@ -170,28 +188,27 @@ class _AdminHomeViewState extends State<AdminHomeView>
           ),
         ); //UploadView();
       case 1:
-        return Container(
-          width: 250.0,
-          height: 250.0,
-          color: Colors.pink,
-        ); //AlartView();
-      case 2:
+        return AlertView(); //AlertView();
+      /*case 2:
         return Container(
           width: 250.0,
           height: 250.0,
           color: Colors.blueGrey,
-        ); //SoldItemsView();
-      case 3:
+        ); //SoldItemsView();*/
+      /*case 3:
         return Container(
           width: 250.0,
           height: 250.0,
           color: Colors.indigo,
-        ); //StatView();
+        ); //StatView();*/
       default:
         return Container(
           width: 250.0,
           height: 250.0,
           color: Colors.brown,
+          alignment: Alignment.center,
+          child: Text(
+              'Default. since other BottomNavView case fail. Contact developer'),
         ); //UploadView();
     }
   }

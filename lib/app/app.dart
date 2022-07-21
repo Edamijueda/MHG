@@ -3,13 +3,15 @@
 import 'package:mhg/core/services/authentication/authentication.dart';
 import 'package:mhg/core/services/cloud_storage.dart';
 import 'package:mhg/core/services/database/firestore.dart';
+import 'package:mhg/core/services/user/firestore.dart';
+import 'package:mhg/core/services/user/storage.dart';
 import 'package:mhg/ui/screens/account_settings/account_settings_view.dart';
 import 'package:mhg/ui/screens/admin/admin_home/admin_home_view.dart';
 import 'package:mhg/ui/screens/cart/cart_view.dart';
-import 'package:mhg/ui/screens/customer_home/customer_home_view.dart';
+import 'package:mhg/ui/screens/customer/view.dart';
 import 'package:mhg/ui/screens/help/help_view.dart';
 import 'package:mhg/ui/screens/order_history/order_history_view.dart';
-import 'package:mhg/ui/screens/retail_home/retailer_home_view.dart';
+import 'package:mhg/ui/screens/retail/view.dart';
 import 'package:mhg/ui/screens/saved_items/saved_items_view.dart';
 import 'package:mhg/ui/screens/sign_up/signup_view.dart';
 import 'package:mhg/ui/screens/user_access/user_access_view.dart';
@@ -27,10 +29,10 @@ import 'package:stacked_services/stacked_services.dart';
       page: SignUpView,
     ),
     MaterialRoute(
-      page: CustomerHomeView,
+      page: CustomerView,
     ),
     MaterialRoute(
-      page: RetailerHomeView,
+      page: RetailUserView,
     ),
     MaterialRoute(
       page: SavedItemsView,
@@ -72,6 +74,12 @@ import 'package:stacked_services/stacked_services.dart';
     ),
     LazySingleton(
       classType: FirestoreDbService,
+    ),
+    LazySingleton(
+      classType: UserStorageService,
+    ),
+    LazySingleton(
+      classType: UserFsService,
     ),
   ],
   logger: StackedLogger(logHelperName: 'getStackedLogger'),

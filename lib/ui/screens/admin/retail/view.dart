@@ -71,42 +71,22 @@ class _RetailViewState extends State<RetailView>
 
   static String getTextFromSelectedTab() {
     if (_selectedIndex == 0) {
-      /*if (isChanging) {
-        selectedSubCat = designFlowerTxt;
-      }*/
-      //selectedSubCat = designFlowerTxt;
       _retailViewModel.setSelectedSubCat(designFlowerTxt);
       return flowerTxt;
     }
     if (_selectedIndex == 1) {
-      //selectedSubCat = cbdCartTxt;
-      /*if (isChanging) {
-        selectedSubCat = cbdCartTxt;
-      }*/
       _retailViewModel.setSelectedSubCat(cbdCartTxt);
       return cartTxt;
     }
     if (_selectedIndex == 2) {
-      //selectedSubCat = candyTxt;
-      /*if (isChanging) {
-        selectedSubCat = candyTxt;
-      }*/
       _retailViewModel.setSelectedSubCat(candyTxt);
       return edibleTxt;
     }
     if (_selectedIndex == 3) {
-      //selectedSubCat = shatterTxt;
-      /*if (isChanging) {
-        selectedSubCat = shatterTxt;
-      }*/
       _retailViewModel.setSelectedSubCat(shatterTxt);
       return extractTxt;
     }
     if (_selectedIndex == 4) {
-      //selectedSubCat = artPrintAndDigitalTxt;
-      /*if (isChanging) {
-        selectedSubCat = artPrintAndDigitalTxt;
-      }*/
       _retailViewModel.setSelectedSubCat(artPrintAndDigitalTxt);
       return gearTxt;
     }
@@ -117,39 +97,9 @@ class _RetailViewState extends State<RetailView>
 
   void _setSelectedSubCat(String input) {
     selectedSubCat = input;
-    /*if (isChanging) {
-      selectedSubCat = input;
-    }*/
   }
 
   String _getSelectedSubCat() {
-    /*if (isChanging) {
-      if (_selectedIndex == 0) {
-        selectedSubCat = designFlowerTxt;
-      } else if (_selectedIndex == 1) {
-        selectedSubCat = cbdCartTxt;
-      } else if (_selectedIndex == 2) {
-        selectedSubCat = candyTxt;
-      } else if (_selectedIndex == 3) {
-        selectedSubCat = shatterTxt;
-      } else {
-        selectedSubCat = artPrintAndDigitalTxt;
-      }
-    } else if (!isChanging && _controller.index == _controller.previousIndex) {
-      if (_selectedIndex == 0) {
-        selectedSubCat = designFlowerTxt;
-      } else if (_selectedIndex == 1) {
-        selectedSubCat = cbdCartTxt;
-      } else if (_selectedIndex == 2) {
-        selectedSubCat = candyTxt;
-      } else if (_selectedIndex == 3) {
-        selectedSubCat = shatterTxt;
-      } else {
-        selectedSubCat = artPrintAndDigitalTxt;
-      }
-    } else {
-      return selectedSubCat;
-    }*/
     return selectedSubCat;
   }
 
@@ -819,7 +769,7 @@ class _RetailViewState extends State<RetailView>
                       //EdgeInsets.symmetric(horizontal: 8.0),
                       leading: Text(
                         flowerTxt,
-                        style: (model != flowerTxt)
+                        style: (getTextFromSelectedTab() != flowerTxt)
                             ? textStyle14FW400DarkGrey
                             : textStyle14FW400White,
                       ),
@@ -952,8 +902,6 @@ class _RetailViewState extends State<RetailView>
               children: [
                 Text(
                   getTextFromSelectedTab(),
-                  //'Testing',
-                  //getTextFromSelectedTab(),
                   style: textStyle14FW400White, //textStyle14FW400WithPColour
                 ),
                 buildIcon(

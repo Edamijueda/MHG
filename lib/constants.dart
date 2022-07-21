@@ -7,6 +7,7 @@ const String validIdIconBtHelpText = 'Valid ID IconButton help is pressed';
 const String customerIconBtnHelpText = 'Customer HelpIconButton is pressed';
 const String retailerIconBtHelpText = 'Retailer HelpIconButton is pressed';
 const String didNotHaveAnyAcc = 'Didn\'t have any account? ';
+const String logoutDialogTxt = 'Are you sure you want to logout?';
 const String ifYouHaveAnAccount = 'If you have an account? ';
 const String appMotto = 'Healing the Nation\'s Capital';
 const String displayedAppName = ' Most High Grade';
@@ -20,7 +21,7 @@ const String thirdTierTxt = '3rd Tier';
 const String firstTierArtworkTxt = 'firstTierArtwork';
 const String secondTierArtworkTxt = 'secondTierArtwork';
 const String thirdTierArtworkTxt = 'thirdTierArtwork';
-const String emailHintText = 'Email';
+const String emailHintTxt = 'Valid Email';
 const String passwordHintText = 'Password';
 const String priceHintTxt = '\$Price';
 const String priceTxt = 'price';
@@ -34,15 +35,40 @@ const String signUpAsCustomer = 'signUp as Customer';
 const String signUpAsRetailer = 'signUp as Retailer';
 const String choiceOfArtworkTxt = 'Choice of ArtWork';
 const String manageArtworkTxt = 'Manage Artwork';
-const String customer = 'Customer';
-const String retailer = '   Retailer';
+const String customerTxt = 'Customer';
+const String tempRetailer = '   Retailer'; // This will be removed later
+const String retailerTxt = 'Retailer';
 const String artworkTxt = 'Artworks';
 //const String bannerTxt = 'Banners';
+
+// Models constants
 const String artworkUrlTxt = 'artworkUrl';
-const String deviceUrlTxt = 'artworkUrl';
+const String deviceUrlTxt = 'deviceUrl';
 const String descTxt = 'description';
 const String bannerUrlTxt = 'bannerUrl';
 const String bannerNameTxt = 'bannerName';
+// model class SignupRequest constants
+const String firstNorBizOwnerNTxt = 'firstNorBizOwnerN';
+const String lastNorBizNTxt = 'lastNorBizN';
+const String emailTxt = 'email';
+const String passwordTxt = 'password';
+const String dobOrBizLicenseNoTxt = 'dobOrBizLicenseNo';
+const String validIdCardTxt = 'validIdCard';
+const String userTypeTxt = 'userType';
+const String uidTxt = 'uid';
+const String vIdStoragePathTxt = 'vIdStoragePath';
+// model class SignupRequest Firebase constants
+const String validIdCardsTxt = 'ValidIdCards'; // used as storage folder title
+const String signupReqPathTxt = 'signupRequests'; // used as fireStore coll name
+const String approvedUsersPathTxt = 'approvedUsers'; // as fireStore coll name
+// model class UserProfile constants
+const String profilePicTxt = 'profilePic';
+const String phoneNoTxt = 'phoneNo';
+const String cartItemsTxt = 'cartItems';
+// model class UserProfile Firebase constants
+const String usersProfilePathTxt = 'usersProfile'; // as fireStore coll name
+const String profPicsPathTxt = 'ProfPics'; // used as storage folder title
+
 const String signIn = 'SIGN IN';
 const String upload = 'Upload...';
 const String tapToAddTxt = 'Tap to add';
@@ -51,8 +77,9 @@ const String removeBannerTxt = 'Remove';
 const String firstNameHintTxt = 'First name';
 const String seeAllTxt = 'See All';
 const String addTxt = 'Add';
+const String logoutTxt = 'Log out';
 const String lastNameHintText = 'Last name';
-const String dobHintText = 'Date of Birth';
+const String dobHintText = 'DOB (dd/mm/yyyy)';
 const String validIdHintText = 'Valid ID';
 const String bizOwnerHintText = 'Biz Owner\'s Name';
 const String businessNameHintText = 'Business Name';
@@ -95,7 +122,7 @@ const String gearMerchDbPathTxt = 'gearMerchDevices';
 // Firebase/cloud storage constants
 const String bannerTxt = 'Banners';
 const String deviceTxt = 'Devices';
-const String retailDevicePathTxt = 'Retail Devices';
+const String retailDevicePathTxt = 'RetailDevices';
 
 const String review = '4.6 86 Reviews';
 

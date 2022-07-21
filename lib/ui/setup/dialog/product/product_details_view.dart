@@ -43,10 +43,10 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                   overflow: TextOverflow.ellipsis,
                 ),
                 SizedBox(height: 10.0),
-                Text(
+                /*Text(
                   widget.request.data.id,
                   style: TextStyle(fontSize: 18.0),
-                ),
+                ),*/
                 SizedBox(height: 10.0),
                 Container(
                   width: 230.0, // previously use 220

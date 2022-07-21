@@ -87,7 +87,7 @@ class _UserAccessViewState extends State<UserAccessView> {
                               textEditingController: _emailTextController,
                               sizeOfTF: sizeW326H50,
                               tfPadding: symPaddingVert8Hor36,
-                              hintText: emailHintText,
+                              hintText: emailHintTxt,
                               prefixIcon:
                                   buildIcon(icon: emailIcon, color: grey),
                               textInputType: TextInputType.emailAddress,

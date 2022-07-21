@@ -17,8 +17,8 @@ class _OrderHistoryViewState extends State<OrderHistoryView> {
       viewModelBuilder: () => OrderHistoryViewModel(),
       builder: (context, model, child) => Scaffold(
         body: Center(
-            child:
-                Text('This screen will hold history of all our user\'s order')),
+            child: Text(
+                'This screen will hold history of all our profile\'s order')),
       ),
     );
   }

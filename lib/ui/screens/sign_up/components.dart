@@ -35,6 +35,7 @@ class _SignupTabBarViewState extends State<SignupTabBarView> {
 
   final String errorMsg = 'Can\'t be null';
   String? emailExistMsg;
+  String? passwordErrorMsg;
   bool validate = false;
   bool validator = false;
   bool validator1 = false;
@@ -202,7 +203,11 @@ class _SignupTabBarViewState extends State<SignupTabBarView> {
                       icon: widget.prefixIconList[3],
                       color: grey,
                       size: prefixIconSize),
-                  errorText: validator3 ? errorMsg : null,
+                  errorText: (validator3)
+                      ? (passwordErrorMsg != null)
+                          ? passwordErrorMsg
+                          : errorMsg
+                      : null,
                   errorStyle: TextStyle(color: Colors.red.shade500),
                   errorBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.red.shade500),
@@ -333,6 +338,7 @@ class _SignupTabBarViewState extends State<SignupTabBarView> {
             padding: symPaddingVert8Hor36,
             child: ElevatedButton(
               onPressed: () {
+                //model.goToNextScreen(widget.textOnEB);
                 if (model.selectedImage == null) {
                   model.showSnackBar();
                 } else {
@@ -344,11 +350,29 @@ class _SignupTabBarViewState extends State<SignupTabBarView> {
                     } else if (controller2.text.isEmpty) {
                       validator2 = true;
                     } else if (controller3.text.isEmpty) {
+                      passwordErrorMsg = null;
                       validator3 = true;
+                      /*if (controller3.text.isNotEmpty &&
+                          controller3.text.length < 6) {
+                        passwordErrorMsg =
+                            'Password should be at least 6 characters';
+                        validator3 = true;
+                        controller3.clear();
+                      }*/
+                      /*if (controller3.text.isEmpty) {
+                        passwordErrorMsg = null;
+                        validator3 = true;
+                      }*/
+                    } else if (controller3.text.isNotEmpty &&
+                        controller3.text.length < 6) {
+                      passwordErrorMsg =
+                          'Password should be at least 6 characters';
+                      validator3 = true;
+                      controller3.clear();
                     } else if (controller4.text.isEmpty) {
                       validator4 = true;
                     } else {
-                      model.signupRequest([
+                      model.requestAccCreation([
                         controller.text,
                         controller1.text,
                         controller2.text,
@@ -360,9 +384,10 @@ class _SignupTabBarViewState extends State<SignupTabBarView> {
                     }
                   });
                 }
+                log.i('userType is ${widget.textOnEB}');
               },
               //onPressed: () => print('SignIn button pressed'),
-              child: Text(widget.textOnEB),
+              child: Text('signUp as ${widget.textOnEB}'),
             ),
           ),
         ],
