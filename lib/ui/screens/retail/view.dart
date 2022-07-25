@@ -754,7 +754,8 @@ class _RetailUserViewState extends State<RetailUserView>
             )
           ],
         ),
-        drawer: NavDrawer(mhgBaseViewModel: _mhgBaseViewModel),
+        drawer: NavDrawer(
+            mhgBaseViewModel: _mhgBaseViewModel, profile: widget.profile),
         body: FractionallySizedBox(
           heightFactor: 1.0,
           widthFactor: 1.0,

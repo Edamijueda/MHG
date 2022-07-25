@@ -17,7 +17,7 @@ class SignUpViewModel extends BaseViewModel {
   final log = getStackedLogger('SignUpViewModel');
   final _navService = locator<NavigationService>();
   final UserStorageService _storageService = locator<UserStorageService>();
-  final ReusableFunction reusableFunction = ReusableFunction();
+  final ReusableFunc reusableFunction = ReusableFunc();
   final DialogService _dialogService = locator<DialogService>();
   final ImageSelector _imageSelector = locator<ImageSelector>();
   final AuthenticationService _authService = locator<AuthenticationService>();

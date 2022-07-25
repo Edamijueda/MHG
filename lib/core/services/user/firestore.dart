@@ -15,7 +15,7 @@ import 'package:stacked_services/stacked_services.dart';
 
 class UserFsService with ReactiveServiceMixin {
   final log = getStackedLogger('UserFsService');
-  final ReusableFunction reusableFunction = ReusableFunction();
+  final ReusableFunc reusableFunction = ReusableFunc();
   final DialogService _dialogService = locator<DialogService>();
   final String signupReqTxt =
       'Request successful. You will get an approval mail soon after review. You '
@@ -37,6 +37,7 @@ class UserFsService with ReactiveServiceMixin {
       _rBong,
       _rDabRing,
       _rBubble,
+      _rCartItems,
     ]);
   }
 
@@ -373,5 +374,31 @@ class UserFsService with ReactiveServiceMixin {
       onError: (error) => log.i(
           '$bubbleDbPathTxt FireStore RealtimeUpdate Listener failed: $error'),
     );
+  }
+
+  //////////////////////////////////////////////////////////////////////////////
+  //                    CUSTOMER REACTIVE DEVICE functions
+  //////////////////////////////////////////////////////////////////////////////
+
+  List<Device> tempCartItems = List<Device>.empty(growable: true);
+  final ReactiveValue<List<Device>?> _rCartItems =
+      ReactiveValue<List<Device>?>(null);
+
+  List<Device>? get rCartItems => _rCartItems.value;
+  addItemToCart(Device device) async {
+    log.i('device has title: ${device.title}');
+    tempCartItems.add(device);
+    //_rCartItems.value?.add(device); //= tempCartItems;
+    _rCartItems.value = tempCartItems;
+    notifyListeners();
+    log.i(
+        '_rCartItem has first item with title: ${_rCartItems.value?.first.title}');
+    log.i('_rCartItem has length: ${_rCartItems.value?.length}');
+  }
+
+  void removeItem(Device device) {
+    var itemWasRemoved = tempCartItems.remove(device);
+    if (itemWasRemoved) _rCartItems.value = tempCartItems;
+    notifyListeners();
   }
 }

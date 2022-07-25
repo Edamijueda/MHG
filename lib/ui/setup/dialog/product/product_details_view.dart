@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mhg/constants.dart';
 import 'package:mhg/ui/screens/admin/tier1/tier1_viewmodel.dart';
+import 'package:mhg/ui/screens/customer/device/view_model.dart';
+import 'package:mhg/ui/screens/helpers/reusable_widgets.dart';
 import 'package:mhg/ui/theme/colours.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -24,6 +26,7 @@ class ProductDetailsView extends StatefulWidget {
 class _ProductDetailsViewState extends State<ProductDetailsView> {
   @override
   Widget build(BuildContext context) {
+    CustomerDeviceViewModel parentModel = CustomerDeviceViewModel();
     return ViewModelBuilder<Admin1stTierViewModel>.reactive(
       viewModelBuilder: () => Admin1stTierViewModel(),
       builder: (context, model, child) => Dialog(
@@ -32,8 +35,7 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
           width: 305.0,
           height: 500.0, // prev height used 500.0
           child: Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
+            padding: const EdgeInsets.fromLTRB(18.0, 10.0, 18.0, 15.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -42,33 +44,29 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                   style: TextStyle(fontSize: 18.0),
                   overflow: TextOverflow.ellipsis,
                 ),
-                SizedBox(height: 10.0),
                 /*Text(
                   widget.request.data.id,
                   style: TextStyle(fontSize: 18.0),
                 ),*/
                 SizedBox(height: 10.0),
-                Container(
-                  width: 230.0, // previously use 220
-                  height: 180.0, // previously use 150
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    color: Colors.white70,
+                Expanded(
+                  child: ClipRRect(
                     borderRadius: borderRadius10,
-                  ),
-                  child: CachedNetworkImage(
-                    imageUrl: widget.request.data.url,
-                    /*imageUrl: widget.request.imageUrl ??
-                        'https://previews.123rf.com/images/sebicla/sebicla1303/sebicla130300159/18458190-contact-admin.jpg',*/
-                    // D else image ask u to see admin
-                    progressIndicatorBuilder: (context, url, downloadProgress) {
-                      if (downloadProgress.progress != null) {
-                        final percent =
-                            (downloadProgress.progress! * 100).round();
-                        return Text('$percent% done loading from database');
-                      }
-                      return Center(child: CircularProgressIndicator());
-                    },
+                    child: CachedNetworkImage(
+                      imageUrl: widget.request.data.url,
+                      /*imageUrl: widget.request.imageUrl ??
+                          'https://previews.123rf.com/images/sebicla/sebicla1303/sebicla130300159/18458190-contact-admin.jpg',*/
+                      // D else image ask u to see admin
+                      progressIndicatorBuilder:
+                          (context, url, downloadProgress) {
+                        if (downloadProgress.progress != null) {
+                          final percent =
+                              (downloadProgress.progress! * 100).round();
+                          return Text('$percent% done loading from database');
+                        }
+                        return Center(child: CircularProgressIndicator());
+                      },
+                    ),
                   ),
                 ),
                 SizedBox(height: 10.0),
@@ -84,15 +82,26 @@ class _ProductDetailsViewState extends State<ProductDetailsView> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    SizedBox.fromSize(
-                      size: Size(70.0, 28.0),
-                      child: ElevatedButton(
-                        onPressed: () => widget.onDialogTap(
-                          DialogResponse(confirmed: true),
-                        ),
-                        child: Text('Ok'),
-                      ),
-                    ),
+                    (widget.request.showIconInMainButton == true)
+                        ? IconButton(
+                            onPressed: () => widget.onDialogTap(
+                              DialogResponse(confirmed: true),
+                            ),
+                            icon: Icon(
+                              addToCartIcon,
+                              color: primaryColour,
+                            ),
+                            tooltip: 'Add to Cart',
+                          )
+                        : SizedBox.fromSize(
+                            size: Size(70.0, 28.0),
+                            child: ElevatedButton(
+                              onPressed: () => widget.onDialogTap(
+                                DialogResponse(confirmed: true),
+                              ),
+                              child: Text('Ok'),
+                            ),
+                          ),
                   ],
                 ),
               ],

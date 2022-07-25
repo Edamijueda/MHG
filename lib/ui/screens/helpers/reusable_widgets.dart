@@ -27,6 +27,7 @@ const IconData orderIcon = Icons.shopping_bag_outlined;
 const IconData saveItemIcon = Icons.save_outlined;
 const IconData helpIconOutline = Icons.help_outline;
 const IconData logoutIcon = Icons.logout;
+const IconData addToCartIcon = Icons.add_shopping_cart;
 
 /*const Padding symPaddingVert9Hor36 = Padding(
   padding: EdgeInsets.symmetric(

@@ -94,7 +94,7 @@ class _GrinderEntryViewState extends State<GrinderEntryView> {
                     child: TextField(
                       controller: descController,
                       textInputAction: TextInputAction.newline,
-                      maxLength: 150,
+                      maxLength: 220,
                       maxLines: 4,
                       decoration: InputDecoration(
                         filled: false,

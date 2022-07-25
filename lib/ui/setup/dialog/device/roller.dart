@@ -94,7 +94,7 @@ class _RollerEntryViewState extends State<RollerEntryView> {
                     child: TextField(
                       controller: descController,
                       textInputAction: TextInputAction.newline,
-                      maxLength: 150,
+                      maxLength: 220,
                       maxLines: 4,
                       decoration: InputDecoration(
                         filled: false,

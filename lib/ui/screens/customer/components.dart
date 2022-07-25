@@ -65,32 +65,46 @@ class EmptyArtwork extends StatelessWidget {
 class UserArtworkCard extends StatelessWidget {
   final Artwork artwork;
   final CustomerViewModel model;
-  UserArtworkCard({Key? key, required this.artwork, required this.model})
+  final String type;
+  UserArtworkCard(
+      {Key? key,
+      required this.artwork,
+      required this.model,
+      required this.type})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: backgroundColour,
-      elevation: 1.0,
-      borderRadius: BorderRadius.circular(15.0),
-      child: InkWell(
-        onTap: () => model.viewDetails(artwork),
-        child: Container(
-          margin: EdgeInsets.fromLTRB(5.0, 3.0, 5.0, 10.0),
-          height: 155.0,
-          width: 140.0, //155.0
-          child: CachedNetworkImage(
-            //height: 250.0, //333.0
-            //width: 383.0,
-            imageUrl: artwork.url!,
-            progressIndicatorBuilder: (context, url, downloadProgress) {
-              if (downloadProgress.progress != null) {
-                final percent = (downloadProgress.progress! * 100).round();
-                return Text('$percent% done loading from database');
-              }
-              return Center(child: CircularProgressIndicator());
-            },
+    return Padding(
+      padding: EdgeInsets.only(left: 3.0, right: 3.0),
+      child: Material(
+        color: backgroundColour,
+        elevation: 1.0,
+        borderRadius: BorderRadius.circular(15.0),
+        child: InkWell(
+          onTap: () => model.viewDetails(artwork, type),
+          child: Container(
+            //padding: EdgeInsets.only(left: 10.0, right: 10.0, bottom: 10.0),
+            margin: const EdgeInsets.fromLTRB(5.0, 5.0, 5.0, 5.0),
+            //height: 155.0, //155.0
+            //width: 140.0, //155.0
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(15.0),
+              child: CachedNetworkImage(
+                height: 150.0, //155.0
+                width: 140.0,
+                //height: 250.0, //333.0
+                //width: 383.0,
+                imageUrl: artwork.url!,
+                progressIndicatorBuilder: (context, url, downloadProgress) {
+                  if (downloadProgress.progress != null) {
+                    final percent = (downloadProgress.progress! * 100).round();
+                    return Text('$percent% done loading from database');
+                  }
+                  return Center(child: CircularProgressIndicator());
+                },
+              ),
+            ),
           ),
         ),
       ),

@@ -7,7 +7,8 @@ import 'package:mhg/ui/screens/customer/view_model.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
-class CustomerTier3ViewModel extends CustomerViewModel {
+class CustomerTier3ViewModel extends CustomerViewModel
+    implements ReactiveViewModel {
   final log = getStackedLogger('CustomerTier3ViewModel');
   final UserFsService _userFsService = locator<UserFsService>();
   //final UserStorageService _userStorageService = locator<UserStorageService>();
@@ -42,6 +43,19 @@ class CustomerTier3ViewModel extends CustomerViewModel {
     _userFsService.tier3ArtworkRtUpdate();
   }
 
-  @override
-  Future viewDetails(Artwork artwork) async {}
+  /*@override
+  Future viewDetails(Artwork artwork) async {
+    log.i('parameter artwork with title: ${artwork.title}');
+    //DialogResponse? response =
+    await _dialogService.showCustomDialog(
+      variant: DialogType.productDetails,
+      hasImage: true,
+      barrierDismissible: true,
+      imageUrl: artwork.url,
+      title: artwork.title,
+      description: artwork.description,
+      showIconInMainButton: true,
+      data: artwork,
+    );
+  }*/
 }

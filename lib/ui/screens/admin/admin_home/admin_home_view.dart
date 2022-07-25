@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mhg/app/app.logger.dart';
 import 'package:mhg/constants.dart';
+import 'package:mhg/core/models/login/login.dart';
 import 'package:mhg/ui/screens/admin/admin_home/admin_home_view_model.dart';
 import 'package:mhg/ui/screens/admin/alert/view.dart';
 import 'package:mhg/ui/screens/admin/devices/view.dart';
@@ -13,7 +14,8 @@ import 'package:mhg/ui/theme/typography.dart';
 import 'package:stacked/stacked.dart';
 
 class AdminHomeView extends StatefulWidget {
-  const AdminHomeView({Key? key}) : super(key: key);
+  final Login login;
+  const AdminHomeView({Key? key, required this.login}) : super(key: key);
 
   @override
   State<AdminHomeView> createState() => _AdminHomeViewState();
@@ -46,6 +48,7 @@ class _AdminHomeViewState extends State<AdminHomeView>
 
   @override
   Widget build(BuildContext context) {
+    log.i('login has mail: ${widget.login.mail} \n pass: ${widget.login.pass}');
     return ViewModelBuilder<AdminHomeViewModel>.reactive(
       disposeViewModel: false,
       // Tells the viewModelBuilder that we only want to initialise the SVM once
@@ -188,7 +191,7 @@ class _AdminHomeViewState extends State<AdminHomeView>
           ),
         ); //UploadView();
       case 1:
-        return AlertView(); //AlertView();
+        return AlertView(login: widget.login); //AlertView();
       /*case 2:
         return Container(
           width: 250.0,

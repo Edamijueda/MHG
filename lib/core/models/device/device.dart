@@ -4,16 +4,16 @@ import 'package:mhg/constants.dart';
 
 part 'device.freezed.dart';
 
-@freezed
+@unfreezed
 class Device with _$Device {
   const Device._();
-  const factory Device({
+  factory Device({
     required final String url,
     required final String title,
     required final String description,
     required final String price,
     final String? customTitle,
-    final String? deviceType,
+    String? deviceType,
     final String? id,
   }) = _Device;
 

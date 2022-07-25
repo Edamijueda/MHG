@@ -16,7 +16,7 @@ class FlowerViewModel extends ReactiveViewModel {
   final log = getStackedLogger('FlowerViewModel');
   final DialogService _dialogService = locator<DialogService>();
   final ImageSelector _imageSelector = locator<ImageSelector>();
-  final ReusableFunction reusableFunction = ReusableFunction();
+  final ReusableFunc reusableFunction = ReusableFunc();
   final FirestoreDbService _fireStoreDbService = locator<FirestoreDbService>();
   final CloudStorageService _cloudStorageService =
       locator<CloudStorageService>();

@@ -7,11 +7,13 @@ import 'package:mhg/ui/theme/typography.dart';
 class DeviceCard extends StatelessWidget {
   final Device device;
   final dynamic model;
+  final bool hasDelBtn;
 
   const DeviceCard({
     Key? key,
     required this.device,
     required this.model,
+    this.hasDelBtn = true,
   }) : super(key: key);
 
   @override
@@ -69,15 +71,18 @@ class DeviceCard extends StatelessWidget {
                         style: uploadEBTextStyle,
                       ),
                       //SizedBox(width: 25.0),
-                      IconButton(
-                        onPressed: () => model.deleteDevice(device: device),
-                        //padding: EdgeInsets.only(top: 0.0, bottom: 0.0),
-                        icon: Icon(
-                          Icons.delete,
-                          size: 16.0,
-                          color: Colors.yellow.shade900,
-                        ),
-                      ),
+                      (hasDelBtn)
+                          ? IconButton(
+                              onPressed: () =>
+                                  model.deleteDevice(device: device),
+                              //padding: EdgeInsets.only(top: 0.0, bottom: 0.0),
+                              icon: Icon(
+                                Icons.delete,
+                                size: 16.0,
+                                color: Colors.yellow.shade900,
+                              ),
+                            )
+                          : SizedBox.shrink(),
                     ],
                   ),
                 ),

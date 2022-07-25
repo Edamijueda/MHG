@@ -37,7 +37,7 @@ class CloudStorageService with ReactiveServiceMixin {
   Banner? get reactiveBannerDataFromStorage =>
       _reactiveBannerDataFromStorage.value;
 
-  final ReusableFunction reusableFunction = ReusableFunction();
+  final ReusableFunc reusableFunction = ReusableFunc();
 
   Banner? _bannerDataFromFirestore;
 

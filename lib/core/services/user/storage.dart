@@ -9,7 +9,7 @@ import 'package:mhg/utils/reusable_funtions.dart';
 
 class UserStorageService {
   final log = getStackedLogger('UserStorageService');
-  final ReusableFunction reusableFunction = ReusableFunction();
+  final ReusableFunc reusableFunction = ReusableFunc();
   final UserFsService _userFsService = UserFsService();
 
   Future pushUserRequest({

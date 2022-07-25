@@ -22,6 +22,7 @@ mixin _$Device {
   String get price => throw _privateConstructorUsedError;
   String? get customTitle => throw _privateConstructorUsedError;
   String? get deviceType => throw _privateConstructorUsedError;
+  set deviceType(String? value) => throw _privateConstructorUsedError;
   String? get id => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -163,7 +164,7 @@ class __$$_DeviceCopyWithImpl<$Res> extends _$DeviceCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_Device extends _Device {
-  const _$_Device(
+  _$_Device(
       {required this.url,
       required this.title,
       required this.description,
@@ -184,7 +185,7 @@ class _$_Device extends _Device {
   @override
   final String? customTitle;
   @override
-  final String? deviceType;
+  String? deviceType;
   @override
   final String? id;
 
@@ -193,34 +194,6 @@ class _$_Device extends _Device {
     return 'Device(url: $url, title: $title, description: $description, price: $price, customTitle: $customTitle, deviceType: $deviceType, id: $id)';
   }
 
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$_Device &&
-            const DeepCollectionEquality().equals(other.url, url) &&
-            const DeepCollectionEquality().equals(other.title, title) &&
-            const DeepCollectionEquality()
-                .equals(other.description, description) &&
-            const DeepCollectionEquality().equals(other.price, price) &&
-            const DeepCollectionEquality()
-                .equals(other.customTitle, customTitle) &&
-            const DeepCollectionEquality()
-                .equals(other.deviceType, deviceType) &&
-            const DeepCollectionEquality().equals(other.id, id));
-  }
-
-  @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(url),
-      const DeepCollectionEquality().hash(title),
-      const DeepCollectionEquality().hash(description),
-      const DeepCollectionEquality().hash(price),
-      const DeepCollectionEquality().hash(customTitle),
-      const DeepCollectionEquality().hash(deviceType),
-      const DeepCollectionEquality().hash(id));
-
   @JsonKey(ignore: true)
   @override
   _$$_DeviceCopyWith<_$_Device> get copyWith =>
@@ -228,15 +201,15 @@ class _$_Device extends _Device {
 }
 
 abstract class _Device extends Device {
-  const factory _Device(
+  factory _Device(
       {required final String url,
       required final String title,
       required final String description,
       required final String price,
       final String? customTitle,
-      final String? deviceType,
+      String? deviceType,
       final String? id}) = _$_Device;
-  const _Device._() : super._();
+  _Device._() : super._();
 
   @override
   String get url;
@@ -250,6 +223,7 @@ abstract class _Device extends Device {
   String? get customTitle;
   @override
   String? get deviceType;
+  set deviceType(String? value);
   @override
   String? get id;
   @override

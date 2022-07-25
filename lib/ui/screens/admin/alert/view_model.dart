@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:mhg/app/app.locator.dart';
 import 'package:mhg/app/app.logger.dart';
 import 'package:mhg/constants.dart';
+import 'package:mhg/core/models/login/login.dart';
 import 'package:mhg/core/models/request/request.dart';
 import 'package:mhg/core/services/authentication/authentication.dart';
 import 'package:mhg/core/services/database/firestore.dart';
@@ -69,12 +70,13 @@ class AlertViewModel extends ReactiveViewModel {
     }
   }
 
-  Future rejectRequest(SignupRequest request) async {
+  Future rejectRequest(SignupRequest request, Login adminOrDevLogin) async {
     log.i('param SignupRequest, has last/bizName: ${request.lastNorBizN} \n '
         'email: ${request.email} \n uid: ${request.uid} \n userType: '
         '${request.userType} \n password: ${request.password}');
     log.i(
-        'backupAdmin loginDetails has email${_authService.backupAdminOrDevLoginDetails?[0]} \n password: ${_authService.backupAdminOrDevLoginDetails?[1]}');
+        'login has mail: ${adminOrDevLogin.mail} \n pass: ${adminOrDevLogin.pass}');
+
     DialogResponse? response = await _dialogService.showDialog(
       title: 'Alert',
       description: rejectReqTxt,
@@ -89,12 +91,13 @@ class AlertViewModel extends ReactiveViewModel {
           password: request.password,
         )
             .then((value) async {
-          await FirebaseAuth.instance.currentUser?.delete();
+          await value.user
+              ?.delete(); //FirebaseAuth.instance.currentUser?.delete();
         }).then((value) async {
           await FirebaseAuth.instance
               .signInWithEmailAndPassword(
-            email: _authService.backupAdminOrDevLoginDetails![0],
-            password: _authService.backupAdminOrDevLoginDetails![1],
+            email: adminOrDevLogin.mail,
+            password: adminOrDevLogin.pass,
           )
               .then((value) {
             _fireStoreDbService.removeFromSignupReq(

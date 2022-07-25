@@ -68,6 +68,9 @@ const String cartItemsTxt = 'cartItems';
 // model class UserProfile Firebase constants
 const String usersProfilePathTxt = 'usersProfile'; // as fireStore coll name
 const String profPicsPathTxt = 'ProfPics'; // used as storage folder title
+// model class Login constants
+const String mailTxt = 'mail';
+const String passTxt = 'pass';
 
 const String signIn = 'SIGN IN';
 const String upload = 'Upload...';

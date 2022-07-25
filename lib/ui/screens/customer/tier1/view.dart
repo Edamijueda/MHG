@@ -23,30 +23,32 @@ class _CustomerTier1ViewState extends State<CustomerTier1View> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.only(
-                left: 15.0, right: 15.0, bottom: 15.0), //bottom: 10.0
+            padding:
+                const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 10.0),
             child: (model.reactiveBanner == null)
                 ? EmptyBanner()
-                : ClipRRect(
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(5.0),
-                      topRight: Radius.circular(5.0),
-                    ),
-                    child: CachedNetworkImage(
-                      //fit: BoxFit.fitHeight,
-                      //height: 132.0,
-                      height: 250.0, //333.0
-                      width: 383.0,
-                      imageUrl: model.reactiveBanner!.bannerUrl,
-                      progressIndicatorBuilder:
-                          (context, url, downloadProgress) {
-                        if (downloadProgress.progress != null) {
-                          final percent =
-                              (downloadProgress.progress! * 100).round();
-                          return Text('$percent% done loading from database');
-                        }
-                        return Center(child: CircularProgressIndicator());
-                      },
+                : Center(
+                    child: ClipRRect(
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(5.0),
+                        topRight: Radius.circular(5.0),
+                      ),
+                      child: CachedNetworkImage(
+                        //fit: BoxFit.fitHeight,
+                        //height: 132.0,
+                        height: 250.0, //333.0
+                        width: 383.0,
+                        imageUrl: model.reactiveBanner!.bannerUrl,
+                        progressIndicatorBuilder:
+                            (context, url, downloadProgress) {
+                          if (downloadProgress.progress != null) {
+                            final percent =
+                                (downloadProgress.progress! * 100).round();
+                            return Text('$percent% done loading from database');
+                          }
+                          return Center(child: CircularProgressIndicator());
+                        },
+                      ),
                     ),
                   ),
           ),
@@ -65,7 +67,7 @@ class _CustomerTier1ViewState extends State<CustomerTier1View> {
           ),
           buildDivider(),
           Padding(
-            padding: const EdgeInsets.only(left: 15.0, top: 15.0, bottom: 15.0),
+            padding: const EdgeInsets.only(left: 15.0, top: 10.0, bottom: 15.0),
             child: Text(
               choiceOfArtworkTxt,
               style: textStyle16FW400,
@@ -79,12 +81,14 @@ class _CustomerTier1ViewState extends State<CustomerTier1View> {
                   //height: MediaQuery.of(context).size.height,
                   height: 155.0,
                   child: ListView(
-                    padding: EdgeInsets.symmetric(horizontal: 10.0),
+                    padding:
+                        EdgeInsets.only(left: 7.0, right: 7.0, bottom: 10.0),
                     scrollDirection: Axis.horizontal,
                     children: model.reactiveArtworks!
                         .map((element) => UserArtworkCard(
                               artwork: element,
                               model: model,
+                              type: firstTierArtworkTxt,
                             ))
                         .toList(),
                   ),
@@ -96,7 +100,7 @@ class _CustomerTier1ViewState extends State<CustomerTier1View> {
           }())
         ],
       ),
-      //onModelReady: (model) => model.callRealTimeOperations(),
+      onModelReady: (model) => model.callRealTimeOperations(),
     );
   }
 }

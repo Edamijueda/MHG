@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mhg/constants.dart';
 import 'package:mhg/ui/screens/admin/devices/components.dart';
 import 'package:mhg/ui/screens/admin/devices/dab_ring/view_model.dart';
+import 'package:mhg/ui/screens/customer/device/view_model.dart';
 import 'package:mhg/ui/screens/reusable_views_components.dart';
 import 'package:stacked/stacked.dart';
 
@@ -15,6 +16,7 @@ class CDabRingView extends StatefulWidget {
 class _CDabRingViewState extends State<CDabRingView> {
   @override
   Widget build(BuildContext context) {
+    CustomerDeviceViewModel parentModel = CustomerDeviceViewModel();
     return ViewModelBuilder<DabRingViewModel>.reactive(
       viewModelBuilder: () => DabRingViewModel(),
       builder: (context, model, child) => Column(
@@ -30,10 +32,14 @@ class _CDabRingViewState extends State<CDabRingView> {
                   mainAxisSpacing: 15.0,
                   crossAxisSpacing: 6.0,
                   padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
-                  children: model.reactiveDabRing!
-                      .map((element) =>
-                          DeviceCard(device: element, model: model))
-                      .toList(),
+                  children: model.reactiveDabRing!.map((element) {
+                    element.deviceType = tabs[5].text!;
+                    return DeviceCard(
+                      device: element,
+                      model: parentModel,
+                      hasDelBtn: false,
+                    );
+                  }).toList(),
                 ),
               );
             } else {
@@ -42,7 +48,7 @@ class _CDabRingViewState extends State<CDabRingView> {
           }()),
         ],
       ),
-      //onModelReady: (model) => model.realtimeOperations(),
+      onModelReady: (model) => model.realtimeOperations(),
     );
   }
 }

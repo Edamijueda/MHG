@@ -6,7 +6,7 @@ import 'package:stacked_services/stacked_services.dart';
 
 class ProductEntryViewModel extends MhgBaseViewModel {
   final MhgBaseViewModel _mhgBaseViewModel = MhgBaseViewModel();
-  final ReusableFunction _reusableFunction = ReusableFunction();
+  final ReusableFunc _reusableFunction = ReusableFunc();
 
   //final ImageSelector _imageSelector = locator<ImageSelector>();
   //final CloudStorageService _cloudStorageService =

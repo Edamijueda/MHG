@@ -10,6 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
+import '../core/models/device/device.dart';
+import '../core/models/login/login.dart';
 import '../core/models/profile/profile.dart';
 import '../ui/screens/account_settings/account_settings_view.dart';
 import '../ui/screens/admin/admin_home/admin_home_view.dart';
@@ -110,8 +112,14 @@ class StackedRouter extends RouterBase {
       );
     },
     CartView: (data) {
+      var args = data.getArgs<CartViewArguments>(
+        orElse: () => CartViewArguments(),
+      );
       return MaterialPageRoute<dynamic>(
-        builder: (context) => const CartView(),
+        builder: (context) => CartView(
+          key: args.key,
+          cartItems: args.cartItems,
+        ),
         settings: data,
       );
     },
@@ -128,8 +136,12 @@ class StackedRouter extends RouterBase {
       );
     },
     AdminHomeView: (data) {
+      var args = data.getArgs<AdminHomeViewArguments>(nullOk: false);
       return MaterialPageRoute<dynamic>(
-        builder: (context) => const AdminHomeView(),
+        builder: (context) => AdminHomeView(
+          key: args.key,
+          login: args.login,
+        ),
         settings: data,
       );
     },
@@ -152,6 +164,20 @@ class RetailUserViewArguments {
   final Key? key;
   final UserProfile profile;
   RetailUserViewArguments({this.key, required this.profile});
+}
+
+/// CartView arguments holder class
+class CartViewArguments {
+  final Key? key;
+  final List<Device>? cartItems;
+  CartViewArguments({this.key, this.cartItems});
+}
+
+/// AdminHomeView arguments holder class
+class AdminHomeViewArguments {
+  final Key? key;
+  final Login login;
+  AdminHomeViewArguments({this.key, required this.login});
 }
 
 /// ************************************************************************
@@ -262,6 +288,8 @@ extension NavigatorStateExtension on NavigationService {
   }
 
   Future<dynamic> navigateToCartView({
+    Key? key,
+    List<Device>? cartItems,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -270,6 +298,7 @@ extension NavigatorStateExtension on NavigationService {
   }) async {
     return navigateTo(
       Routes.cartView,
+      arguments: CartViewArguments(key: key, cartItems: cartItems),
       id: routerId,
       preventDuplicates: preventDuplicates,
       parameters: parameters,
@@ -310,6 +339,8 @@ extension NavigatorStateExtension on NavigationService {
   }
 
   Future<dynamic> navigateToAdminHomeView({
+    Key? key,
+    required Login login,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -318,6 +349,7 @@ extension NavigatorStateExtension on NavigationService {
   }) async {
     return navigateTo(
       Routes.adminHomeView,
+      arguments: AdminHomeViewArguments(key: key, login: login),
       id: routerId,
       preventDuplicates: preventDuplicates,
       parameters: parameters,

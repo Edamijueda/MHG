@@ -34,7 +34,7 @@ class FirestoreDbService with ReactiveServiceMixin {
   }
 
   final log = getStackedLogger('FirestoreDbService');
-  final ReusableFunction reusableFunction = ReusableFunction();
+  final ReusableFunc reusableFunction = ReusableFunc();
   late CollectionReference _collectionRef;
 
   Banner? _bannerDataFromFirestore;
@@ -1366,6 +1366,8 @@ class FirestoreDbService with ReactiveServiceMixin {
     _collectionRef.doc(approvedReq.uid).delete().then((value) {
       reusableFunction.snackBar(
           message: 'Successful!', duration: const Duration(seconds: 2));
+      log.i(
+          'after removal _rSignupReq length is: ${_rSignupReq.value?.length}');
     });
     /*bool? deviceWasRemoved = _rSignupReq.value?.remove(approvedReq);
     //_rSignupReq.value = _tempGearMerchList;

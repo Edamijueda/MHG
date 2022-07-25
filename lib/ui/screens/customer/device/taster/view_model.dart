@@ -7,17 +7,19 @@ import 'package:mhg/core/models/device/device.dart';
 import 'package:mhg/core/services/cloud_storage.dart';
 import 'package:mhg/core/services/database/firestore.dart';
 import 'package:mhg/core/services/user/firestore.dart';
+import 'package:mhg/ui/screens/customer/device/view_model.dart';
 import 'package:mhg/ui/theme/colours.dart';
 import 'package:mhg/utils/image_selector.dart';
 import 'package:mhg/utils/reusable_funtions.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
-class CTasterViewModel extends ReactiveViewModel {
+class CTasterViewModel extends CustomerDeviceViewModel
+    implements ReactiveViewModel {
   final log = getStackedLogger('CTasterViewModel');
   final DialogService _dialogService = locator<DialogService>();
   final ImageSelector _imageSelector = locator<ImageSelector>();
-  final ReusableFunction reusableFunction = ReusableFunction();
+  final ReusableFunc reusableFunction = ReusableFunc();
   final FirestoreDbService _fireStoreDbService = locator<FirestoreDbService>();
   final UserFsService _userFsService = locator<UserFsService>();
   final CloudStorageService _cloudStorageService =
@@ -67,7 +69,7 @@ class CTasterViewModel extends ReactiveViewModel {
     }
   }
 
-  Future viewDeviceDetails(Device device) async {
+  /*Future viewDeviceDetails(Device device) async {
     log.i('parameter device with title: ${device.title}');
     await _dialogService.showCustomDialog(
       variant: DialogType.productDetails,
@@ -76,9 +78,10 @@ class CTasterViewModel extends ReactiveViewModel {
       imageUrl: device.url,
       title: device.title,
       description: device.description,
+      showIconInMainButton: true,
       data: device,
     );
-  }
+  }*/
 
   Future deleteDevice({
     required Device device,

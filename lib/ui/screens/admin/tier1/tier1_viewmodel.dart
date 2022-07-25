@@ -21,7 +21,7 @@ const String _callBannerRealtimeUpdateKey = 'callBannerRealtimeUpdateKey';
 class Admin1stTierViewModel extends MultipleFutureViewModel {
   final log = getStackedLogger('Admin1stTierViewModel');
   final ImageSelector _imageSelector = locator<ImageSelector>();
-  final ReusableFunction reusableFunction = ReusableFunction();
+  final ReusableFunc reusableFunction = ReusableFunc();
   final CloudStorageService _cloudStorageService =
       locator<CloudStorageService>();
   final FirestoreDbService _fireStoreDbService = locator<FirestoreDbService>();

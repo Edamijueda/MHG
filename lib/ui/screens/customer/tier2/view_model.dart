@@ -1,6 +1,5 @@
 import 'package:mhg/app/app.locator.dart';
 import 'package:mhg/app/app.logger.dart';
-import 'package:mhg/core/enums/enums.dart';
 import 'package:mhg/core/models/artwork/artwork.dart';
 import 'package:mhg/core/models/banner/banner.dart';
 import 'package:mhg/core/services/user/firestore.dart';
@@ -8,7 +7,8 @@ import 'package:mhg/ui/screens/customer/view_model.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
-class CustomerTier2ViewModel extends CustomerViewModel {
+class CustomerTier2ViewModel extends CustomerViewModel
+    implements ReactiveViewModel {
   final log = getStackedLogger('CustomerTier2ViewModel');
   final UserFsService _userFsService = locator<UserFsService>();
   //final UserStorageService _userStorageService = locator<UserStorageService>();
@@ -43,7 +43,7 @@ class CustomerTier2ViewModel extends CustomerViewModel {
     _userFsService.tier2ArtworkRtUpdate();
   }
 
-  @override
+  /*@override
   Future viewDetails(Artwork artwork) async {
     log.i('parameter artwork with title: ${artwork.title}');
     //DialogResponse? response =
@@ -54,7 +54,8 @@ class CustomerTier2ViewModel extends CustomerViewModel {
       imageUrl: artwork.url,
       title: artwork.title,
       description: artwork.description,
+      showIconInMainButton: true,
       data: artwork,
     );
-  }
+  }*/
 }

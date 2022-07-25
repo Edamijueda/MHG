@@ -7,10 +7,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:mhg/app/app.locator.dart';
 import 'package:mhg/app/app.logger.dart';
-import 'package:mhg/app/app.router.dart';
 import 'package:mhg/constants.dart';
+import 'package:mhg/core/models/login/login.dart';
 import 'package:mhg/core/models/profile/profile.dart';
 import 'package:mhg/core/services/database/firestore.dart';
+import 'package:mhg/ui/screens/admin/admin_home/admin_home_view.dart';
 import 'package:mhg/ui/screens/customer/view.dart';
 import 'package:mhg/ui/screens/retail/view.dart';
 import 'package:mhg/utils/reusable_funtions.dart';
@@ -22,15 +23,15 @@ import 'package:stacked_services/stacked_services.dart';
 class AuthenticationService {
   final log = getStackedLogger('AuthenticationService');
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  final ReusableFunction reusableFunction = ReusableFunction();
+  final ReusableFunc reusableFunction = ReusableFunc();
   final _navService = locator<NavigationService>();
   final FirestoreDbService _fireStoreDbService = locator<FirestoreDbService>();
 
   final String developerUid = 'mVSQ2U2FHZNYqpCudSP412Qsm163';
 
-  List<String>? backupAdminOrDevLoginDetails;
+  //List<String>? backupAdminOrDevLoginDetails;
 
-  void loginWithEmailAndPassword({
+  Future loginWithEmailAndPassword({
     required String email,
     required String password,
   }) async {
@@ -40,12 +41,17 @@ class AuthenticationService {
         password: password,
       );
       if (userCredential.user!.uid == developerUid) {
-        backupAdminOrDevLoginDetails?[0] = email;
-        backupAdminOrDevLoginDetails?[1] = password;
-        log.i('backupAdmin loginDetails has email: '
+        //backupAdminOrDevLoginDetails?[0] = email;
+        //backupAdminOrDevLoginDetails?[1] = password;
+        /*log.i('backupAdmin loginDetails has email: '
             '${backupAdminOrDevLoginDetails?[0]} \n password: '
-            '${backupAdminOrDevLoginDetails?[1]}');
-        _navService.navigateTo(Routes.adminHomeView);
+            '${backupAdminOrDevLoginDetails?[1]}');*/
+
+        await _navService.navigateToView(
+          AdminHomeView(
+            login: Login(mail: email, pass: password),
+          ),
+        );
       } else {
         var docSnapshot = await _fireStoreDbService.checkIfDocExist(
           userCredential.user!.uid,

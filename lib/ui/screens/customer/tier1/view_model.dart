@@ -1,6 +1,5 @@
 import 'package:mhg/app/app.locator.dart';
 import 'package:mhg/app/app.logger.dart';
-import 'package:mhg/core/enums/enums.dart';
 import 'package:mhg/core/models/artwork/artwork.dart';
 import 'package:mhg/core/models/banner/banner.dart';
 import 'package:mhg/core/services/user/firestore.dart';
@@ -43,7 +42,7 @@ class CustomerTier1ViewModel extends CustomerViewModel {
     _userFsService.tier1ArtworkRtUpdate();
   }
 
-  @override
+  /*@override
   Future viewDetails(Artwork artwork) async {
     log.i('parameter artwork with title: ${artwork.title}');
     //DialogResponse? response =
@@ -54,7 +53,8 @@ class CustomerTier1ViewModel extends CustomerViewModel {
       imageUrl: artwork.url,
       title: artwork.title,
       description: artwork.description,
+      showIconInMainButton: true,
       data: artwork,
     );
-  }
+  }*/
 }

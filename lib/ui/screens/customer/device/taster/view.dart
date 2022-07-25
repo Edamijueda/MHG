@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mhg/constants.dart';
 import 'package:mhg/ui/screens/admin/devices/components.dart';
 import 'package:mhg/ui/screens/admin/devices/taster/view_model.dart';
+import 'package:mhg/ui/screens/customer/device/view_model.dart';
 import 'package:mhg/ui/screens/reusable_views_components.dart';
 import 'package:stacked/stacked.dart';
 
@@ -15,6 +16,7 @@ class CTasterView extends StatefulWidget {
 class _CTasterViewState extends State<CTasterView> {
   @override
   Widget build(BuildContext context) {
+    CustomerDeviceViewModel parentModel = CustomerDeviceViewModel();
     return ViewModelBuilder<TasterViewModel>.reactive(
       viewModelBuilder: () => TasterViewModel(),
       builder: (context, model, child) => Column(
@@ -30,10 +32,11 @@ class _CTasterViewState extends State<CTasterView> {
                   mainAxisSpacing: 15.0,
                   crossAxisSpacing: 6.0,
                   padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
-                  children: model.reactiveTaster!
-                      .map((element) =>
-                          DeviceCard(device: element, model: model))
-                      .toList(),
+                  children: model.reactiveTaster!.map((element) {
+                    element.deviceType = tabs[3].text!;
+                    return DeviceCard(
+                        device: element, model: parentModel, hasDelBtn: false);
+                  }).toList(),
                 ),
               );
             } else {
@@ -42,7 +45,7 @@ class _CTasterViewState extends State<CTasterView> {
           }()),
         ],
       ),
-      //onModelReady: (model) => model.realtimeOperations(),
+      onModelReady: (model) => model.realtimeOperations(),
     );
   }
 }

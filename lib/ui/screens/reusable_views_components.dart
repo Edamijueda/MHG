@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mhg/core/models/profile/profile.dart';
 import 'package:mhg/ui/screens/MHG_base/mhg_base_view_model.dart';
 import 'package:mhg/ui/theme/colours.dart';
 import 'package:mhg/ui/theme/typography.dart';
@@ -37,9 +38,11 @@ Widget buildCustomTextField({
 }
 
 class NavDrawer extends StatelessWidget {
+  final UserProfile profile;
   const NavDrawer({
     Key? key,
     required MhgBaseViewModel mhgBaseViewModel,
+    required this.profile,
   })  : _mhgBaseViewModel = mhgBaseViewModel,
         super(key: key);
 
@@ -48,7 +51,7 @@ class NavDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      backgroundColor: backgroundColour,
+      backgroundColor: greyLike, //backgroundColour,
       // Add a ListView to the drawer. This ensures the profile can scroll
       // through the options in the drawer if there isn't enough vertical
       // space to fit everything.
@@ -58,28 +61,15 @@ class NavDrawer extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.only(top: 70.0, left: 20.0),
-            child: Row(
-              //mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                CircleAvatar(
-                  radius: 40.0,
-                  child: ClipRRect(
-                    child: Image.asset(
-                      'lib/assets/john_doe.png',
-                      //height: 200.0,
-                      //width: 200.0,
-                    ),
-                    borderRadius: BorderRadius.circular(50.0),
-                  ),
-                  //backgroundImage: AssetImage('lib/assets/john_doe.png'),
-                ),
-                SizedBox(width: 20.0),
-                Text('John Doe', style: textStyle18Bold),
-              ],
+            child: Text(
+              profile.lastNorBizN,
+              style: textStyle18Bold,
+              textAlign: TextAlign.center,
             ),
           ),
+          SizedBox(height: 10.0),
           Divider(
-            color: primaryColour,
+            color: Colors.grey, //primaryColour,
             indent: 20.0,
             endIndent: 20.0,
             thickness: 1.0,
@@ -98,7 +88,7 @@ class NavDrawer extends StatelessWidget {
               // ...
             },
           ),
-          ListTile(
+          /*ListTile(
             //style: textStyle14FW400White,
             minLeadingWidth: 20.0,
             leading: buildIcon(icon: orderIcon, color: greyDark),
@@ -110,8 +100,8 @@ class NavDrawer extends StatelessWidget {
               // Update the state of the app.
               // ...
             },
-          ),
-          ListTile(
+          ),*/
+          /*ListTile(
             //style: textStyle14FW400White,
             minLeadingWidth: 20.0,
             leading: buildIcon(icon: saveItemIcon, color: greyDark),
@@ -123,8 +113,8 @@ class NavDrawer extends StatelessWidget {
               // Update the state of the app.
               // ...
             },
-          ),
-          ListTile(
+          ),*/
+          /*ListTile(
             //style: textStyle14FW400White,
             minLeadingWidth: 20.0,
             leading: buildIcon(icon: userAccountIcon, color: greyDark),
@@ -136,7 +126,7 @@ class NavDrawer extends StatelessWidget {
               // Update the state of the app.
               // ...
             },
-          ),
+          ),*/
           ListTile(
             //style: textStyle14FW400White,
             minLeadingWidth: 20.0,
@@ -164,7 +154,7 @@ class NavDrawer extends StatelessWidget {
             },
           ),
           Divider(
-            color: primaryColour,
+            color: Colors.grey, //primaryColour,
             indent: 20.0,
             endIndent: 20.0,
             thickness: 1.0,
